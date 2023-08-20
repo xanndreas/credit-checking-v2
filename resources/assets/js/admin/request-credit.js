@@ -37,19 +37,16 @@ $(function () {
                 data: function (d) {
                     d.minDate = minDate;
                     d.maxDate = maxDate;
-
-                    console.log(d)
                 }
             },
         columns: [
             {data: 'placeholder', name: 'placeholder'},
             {data: 'id', name: 'id'},
-            {data: 'dealer_name', name: 'dealer.name'},
-            {data: 'dealer_text', name: 'dealer_text', orderable: false, visible: false},
+            {data: 'dealer_name', name: 'dealer_name'},
+            {data: 'request_debtor', name: 'request_debtor', orderable: false, visible: false},
             {data: 'sales_name', name: 'sales_name'},
             {data: 'product_name', name: 'product.name'},
             {data: 'brand_name', name: 'brand.name'},
-            {data: 'brand_text', name: 'brand_text', orderable: false, visible: false},
             {data: 'models', name: 'models'},
             {data: 'actions', name: 'Actions', orderable: false, searchable: false},
         ],
@@ -161,7 +158,7 @@ $(function () {
         ]
 
     };
-    let table = $('.datatable-CreditCheck').DataTable(dtOverrideGlobals);
+    let table = $('.datatable-requestCredit').DataTable(dtOverrideGlobals);
 
 
     $('.datatable-CreditCheck tbody').on('click', 'td:not(:first-child, :last-child)', (event) => {
@@ -175,7 +172,7 @@ $(function () {
     });
 
     $('.add-new-credit').on('click', function () {
-        window.location.href = '/admin/credit-checks/create';
+        window.location.href = '/admin/request-credits/create';
     });
 
 });

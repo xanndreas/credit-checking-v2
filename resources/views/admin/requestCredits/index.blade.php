@@ -33,7 +33,7 @@
 
 @section('content')
 
-    <!-- CreditChecks List Table -->
+    <!-- requestCredits List Table -->
     <div class="card">
         <div class="card-header border-bottom">
             <h5 class="card-title mb-3">Filter</h5>
@@ -56,35 +56,32 @@
             <h5 class="card-title mb-3">Credit Checks</h5>
         </div>
         <div class="card-datatable table-responsive">
-            <table class="datatables-creditChecks table border-top table-hover datatable-CreditCheck">
+            <table class="table border-top table-hover datatable-requestCredit">
                 <thead>
                 <tr>
                     <th width="10">
 
                     </th>
                     <th>
-                        {{ trans('cruds.creditCheck.fields.id') }}
+                        {{ trans('cruds.requestCredit.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.creditCheck.fields.dealer_name') }}
+                        {{ trans('cruds.requestCredit.fields.dealer_name') }}
                     </th>
                     <th>
-
+                        {{ trans('cruds.requestCredit.fields.request_debtor') }}
                     </th>
                     <th>
-                        {{ trans('cruds.creditCheck.fields.sales_name') }}
+                        {{ trans('cruds.requestCredit.fields.sales_name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.creditCheck.fields.product_name') }}
+                        {{ trans('cruds.requestCredit.fields.product_name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.creditCheck.fields.brand_name') }}
+                        {{ trans('cruds.requestCredit.fields.brand_name') }}
                     </th>
                     <th>
-
-                    </th>
-                    <th>
-                        {{ trans('cruds.creditCheck.fields.models') }}
+                        {{ trans('cruds.requestCredit.fields.models') }}
                     </th>
                     <th class="w-px-18">
                         {{ trans('global.actions') }}

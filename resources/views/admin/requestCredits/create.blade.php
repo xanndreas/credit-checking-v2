@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet"/>
-
 @endsection
 
 @section('vendor-script')
@@ -19,7 +18,7 @@
 @endsection
 
 @section('page-script')
-    <script src="{{asset('assets/js/admin/credit-checking.js')}}"></script>
+    <script src="{{asset('assets/js/admin/request-credit-create.js')}}"></script>
     <script>
         let uploadedIdPhotosMap = {}
         let uploadedKkPhotosMap = {}
@@ -27,7 +26,7 @@
         let uploadedOtherPhotosMap = {}
 
         Dropzone.options.idPhotosDropzone = {
-            url: '{{ route('admin.credit-checks.dealer-informations.storeMedia') }}',
+            url: '{{ route('admin.request-credits.storeMedia') }}',
             maxFilesize: 10, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             addRemoveLinks: true,
@@ -55,8 +54,8 @@
                 $('form').find('input[name="id_photos[]"][value="' + name + '"]').remove()
             },
             init: function () {
-                @if(isset($dealerInformation) && $dealerInformation->id_photos)
-                let files = {!! json_encode($dealerInformation->id_photos) !!}
+                @if(isset($requestCredit) && $requestCredit->id_photos)
+                let files = {!! json_encode($requestCredit->id_photos) !!}
 
                 for(let
                 i in files
@@ -90,7 +89,7 @@
         }
 
         Dropzone.options.kkPhotosDropzone = {
-            url: '{{ route('admin.credit-checks.dealer-informations.storeMedia') }}',
+            url: '{{ route('admin.request-credits.storeMedia') }}',
             maxFilesize: 10, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             addRemoveLinks: true,
@@ -118,8 +117,8 @@
                 $('form').find('input[name="kk_photos[]"][value="' + name + '"]').remove()
             },
             init: function () {
-                @if(isset($dealerInformation) && $dealerInformation->kk_photos)
-                let files = {!! json_encode($dealerInformation->kk_photos) !!}
+                @if(isset($requestCredit) && $requestCredit->kk_photos)
+                let files = {!! json_encode($requestCredit->kk_photos) !!}
 
                 for(let
                 i in files
@@ -153,7 +152,7 @@
         }
 
         Dropzone.options.npwpPhotosDropzone = {
-            url: '{{ route('admin.credit-checks.dealer-informations.storeMedia') }}',
+            url: '{{ route('admin.request-credits.storeMedia') }}',
             maxFilesize: 10, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             addRemoveLinks: true,
@@ -181,8 +180,8 @@
                 $('form').find('input[name="npwp_photos[]"][value="' + name + '"]').remove()
             },
             init: function () {
-                @if(isset($dealerInformation) && $dealerInformation->npwp_photos)
-                let files = {!! json_encode($dealerInformation->npwp_photos) !!}
+                @if(isset($requestCredit) && $requestCredit->npwp_photos)
+                let files = {!! json_encode($requestCredit->npwp_photos) !!}
 
                 for(let
                 i in files
@@ -216,7 +215,7 @@
         }
 
         Dropzone.options.otherPhotosDropzone = {
-            url: '{{ route('admin.credit-checks.dealer-informations.storeMedia') }}',
+            url: '{{ route('admin.request-credits.storeMedia') }}',
             maxFilesize: 10, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             addRemoveLinks: true,
@@ -244,8 +243,8 @@
                 $('form').find('input[name="other_photos[]"][value="' + name + '"]').remove()
             },
             init: function () {
-                @if(isset($dealerInformation) && $dealerInformation->other_photos)
-                let files = {!! json_encode($dealerInformation->other_photos) !!}
+                @if(isset($requestCredit) && $requestCredit->other_photos)
+                let files = {!! json_encode($requestCredit->other_photos) !!}
 
                 for(let
                 i in files
@@ -336,7 +335,8 @@
 
                 <div class="bs-stepper-content">
                     <!-- Account Details -->
-                    <form enctype="multipart/form-data" id="basic-information-form" action="{{ route('admin.credit-checks.store') }}" method="post" novalidate>
+                    <form enctype="multipart/form-data" id="basic-information-form"
+                          action="{{ route('admin.request-credits.store') }}" method="post" novalidate>
                         @csrf
                         <div id="basic-information" class="content">
                             <div class="content-header mb-3">
@@ -346,7 +346,7 @@
                             <div class="row g-3">
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="auto_planner_name_id">{{ trans('cruds.autoPlanner.fields.auto_planner_name') }}</label>
+                                           for="auto_planner_name_id">{{ trans('cruds.requestCredit.fields.auto_planner') }}</label>
 
                                     <input type="text" id="auto_planner_names" class="form-control"
                                            value="{{ auth()->user()->name }}" disabled/>
@@ -355,8 +355,8 @@
                                            value="{{ auth()->user()->id }}"/>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="d-block">{{ trans('cruds.autoPlanner.fields.type') }}</label>
-                                    @foreach(App\Models\AutoPlanner::TYPE_RADIO as $key => $label)
+                                    <label class="d-block">{{ trans('cruds.requestCredit.fields.credit_type') }}</label>
+                                    @foreach(App\Models\RequestCredit::CREDIT_TYPE_SELECT as $key => $label)
                                         <div
                                             class="form-check form-check-inline mt-3 {{ $errors->has('type') ? 'is-invalid' : '' }}">
                                             <input class="form-check-input" type="radio" id="type_{{ $key }}"
@@ -390,9 +390,10 @@
                                 <small>Enter Candidate Info.</small>
                             </div>
                             <div class="row g-3">
+                                <div class="text-light small fw-medium">Debtor Information</div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="debtor_name">{{ trans('cruds.debtorInformation.fields.debtor_name') }}</label>
+                                           for="debtor_name">{{ trans('cruds.requestCreditDebtor.fields.name') }}</label>
                                     <input class="form-control {{ $errors->has('debtor_name') ? 'is-invalid' : '' }}"
                                            type="text" name="debtor_name" id="debtor_name"
                                            value="{{ old('debtor_name', '') }}" required>
@@ -402,95 +403,196 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <label
-                                        class="required">{{ trans('cruds.debtorInformation.fields.id_type') }}</label>
-                                    <select class="form-control {{ $errors->has('id_type') ? 'is-invalid' : '' }}"
-                                            name="id_type" id="id_type" required>
+                                        class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}</label>
+                                    <select class="form-control {{ $errors->has('debtor_identity_type') ? 'is-invalid' : '' }}"
+                                            name="debtor_identity_type" id="debtor_identity_type" required>
                                         <option value
-                                                disabled {{ old('id_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                                        @foreach(App\Models\DebtorInformation::ID_TYPE_SELECT as $key => $label)
+                                                disabled {{ old('debtor_identity_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                                        @foreach(App\Models\RequestCreditDebtor::IDENTITY_TYPE_SELECT as $key => $label)
                                             <option
-                                                value="{{ $key }}" {{ old('id_type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                                                value="{{ $key }}" {{ old('debtor_identity_type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                                         @endforeach
                                     </select>
-                                    @if($errors->has('id_type'))
+                                    @if($errors->has('debtor_identity_type'))
                                         <div class="invalid-feedback">
-                                            {{ $errors->first('id_type') }}
+                                            {{ $errors->first('debtor_identity_type') }}
                                         </div>
                                     @endif
                                 </div>
+                                <div class="col-sm-3">
+                                    <label class="required"
+                                           for="debtor_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}</label>
+                                    <input class="form-control {{ $errors->has('debtor_identity_number') ? 'is-invalid' : '' }}"
+                                           type="number" name="debtor_identity_number" id="debtor_identity_number"
+                                           value="{{ old('debtor_identity_number', '') }}"
+                                           required>
+                                    @if($errors->has('debtor_identity_number'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('debtor_identity_number') }}
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="text-light small fw-medium">Debtor Partner Information</div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="id_number">{{ trans('cruds.debtorInformation.fields.id_number') }}</label>
-                                    <input class="form-control {{ $errors->has('id_number') ? 'is-invalid' : '' }}"
-                                           type="number" name="id_number" id="id_number"
-                                           value="{{ old('id_number', '') }}"
-                                           required>
-                                    @if($errors->has('id_number'))
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('id_number') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-sm-6">
-                                    <label
-                                        for="partner_name">{{ trans('cruds.debtorInformation.fields.partner_name') }}</label>
+                                           for="partner_name">{{ trans('cruds.requestCreditDebtor.fields.name') }}</label>
                                     <input class="form-control {{ $errors->has('partner_name') ? 'is-invalid' : '' }}"
                                            type="text" name="partner_name" id="partner_name"
-                                           value="{{ old('partner_name', '') }}">
+                                           value="{{ old('partner_name', '') }}" required>
                                     @if($errors->has('partner_name'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('partner_name') }}
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <label
-                                        for="guarantor_id_number">{{ trans('cruds.debtorInformation.fields.guarantor_id_number') }}</label>
-                                    <input
-                                        class="form-control {{ $errors->has('guarantor_id_number') ? 'is-invalid' : '' }}"
-                                        type="number" name="guarantor_id_number" id="guarantor_id_number"
-                                        value="{{ old('guarantor_id_number', '') }}">
-                                    @if($errors->has('guarantor_id_number'))
+                                        class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}</label>
+                                    <select class="form-control {{ $errors->has('partner_identity_type') ? 'is-invalid' : '' }}"
+                                            name="partner_identity_type" id="partner_identity_type" required>
+                                        <option value
+                                                disabled {{ old('partner_identity_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                                        @foreach(App\Models\RequestCreditDebtor::IDENTITY_TYPE_SELECT as $key => $label)
+                                            <option
+                                                value="{{ $key }}" {{ old('partner_identity_type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if($errors->has('partner_identity_type'))
                                         <div class="invalid-feedback">
-                                            {{ $errors->first('guarantor_id_number') }}
+                                            {{ $errors->first('partner_identity_type') }}
                                         </div>
                                     @endif
                                 </div>
+                                <div class="col-sm-3">
+                                    <label class="required"
+                                           for="partner_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}</label>
+                                    <input class="form-control {{ $errors->has('partner_identity_number') ? 'is-invalid' : '' }}"
+                                           type="number" name="partner_identity_number" id="partner_identity_number"
+                                           value="{{ old('partner_identity_number', '') }}"
+                                           required>
+                                    @if($errors->has('partner_identity_number'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('partner_identity_number') }}
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="text-light small fw-medium">Debtor Guarantor Information</div>
                                 <div class="col-sm-6">
-                                    <label
-                                        for="guarantor_name">{{ trans('cruds.debtorInformation.fields.guarantor_name') }}</label>
+                                    <label class="required"
+                                           for="guarantor_name">{{ trans('cruds.requestCreditDebtor.fields.name') }}</label>
                                     <input class="form-control {{ $errors->has('guarantor_name') ? 'is-invalid' : '' }}"
                                            type="text" name="guarantor_name" id="guarantor_name"
-                                           value="{{ old('guarantor_name', '') }}">
+                                           value="{{ old('guarantor_name', '') }}" required>
                                     @if($errors->has('guarantor_name'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('guarantor_name') }}
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <label
-                                        for="shareholders">{{ trans('cruds.debtorInformation.fields.shareholders') }}</label>
-                                    <input class="form-control {{ $errors->has('shareholders') ? 'is-invalid' : '' }}"
-                                           type="text" name="shareholders" id="shareholders"
-                                           value="{{ old('shareholders', '') }}">
-                                    @if($errors->has('shareholders'))
+                                        class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}</label>
+                                    <select class="form-control {{ $errors->has('guarantor_identity_type') ? 'is-invalid' : '' }}"
+                                            name="guarantor_identity_type" id="guarantor_identity_type" required>
+                                        <option value
+                                                disabled {{ old('guarantor_identity_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                                        @foreach(App\Models\RequestCreditDebtor::IDENTITY_TYPE_SELECT as $key => $label)
+                                            <option
+                                                value="{{ $key }}" {{ old('guarantor_identity_type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if($errors->has('guarantor_identity_type'))
                                         <div class="invalid-feedback">
-                                            {{ $errors->first('shareholders') }}
+                                            {{ $errors->first('guarantor_identity_type') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="required"
+                                           for="guarantor_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}</label>
+                                    <input class="form-control {{ $errors->has('guarantor_identity_number') ? 'is-invalid' : '' }}"
+                                           type="number" name="guarantor_identity_number" id="guarantor_identity_number"
+                                           value="{{ old('guarantor_identity_number', '') }}"
+                                           required>
+                                    @if($errors->has('guarantor_identity_number'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('guarantor_identity_number') }}
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="text-light small fw-medium">Business Information</div>
+                                <div class="col-sm-6">
+                                    <label class="required"
+                                           for="business_name">{{ trans('cruds.requestCreditDebtor.fields.name') }}</label>
+                                    <input class="form-control {{ $errors->has('business_name') ? 'is-invalid' : '' }}"
+                                           type="text" name="business_name" id="business_name"
+                                           value="{{ old('business_name', '') }}" required>
+                                    @if($errors->has('business_name'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('business_name') }}
                                         </div>
                                     @endif
                                 </div>
                                 <div class="col-sm-6">
-                                    <label
-                                        for="shareholder_id_number">{{ trans('cruds.debtorInformation.fields.shareholder_id_number') }}</label>
-                                    <input class="form-control {{ $errors->has('shareholder_id_number') ? 'is-invalid' : '' }}"
-                                           type="text" name="shareholder_id_number" id="shareholder_id_number"
-                                           value="{{ old('shareholder_id_number', '') }}">
-                                    @if($errors->has('shareholder_id_number'))
+                                    <label class="required"
+                                           for="business_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}</label>
+                                    <input class="form-control {{ $errors->has('business_identity_number') ? 'is-invalid' : '' }}"
+                                           type="number" name="business_identity_number" id="business_identity_number"
+                                           value="{{ old('business_identity_number', '') }}"
+                                           required>
+                                    @if($errors->has('business_identity_number'))
                                         <div class="invalid-feedback">
-                                            {{ $errors->first('shareholder_id_number') }}
+                                            {{ $errors->first('business_identity_number') }}
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="text-light small fw-medium">Shareholder / Person In Charge Information</div>
+                                <div class="col-sm-6">
+                                    <label class="required"
+                                           for="shareholder_name">{{ trans('cruds.requestCreditDebtor.fields.name') }}</label>
+                                    <input class="form-control {{ $errors->has('shareholder_name') ? 'is-invalid' : '' }}"
+                                           type="text" name="shareholder_name" id="shareholder_name"
+                                           value="{{ old('shareholder_name', '') }}" required>
+                                    @if($errors->has('shareholder_name'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('shareholder_name') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-sm-3">
+                                    <label
+                                        class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}</label>
+                                    <select class="form-control {{ $errors->has('shareholder_identity_type') ? 'is-invalid' : '' }}"
+                                            name="shareholder_identity_type" id="shareholder_identity_type" required>
+                                        <option value
+                                                disabled {{ old('shareholder_identity_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                                        @foreach(App\Models\RequestCreditDebtor::IDENTITY_TYPE_SELECT as $key => $label)
+                                            <option
+                                                value="{{ $key }}" {{ old('shareholder_identity_type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if($errors->has('shareholder_identity_type'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('shareholder_identity_type') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="required"
+                                           for="shareholder_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}</label>
+                                    <input class="form-control {{ $errors->has('shareholder_identity_number') ? 'is-invalid' : '' }}"
+                                           type="number" name="shareholder_identity_number" id="shareholder_identity_number"
+                                           value="{{ old('shareholder_identity_number', '') }}"
+                                           required>
+                                    @if($errors->has('shareholder_identity_number'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('shareholder_identity_number') }}
                                         </div>
                                     @endif
                                 </div>
@@ -514,7 +616,7 @@
                             <div class="row g-3">
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="dealer_id">{{ trans('cruds.dealerInformation.fields.dealer') }}</label>
+                                           for="dealer_id">{{ trans('cruds.requestCredit.fields.dealer') }}</label>
                                     <select
                                         class="form-select select2 {{ $errors->has('dealer_id') ? 'is-invalid' : '' }}"
                                         name="dealer_id" id="dealer_id" required>
@@ -533,7 +635,7 @@
                                 </div>
                                 <div class="col-sm-12 dealer_text-container">
                                     <label class="required"
-                                           for="dealer_text">{{ trans('cruds.dealerInformation.fields.dealer_text') }}</label>
+                                           for="dealer_text">{{ trans('cruds.requestCredit.fields.dealer_text') }}</label>
                                     <input class="form-control {{ $errors->has('dealer_text') ? 'is-invalid' : '' }}"
                                            type="text" name="dealer_text" id="dealer_text"
                                            value="{{ old('dealer_text', '') }}"
@@ -546,7 +648,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="sales_name">{{ trans('cruds.dealerInformation.fields.sales_name') }}</label>
+                                           for="sales_name">{{ trans('cruds.requestCredit.fields.sales_name') }}</label>
                                     <input class="form-control {{ $errors->has('sales_name') ? 'is-invalid' : '' }}"
                                            type="text" name="sales_name" id="sales_name"
                                            value="{{ old('sales_name', '') }}"
@@ -559,14 +661,14 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="product_id">{{ trans('cruds.dealerInformation.fields.product') }}</label>
+                                           for="product_id">{{ trans('cruds.requestCredit.fields.product') }}</label>
                                     <select
                                         class="form-control select2 {{ $errors->has('product_id') ? 'is-invalid' : '' }}"
                                         name="product_id" id="product_id" required>
                                         <option value
                                                 disabled {{ old('product_id', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
 
-                                    @foreach($products as $id => $entry)
+                                        @foreach($products as $id => $entry)
                                             <option
                                                 value="{{ $id }}" {{ old('product_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                         @endforeach
@@ -579,13 +681,14 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="brand_id">{{ trans('cruds.dealerInformation.fields.brand') }}</label>
-                                    <select class="form-control select2 {{ $errors->has('brand_id') ? 'is-invalid' : '' }}"
-                                            name="brand_id" id="brand_id" required>
+                                           for="brand_id">{{ trans('cruds.requestCredit.fields.brand') }}</label>
+                                    <select
+                                        class="form-control select2 {{ $errors->has('brand_id') ? 'is-invalid' : '' }}"
+                                        name="brand_id" id="brand_id" required>
                                         <option value
                                                 disabled {{ old('brand_id', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
 
-                                    @foreach($brands as $id => $entry)
+                                        @foreach($brands as $id => $entry)
                                             <option
                                                 value="{{ $id }}" {{ old('brand_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                         @endforeach
@@ -598,10 +701,11 @@
                                 </div>
                                 <div class="col-sm-12 brand_text-container">
                                     <label class="required"
-                                           for="brand_text">{{ trans('cruds.dealerInformation.fields.brand_text') }}</label>
+                                           for="brand_text">{{ trans('cruds.requestCredit.fields.brand_text') }}</label>
                                     <input class="form-control {{ $errors->has('brand_text') ? 'is-invalid' : '' }}"
                                            type="text"
-                                           name="brand_text" id="brand_text" value="{{ old('brand_text', '') }}" required>
+                                           name="brand_text" id="brand_text" value="{{ old('brand_text', '') }}"
+                                           required>
                                     @if($errors->has('brand_text'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('brand_text') }}
@@ -610,7 +714,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="models">{{ trans('cruds.dealerInformation.fields.models') }}</label>
+                                           for="models">{{ trans('cruds.requestCredit.fields.models') }}</label>
                                     <input class="form-control {{ $errors->has('models') ? 'is-invalid' : '' }}"
                                            type="text"
                                            name="models" id="models" value="{{ old('models', '') }}" required>
@@ -622,7 +726,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="number_of_units">{{ trans('cruds.dealerInformation.fields.number_of_units') }}</label>
+                                           for="number_of_units">{{ trans('cruds.requestCredit.fields.number_of_units') }}</label>
                                     <input
                                         class="form-control {{ $errors->has('number_of_units') ? 'is-invalid' : '' }}"
                                         type="number" name="number_of_units" id="number_of_units"
@@ -635,7 +739,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="otr">{{ trans('cruds.dealerInformation.fields.otr') }}</label>
+                                           for="otr">{{ trans('cruds.requestCredit.fields.otr') }}</label>
                                     <input class="form-control {{ $errors->has('otr') ? 'is-invalid' : '' }}"
                                            type="number"
                                            name="otr" id="otr" value="{{ old('otr', '') }}" step="0.01" required>
@@ -647,7 +751,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="debt_principal">{{ trans('cruds.dealerInformation.fields.debt_principal') }}</label>
+                                           for="debt_principal">{{ trans('cruds.requestCredit.fields.debt_principal') }}</label>
                                     <input class="form-control {{ $errors->has('debt_principal') ? 'is-invalid' : '' }}"
                                            type="text" name="debt_principal" id="debt_principal"
                                            value="{{ old('debt_principal', '') }}" required>
@@ -659,7 +763,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="insurance_id">{{ trans('cruds.dealerInformation.fields.insurance') }}</label>
+                                           for="insurance_id">{{ trans('cruds.requestCredit.fields.insurance') }}</label>
                                     <select
                                         class="form-control select2 {{ $errors->has('insurance_id') ? 'is-invalid' : '' }}"
                                         name="insurance_id" id="insurance_id" required>
@@ -678,14 +782,14 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="tenors_id">{{ trans('cruds.dealerInformation.fields.tenors') }}</label>
+                                           for="tenors_id">{{ trans('cruds.requestCredit.fields.tenors') }}</label>
                                     <select
                                         class="form-control select2 {{ $errors->has('tenors_id') ? 'is-invalid' : '' }}"
                                         name="tenors_id" id="tenors_id" required>
                                         <option value
                                                 disabled {{ old('tenors_id', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
 
-                                    @foreach($tenors as $id => $entry)
+                                        @foreach($tenors as $id => $entry)
                                             <option
                                                 value="{{ $id }}" {{ old('tenors_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                         @endforeach
@@ -698,14 +802,14 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label
-                                        for="down_payment">{{ trans('cruds.dealerInformation.fields.down_payment') }}</label>
+                                        for="down_payment">{{ trans('cruds.requestCredit.fields.down_payment') }}</label>
 
                                     <select
                                         class="form-control select2 {{ $errors->has('down_payment') ? 'is-invalid' : '' }}"
                                         name="down_payment" id="down_payment" required>
                                         <option value
                                                 disabled {{ old('down_payment', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                                        @foreach(App\Models\DealerInformation::DOWN_PAYMENT_SELECT as $key => $label)
+                                        @foreach(App\Models\RequestCreditHelp::DOWN_PAYMENT_SELECT as $key => $label)
                                             <option
                                                 value="{{ $key }}" {{ old('down_payment', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                                         @endforeach
@@ -718,11 +822,12 @@
                                 </div>
                                 <div class="col-sm-12 down_payment_text-container">
                                     <label class="required"
-                                           for="down_payment_text">{{ trans('cruds.dealerInformation.fields.down_payment_text') }}</label>
-                                    <input class="form-control {{ $errors->has('down_payment_text') ? 'is-invalid' : '' }}"
-                                           type="number" name="down_payment_text" id="down_payment_text"
-                                           value="{{ old('down_payment_text', '') }}"
-                                           required>
+                                           for="down_payment_text">{{ trans('cruds.requestCredit.fields.down_payment_text') }}</label>
+                                    <input
+                                        class="form-control {{ $errors->has('down_payment_text') ? 'is-invalid' : '' }}"
+                                        type="number" name="down_payment_text" id="down_payment_text"
+                                        value="{{ old('down_payment_text', '') }}"
+                                        required>
                                     @if($errors->has('down_payment_text'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('down_payment_text') }}
@@ -731,7 +836,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="addm_addb">{{ trans('cruds.dealerInformation.fields.addm_addb') }}</label>
+                                           for="addm_addb">{{ trans('cruds.requestCredit.fields.addm_addb') }}</label>
                                     <input class="form-control {{ $errors->has('addm_addb') ? 'is-invalid' : '' }}"
                                            type="text" name="addm_addb" id="addm_addb"
                                            value="{{ old('addm_addb', '') }}"
@@ -744,7 +849,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="required"
-                                           for="effective_rates">{{ trans('cruds.dealerInformation.fields.effective_rates') }}</label>
+                                           for="effective_rates">{{ trans('cruds.requestCredit.fields.effective_rates') }}</label>
                                     <input
                                         class="form-control {{ $errors->has('effective_rates') ? 'is-invalid' : '' }}"
                                         type="number" name="effective_rates" id="effective_rates"
@@ -757,7 +862,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="required"
-                                           for="car_year">{{ trans('cruds.dealerInformation.fields.car_year') }}</label>
+                                           for="car_year">{{ trans('cruds.requestCredit.fields.car_year') }}</label>
                                     <input
                                         class="form-control {{ $errors->has('car_year') ? 'is-invalid' : '' }}"
                                         type="number" name="car_year" id="car_year"
@@ -770,7 +875,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="debtor_phone">{{ trans('cruds.dealerInformation.fields.debtor_phone') }}</label>
+                                           for="debtor_phone">{{ trans('cruds.requestCredit.fields.debtor_phone') }}</label>
                                     <input class="form-control {{ $errors->has('debtor_phone') ? 'is-invalid' : '' }}"
                                            type="text" name="debtor_phone" id="debtor_phone"
                                            value="{{ old('debtor_phone', '') }}" required>
@@ -781,7 +886,7 @@
                                     @endif
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="remarks">{{ trans('cruds.dealerInformation.fields.remarks') }}</label>
+                                    <label for="remarks">{{ trans('cruds.requestCredit.fields.remarks') }}</label>
                                     <input class="form-control {{ $errors->has('remarks') ? 'is-invalid' : '' }}"
                                            type="text" name="remarks" id="remarks" value="{{ old('remarks', '') }}">
                                     @if($errors->has('remarks'))
@@ -792,8 +897,8 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="id_photos">{{ trans('cruds.dealerInformation.fields.id_photos') }}</label>
-                                    <div class="needsclick dropzone {{ $errors->has('id_photos') ? 'is-invalid' : '' }}"
+                                           for="id_photos">{{ trans('cruds.requestCredit.fields.id_photos') }}</label>
+                                    <div class="form-control needsclick dropzone {{ $errors->has('id_photos') ? 'is-invalid' : '' }}"
                                          id="id_photos-dropzone">
                                     </div>
                                     @if($errors->has('id_photos'))
@@ -804,8 +909,8 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="kk_photos">{{ trans('cruds.dealerInformation.fields.kk_photos') }}</label>
-                                    <div class="needsclick dropzone {{ $errors->has('kk_photos') ? 'is-invalid' : '' }}"
+                                           for="kk_photos">{{ trans('cruds.requestCredit.fields.kk_photos') }}</label>
+                                    <div class="form-control needsclick dropzone {{ $errors->has('kk_photos') ? 'is-invalid' : '' }}"
                                          id="kk_photos-dropzone">
                                     </div>
                                     @if($errors->has('kk_photos'))
@@ -816,9 +921,10 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="npwp_photos">{{ trans('cruds.dealerInformation.fields.npwp_photos') }}</label>
-                                    <div class="needsclick dropzone {{ $errors->has('npwp_photos') ? 'is-invalid' : '' }}"
-                                         id="npwp_photos-dropzone">
+                                           for="npwp_photos">{{ trans('cruds.requestCredit.fields.npwp_photos') }}</label>
+                                    <div
+                                        class="form-control needsclick dropzone {{ $errors->has('npwp_photos') ? 'is-invalid' : '' }}"
+                                        id="npwp_photos-dropzone">
                                     </div>
                                     @if($errors->has('npwp_photos'))
                                         <div class="invalid-feedback">
@@ -828,9 +934,10 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="other_photos">{{ trans('cruds.dealerInformation.fields.other_photos') }}</label>
-                                    <div class="needsclick dropzone {{ $errors->has('other_photos') ? 'is-invalid' : '' }}"
-                                         id="other_photos-dropzone">
+                                           for="other_photos">{{ trans('cruds.requestCredit.fields.other_photos') }}</label>
+                                    <div
+                                        class="form-control needsclick dropzone {{ $errors->has('other_photos') ? 'is-invalid' : '' }}"
+                                        id="other_photos-dropzone">
                                     </div>
                                     @if($errors->has('other_photos'))
                                         <div class="invalid-feedback">

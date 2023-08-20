@@ -13,6 +13,14 @@ class RequestCreditHelp extends Model
 
     public $table = 'request_credit_helps';
 
+    public const DOWN_PAYMENT_SELECT = [
+        '15' => '15%',
+        '25' => '25%',
+        '30' => '30%',
+        '35' => '35%',
+        'Other' => 'Other',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',

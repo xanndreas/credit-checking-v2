@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     // Request Credit
     Route::resource('request-credits', 'RequestCreditController');
     Route::post('request-credits/download', 'RequestCreditController@download')->name('request-credits.download');
+    Route::post('request-credits/media', 'RequestCreditController@storeMedia')->name('request-credits.storeMedia');
 
     // Request Credit Debtor
     Route::resource('request-credit-debtors', 'RequestCreditDebtorController');
