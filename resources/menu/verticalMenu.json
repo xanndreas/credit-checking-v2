@@ -1,0 +1,71 @@
+{
+    "menu": [
+        {
+            "menuHeader": "global.dashboard",
+            "permission": "header_dashboard_access"
+        },
+        {
+            "name": "global.home",
+            "icon": "menu-icon tf-icons ti ti-smart-home",
+            "slug": "admin.home",
+            "permission": "dashboard_access"
+        },
+
+        {
+            "menuHeader": "cruds.creditChecking.title",
+            "permission": "header_checking_access"
+        },
+
+        {
+            "name": "cruds.requestCredit.title",
+            "icon": "menu-icon tf-icons ti ti-plus",
+            "slug": "admin.request-credits.index",
+            "permission": "request_credit_access"
+        },
+        {
+            "name": "cruds.requestCreditHelp.title",
+            "icon": "menu-icon tf-icons ti ti-tag",
+            "slug": "admin.request-credit-helps.index",
+            "permission": "request_credit_help_access"
+        },
+        {
+            "name": "cruds.requestApproval.title",
+            "icon": "menu-icon tf-icons ti ti-check",
+            "slug": "admin.request-approvals.index",
+            "permission": "request_approval_access"
+        },
+        {
+            "menuHeader": "cruds.creditCheckingSurvey.title",
+            "permission": "header_checking_survey_access"
+        },
+        {
+            "name": "cruds.surveyAddress.title",
+            "icon": "menu-icon tf-icons ti ti-direction",
+            "slug": "admin.survey-addresses.index",
+            "permission": "survey_address_access"
+        },
+        {
+            "name": "cruds.surveyReport.title",
+            "icon": "menu-icon tf-icons ti ti-link",
+            "slug": "admin.survey-reports.index",
+            "permission": "survey_report_access"
+        },
+
+        {
+            "menuHeader": "global.utility",
+            "permission": "header_utility"
+        },
+        {
+            "name": "global.setting",
+            "icon": "menu-icon tf-icons ti ti-settings",
+            "slug": "admin.settings.index",
+            "permission": "setting_access"
+        },
+        {
+            "name": "cruds.user.title",
+            "icon": "menu-icon tf-icons ti ti-user",
+            "slug": "admin.users.index",
+            "permission": "user_access"
+        }
+    ]
+}
