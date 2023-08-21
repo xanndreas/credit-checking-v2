@@ -42,12 +42,12 @@ $(function () {
         columns: [
             {data: 'placeholder', name: 'placeholder'},
             {data: 'id', name: 'id'},
-            {data: 'dealer_name', name: 'dealer_name'},
-            {data: 'request_debtor', name: 'request_debtor', orderable: false, visible: false},
+            {data: 'dealer_text', name: 'dealer_text'},
+            {data: 'request_debtor', name: 'request_debtor.name', searchable: false, orderable: false, visible: false},
             {data: 'sales_name', name: 'sales_name'},
-            {data: 'product_name', name: 'product.name'},
-            {data: 'brand_name', name: 'brand.name'},
-            {data: 'models', name: 'models'},
+            {data: 'product_text', name: 'product_text'},
+            {data: 'brand_text', name: 'brand_text'},
+            {data: 'remarks', name: 'remarks'},
             {data: 'actions', name: 'Actions', orderable: false, searchable: false},
         ],
         orderCellsTop: true,
@@ -161,9 +161,9 @@ $(function () {
     let table = $('.datatable-requestCredit').DataTable(dtOverrideGlobals);
 
 
-    $('.datatable-CreditCheck tbody').on('click', 'td:not(:first-child, :last-child)', (event) => {
+    $('.datatable-requestCredit tbody').on('click', 'td:not(:first-child, :last-child)', (event) => {
         let row = table.row(event.currentTarget).data();
-        window.location.href = '/admin/credit-checks/' + row.id;
+        window.location.href = '/admin/request-credits/' + row.id;
     });
 
     $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {

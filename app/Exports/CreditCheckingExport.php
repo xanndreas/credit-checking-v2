@@ -2,6 +2,9 @@
 
 namespace App\Exports;
 
+use App\Http\Controllers\Traits\TenantTrait;
+use App\Models\RequestCredit;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -12,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 
 class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping
 {
-    use Exportable;
+    use Exportable, TenantTrait;
 
     private Carbon|false $maxDate;
     private Carbon|false $minDate;
@@ -25,21 +28,22 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping
 
     public function query()
     {
-        $dealerInformation = DealerInformation::with(['dealer', 'product', 'brand', 'insurance', 'tenors', 'debtor_information'])
+        $requestCredit = RequestCredit::with(['auto_planner', 'request_debtors', 'request_attributes'])
             ->whereBetween('created_at', [$this->minDate, $this->maxDate]);
 
-        if (Gate::allows('tenant_auto_planner')) {
-            $dealerInformation->whereRelation('debtor_information.auto_planner_information', 'auto_planner_name_id', auth()->user()->id);
-        } else if (Gate::allows('credit_check_access_super')) {
-            // no filtering
+        if (Gate::allows('actor_auto_planner_access')) {
+            $requestCredit->whereRelation('auto_planner', 'id', Auth::id());
+        } else if (Gate::allows('request_credit_super')) {
+            // do nothing
         } else {
-            $tenantToShow = array_merge(Auth::user()->tenant_ids, Auth::user()->tenant_head);
+            $child = $this->tenantChildUser(User::with('roles')
+                ->find(Auth::id())->firstOrFail());
 
-            $dealerInformation->whereHas('debtor_information.auto_planner_information',
-                fn($q) => $q->whereIn('auto_planner_name_id', $tenantToShow == null ? [] : $tenantToShow));
+            $requestCredit->whereHas('auto_planner',
+                fn($q) => $q->whereIn('id', $child == null ? [] : $child));
         }
 
-        return $dealerInformation;
+        return $requestCredit;
     }
 
     public function headings(): array
@@ -82,55 +86,69 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping
 
     public function map($row): array
     {
-        $dealerMedia = null;
-
+        $requestMedia = null;
         foreach ($row->id_photos as $id_photo) {
-            $dealerMedia .= $id_photo->getUrl() . ', ';
+            $requestMedia .= $id_photo->getUrl() . ', ';
         }
         foreach ($row->kk_photos as $kk_photo) {
-            $dealerMedia .= $kk_photo->getUrl() . ', ';
+            $requestMedia .= $kk_photo->getUrl() . ', ';
         }
         foreach ($row->npwp_photos as $npwp_photo) {
-            $dealerMedia .= $npwp_photo->getUrl() . ', ';
+            $requestMedia .= $npwp_photo->getUrl() . ', ';
         }
         foreach ($row->other_photos as $other_photo) {
-            $dealerMedia .= $other_photo->getUrl() . ', ';
+            $requestMedia .= $other_photo->getUrl() . ', ';
         }
-
 
         return [
             $row->created_at,
-            $row->debtor_information->auto_planner_information->auto_planner_name->email,
-            $row->debtor_information->auto_planner_information->auto_planner_name->name,
-            AutoPlanner::TYPE_RADIO[$row->debtor_information->auto_planner_information->type],
-            $row->debtor_information->debtor_name,
-            $row->debtor_information->id_type,
-            $row->debtor_information->id_number,
-            $row->debtor_information->partner_name,
+            $row->auto_planner->email,
+            $row->auto_planner->name,
+            RequestCredit::CREDIT_TYPE_SELECT[$row->credit_type],
+            $this->attribute_finder($row->request_attributes, 'dealer_text'),
+            $this->debtor_finder($row->request_debtors, 'debtor')->name ?? '',
+            $this->debtor_finder($row->request_debtors, 'debtor')->identity_type ?? '',
+            $this->debtor_finder($row->request_debtors, 'debtor')->identity_number ?? '',
+            $this->debtor_finder($row->request_debtors, 'debtor_partner')->name ?? '',
             null,
-            $row->debtor_information->guarantor_name,
-            $row->debtor_information->guarantor_id_number,
-            $row->debtor_information->shareholders,
-            $row->debtor_information->shareholder_id_number,
-            $row->dealer->name,
-            $row->product->name,
-            $row->brand->name,
-            $row->models,
+            $this->debtor_finder($row->request_debtors, 'guarantor')->name ?? '',
+            $this->debtor_finder($row->request_debtors, 'guarantor')->identity_number ?? '',
+            $this->debtor_finder($row->request_debtors, 'shareholder')->identity_number ?? '',
+            $this->attribute_finder($row->request_attributes, 'dealer_text'),
+            $this->attribute_finder($row->request_attributes, 'product_text'),
+            $this->attribute_finder($row->request_attributes, 'brand_text'),
+            $this->attribute_finder($row->request_attributes, 'models'),
             null,
-            $row->number_of_units,
-            $row->otr,
-            $row->debt_principal,
-            $row->insurance->name,
-            $row->down_payment,
-            $row->tenors->year,
-            $row->addm_addb,
-            $row->effective_rates,
-            $row->debtor_phone,
-            $row->remarks,
-            $dealerMedia,
-            $row->debtor_information->shareholders,
-            $row->debtor_information->shareholder_id_number,
-            $row->debtor_information->auto_planner_information->auto_planner_name->name
+            $this->attribute_finder($row->request_attributes, 'number_of_units'),
+            $this->attribute_finder($row->request_attributes, 'otr'),
+            $this->attribute_finder($row->request_attributes, 'debt_principal'),
+            $this->attribute_finder($row->request_attributes, 'insurance_text'),
+            $this->attribute_finder($row->request_attributes, 'down_payment_text'),
+            $this->attribute_finder($row->request_attributes, 'tenors_text'),
+            $this->attribute_finder($row->request_attributes, 'addm_addb'),
+            $this->attribute_finder($row->request_attributes, 'effective_rates'),
+            $this->attribute_finder($row->request_attributes, 'debtor_phone'),
+            $this->attribute_finder($row->request_attributes, 'remarks'),
+            $requestMedia,
+            $this->debtor_finder($row->request_debtors, 'shareholder')->name ?? '',
+            $this->debtor_finder($row->request_debtors, 'shareholder')->identity_number ?? '',
+            $row->auto_planner->name
         ];
+    }
+
+    public function attribute_finder($attribute, $to_find)
+    {
+        $attrs = $attribute->filter(function ($item) use ($to_find) {
+            return $item->object_name == $to_find;
+        })->first();
+
+        return $attrs ? $attrs->attribute : '';
+    }
+
+    public function debtor_finder($debtor, $to_find)
+    {
+        return $debtor->filter(function ($item) use ($to_find) {
+            return $item->personel_type == $to_find;
+        })->first();
     }
 }

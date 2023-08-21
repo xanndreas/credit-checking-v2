@@ -6,13 +6,15 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class RequestCredit extends Model
+class RequestCredit extends Model implements HasMedia
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, InteractsWithMedia;
 
     public $table = 'request_credits';
-
 
     protected $appends = [
         'id_photos',
@@ -33,20 +35,26 @@ class RequestCredit extends Model
     ];
 
     public const REQUEST_ATTRIBUTE_FIELDS = [
-        'dealer_name',
+        'dealer_text',
+        'dealer_other',
         'sales_name',
-        'product_name',
-        'brand_name',
+        'product_text',
+        'product_text_other',
+        'brand_text',
+        'brand_text_other',
         'models',
+        'number_of_units',
         'otr',
         'debt_principal',
-        'insurance_name',
-        'down_payment',
-        'tenors_year',
-        'debtor_phone',
-        'effective_rates',
+        'insurance_text',
+        'down_payment_text',
+        'down_payment_text_other',
         'addm_addb',
+        'effective_rates',
+        'car_year',
+        'debtor_phone',
         'remarks',
+        'tenors_text',
     ];
 
     protected $fillable = [

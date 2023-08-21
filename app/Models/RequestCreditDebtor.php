@@ -39,6 +39,7 @@ class RequestCreditDebtor extends Model
         'debtor'         => 'Debtor',
         'debtor_partner' => 'Debtor Partner',
         'guarantor'      => 'Guarantor',
+        'business'       => 'Business',
         'shareholder'    => 'Shareholder',
     ];
 

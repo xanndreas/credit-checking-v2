@@ -21,6 +21,7 @@ class WorkflowProcess extends Model
 
     protected $fillable = [
         'process_status',
+        'permissions',
         'description',
         'created_at',
         'updated_at',

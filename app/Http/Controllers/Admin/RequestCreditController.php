@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\CreditCheckingExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Controllers\Traits\TenantTrait;
-use App\Http\Requests\MassDestroyRequestCreditRequest;
+use App\Http\Controllers\Traits\WorkflowCreditRequestTrait;
 use App\Http\Requests\StoreRequestCreditRequest;
 use App\Http\Requests\UpdateRequestCreditRequest;
 use App\Models\RequestCredit;
@@ -16,13 +17,14 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
 class RequestCreditController extends Controller
 {
-    use MediaUploadingTrait, TenantTrait;
+    use MediaUploadingTrait, TenantTrait, WorkflowCreditRequestTrait;
 
     public function index(Request $request)
     {
@@ -62,7 +64,7 @@ class RequestCreditController extends Controller
                 $deleteGate = 'request_credit_delete';
                 $crudRoutePart = 'request-credits';
 
-                return view('partials.datatablesActions', compact(
+                return view('_partials.datatablesActions', compact(
                     'viewGate',
                     'editGate',
                     'deleteGate',
@@ -87,7 +89,7 @@ class RequestCreditController extends Controller
             $table->editColumn('request_debtor', function ($row) {
                 $labels = [];
                 foreach ($row->request_debtors as $request_debtor) {
-                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $request_debtor->name);
+                    $labels[] = sprintf('<span class="badge bg-secondary">%s</span>', $request_debtor->name);
                 }
 
                 return implode(' ', $labels);
@@ -97,9 +99,11 @@ class RequestCreditController extends Controller
                 $table->addColumn($item, '&nbsp;');
 
                 $table->editColumn($item, function ($row) use ($item) {
-                    return $row->request_attributes->filter(function ($it) use ($item) {
+                    $requestCreditAttribute = $row->request_attributes->filter(function ($it) use ($item) {
                         return $it->object_name == $item;
-                    })->first() ?? '';
+                    })->first();
+
+                    return $requestCreditAttribute ? $requestCreditAttribute->attribute : '';
                 });
             }
 
@@ -117,15 +121,17 @@ class RequestCreditController extends Controller
 
         $auto_planners = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $dealers    = RequestCreditHelp::where('type', 'dealers')->pluck('attribute', 'attribute');
+        $plHolder = RequestCreditHelp::where('type', 'placeholders')->pluck('attribute', 'attribute');
 
-        $products   = RequestCreditHelp::where('type', 'products')->pluck('attribute', 'attribute');
+        $dealers = RequestCreditHelp::where('type', 'dealers')->pluck('attribute', 'attribute')->concat($plHolder);
 
-        $brands     = RequestCreditHelp::where('type', 'brands')->pluck('attribute', 'attribute');
+        $products = RequestCreditHelp::where('type', 'products')->pluck('attribute', 'attribute')->concat($plHolder);
+
+        $brands = RequestCreditHelp::where('type', 'brands')->pluck('attribute', 'attribute')->concat($plHolder);
 
         $insurances = RequestCreditHelp::where('type', 'insurances')->pluck('attribute', 'attribute');
 
-        $tenors     = RequestCreditHelp::where('type', 'tenors')->pluck('attribute', 'attribute');
+        $tenors = RequestCreditHelp::where('type', 'tenors')->pluck('attribute', 'attribute');
 
         return view('admin.requestCredits.create',
             compact('auto_planners', 'brands', 'dealers', 'insurances', 'products', 'tenors'));
@@ -133,9 +139,52 @@ class RequestCreditController extends Controller
 
     public function store(StoreRequestCreditRequest $request)
     {
-        $requestCredit = RequestCredit::create($request->all());
-//        $requestCredit->request_debtors()->sync($request->input('request_debtors', []));
-//        $requestCredit->request_attributes()->sync($request->input('request_attributes', []));
+        $requestCreditData = array_merge(
+            $request->only('credit_type'),
+            [
+                'batch_number' => Str::random(10),
+                'auto_planner_id' => Auth::id()
+            ]
+        );
+
+        $requestCredit = RequestCredit::create($requestCreditData);
+        $requestAll = $request->all();
+
+        $creditPersonel = [];
+        if ($request->credit_type == 'individu')
+            $creditPersonel = ['debtor', 'debtor_partner', 'guarantor'];
+        else if ($request->credit_type == 'badan_usaha')
+            $creditPersonel = ['business', 'shareholder'];
+
+        foreach ($creditPersonel as $item) {
+            if (isset($requestAll[$item . '_name']) && $requestAll[$item . '_identity_number']) {
+                $requestCreditDebtor[] = RequestCreditDebtor::create([
+                    'personel_type' => $item,
+                    'name' => $requestAll[$item . '_name'],
+                    'identity_type' => $requestAll['credit_type'] == 'badan_usaha' ? 'npwp' :
+                        $requestAll[$item . '_identity_type'],
+
+                    'identity_number' => $requestAll[$item . '_identity_number'],
+                ])->id;
+            }
+        }
+
+        $requestCreditAttribute = [];
+        foreach (RequestCredit::REQUEST_ATTRIBUTE_FIELDS as $item) {
+            if (isset($requestAll['attr_' . $item])) {
+                $requestCreditAttribute[] = RequestCreditAttribute::create(
+                    [
+                        'object_name' => $item,
+                        'attribute' => $requestAll['attr_' . $item],
+                        'attribute_2' => null,
+                        'attribute_3' => null,
+                    ]
+                )->id;
+            }
+        }
+
+        $requestCredit->request_debtors()->sync($requestCreditDebtor);
+        $requestCredit->request_attributes()->sync($requestCreditAttribute);
 
         foreach ($request->input('id_photos', []) as $file) {
             $requestCredit->addMedia(storage_path('tmp/uploads/' . basename($file)))
@@ -161,6 +210,8 @@ class RequestCreditController extends Controller
                 ->toMediaCollection('other_photos');
         }
 
+        $submitActions = $this->submitActions(true, Auth::id(), $requestCredit->id);
+
         return redirect()->route('admin.request-credits.index');
     }
 
@@ -168,24 +219,12 @@ class RequestCreditController extends Controller
     {
         abort_if(Gate::denies('request_credit_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $auto_planners = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $request_debtors = RequestCreditDebtor::pluck('name', 'id');
-
-        $request_attributes = RequestCreditAttribute::pluck('object_name', 'id');
-
-        $requestCredit->load('auto_planner', 'request_debtors', 'request_attributes');
-
-        return view('admin.requestCredits.edit', compact('auto_planners', 'requestCredit', 'request_attributes', 'request_debtors'));
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function update(UpdateRequestCreditRequest $request, RequestCredit $requestCredit)
     {
-        $requestCredit->update($request->all());
-        $requestCredit->request_debtors()->sync($request->input('request_debtors', []));
-        $requestCredit->request_attributes()->sync($request->input('request_attributes', []));
-
-        return redirect()->route('admin.request-credits.index');
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function show(RequestCredit $requestCredit)
@@ -209,7 +248,7 @@ class RequestCreditController extends Controller
     public function download(Request $request)
     {
         if ($request->minDate != null && $request->maxDate != null) {
-            return Excel::download(new CreditCheckingExport($request->minDate, $request->maxDate), 'credit-checking.xlsx');
+            return Excel::download(new CreditCheckingExport($request->minDate, $request->maxDate), 'request-credit.xlsx');
         }
 
         return redirect()->back();

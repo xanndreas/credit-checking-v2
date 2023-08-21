@@ -13,7 +13,7 @@ class RequestCreditHelpTableSeeder extends Seeder
             [
                 'id' => 1,
                 'type' => 'placeholders',
-                'attribute' => 'Others',
+                'attribute' => 'Other',
                 'attribute_2' => '',
                 'attribute_3' => '',
             ],

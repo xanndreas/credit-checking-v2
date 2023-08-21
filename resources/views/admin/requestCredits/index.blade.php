@@ -81,7 +81,7 @@
                         {{ trans('cruds.requestCredit.fields.brand_name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.requestCredit.fields.models') }}
+                        {{ trans('cruds.requestCredit.fields.remarks') }}
                     </th>
                     <th class="w-px-18">
                         {{ trans('global.actions') }}

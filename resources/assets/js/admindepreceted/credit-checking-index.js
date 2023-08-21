@@ -161,10 +161,9 @@ $(function () {
         ]
 
     };
-    let table = $('.datatable-CreditCheck').DataTable(dtOverrideGlobals);
+    let table = $('.datatable-requestCredit').DataTable(dtOverrideGlobals);
 
-
-    $('.datatable-CreditCheck tbody').on('click', 'td:not(:first-child, :last-child)', (event) => {
+    $('.datatable-requestCredit tbody').on('click', 'td:not(:first-child, :last-child)', (event) => {
         let row = table.row(event.currentTarget).data();
         window.location.href = '/admin/credit-checks/' + row.id;
     });
