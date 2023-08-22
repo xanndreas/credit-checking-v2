@@ -11,8 +11,10 @@ use App\Models\SurveyAddress;
 use App\Models\SurveyReport;
 use App\Models\SurveyReportAttribute;
 use App\Models\User;
-use Gate;
+use App\Models\WorkflowRequestCredit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -23,61 +25,79 @@ class SurveyReportController extends Controller
         abort_if(Gate::denies('survey_report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = SurveyReport::with(['request_credit', 'survey_address', 'survey_attributes', 'submited_by'])->select(sprintf('%s.*', (new SurveyReport)->table));
-            $table = Datatables::of($query);
+            $query = RequestCredit::with(['auto_planner', 'request_debtors', 'request_attributes']);
 
+            if (Gate::allows('actor_auto_planner_access')) {
+                $query->whereRelation('auto_planner', 'id', Auth::id());
+
+                $requestCreditOnSurvey = WorkflowRequestCredit::with('request_credit', 'process_status')
+                    ->whereRelation('process_status', 'process_status', 'survey_process')
+                    ->whereRelation('process_status', 'process_status', 'survey_report')
+                    ->get()->pluck('request_credit_id');
+
+                $query->whereIn('id', $requestCreditOnSurvey);
+            } else if (Gate::allows('request_credit_super') || Gate::allows('actor_surveyor_admin_access')) {
+                // do nothing
+            } else {
+                $child = $this->tenantChildUser(User::with('roles')
+                    ->find(Auth::id())->firstOrFail());
+
+                $query->whereHas('auto_planner',
+                    fn($q) => $q->whereIn('id', $child == null ? [] : $child));
+            }
+
+            $query->select(sprintf('%s.*', (new RequestCredit)->table));
+
+            $table = Datatables::eloquent($query);
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
-            $table->editColumn('actions', function ($row) {
-                $viewGate = 'survey_report_show';
-                $editGate = 'survey_report_edit';
-                $deleteGate = 'survey_report_delete';
-                $crudRoutePart = 'survey-reports';
-
-                return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
-            });
+//            $table->editColumn('actions', function ($row) {
+//                $survey = $row;
+//                $surveyReports = SurveyReport::with('request_credit', 'surveyor')
+//                    ->where('survey_id', $row->id)->first();
+//
+//                return view('admin.surveys.reports._partials.reportActions', compact('surveyReports', 'survey'));
+//            });
 
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
-            $table->addColumn('request_credit_batch_number', function ($row) {
-                return $row->request_credit ? $row->request_credit->batch_number : '';
+
+            $table->editColumn('batch_number', function ($row) {
+                return $row->batch_number ? $row->batch_number : '';
             });
 
-            $table->addColumn('survey_address_address_type', function ($row) {
-                return $row->survey_address ? $row->survey_address->address_type : '';
+            $table->editColumn('credit_type', function ($row) {
+                return $row->credit_type ? RequestCredit::CREDIT_TYPE_SELECT[$row->credit_type] : '';
             });
 
-            $table->editColumn('survey_attributes', function ($row) {
+            $table->addColumn('auto_planner_name', function ($row) {
+                return $row->auto_planner ? $row->auto_planner->name : '';
+            });
+
+            $table->addColumn('workflow_status', function ($row) {
+                $workflowRequestCredit = WorkflowRequestCredit::with('process_status')
+                    ->where('request_credit_id', $row->id)->first();
+
+                return $workflowRequestCredit->process_status ? $workflowRequestCredit->process_status->process_status : '';
+            });
+
+            $table->editColumn('request_debtor', function ($row) {
                 $labels = [];
-                foreach ($row->survey_attributes as $survey_attribute) {
-                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $survey_attribute->object_name);
+                foreach ($row->request_debtors as $request_debtor) {
+                    $labels[] = sprintf('<span class="badge bg-secondary">%s</span>', $request_debtor->name);
                 }
 
                 return implode(' ', $labels);
             });
-            $table->addColumn('submited_by_name', function ($row) {
-                return $row->submited_by ? $row->submited_by->name : '';
-            });
 
-            $table->rawColumns(['actions', 'placeholder', 'request_credit', 'survey_address', 'survey_attributes', 'submited_by']);
+            $table->rawColumns(['actions', 'approvals', 'placeholder', 'auto_planner', 'request_debtor']);
 
             return $table->make(true);
         }
 
-        $request_credits = RequestCredit::get();
-        $survey_addresses = SurveyAddress::get();
-        $survey_report_attributes = SurveyReportAttribute::get();
-        $users = User::get();
-
-        return view('admin.surveyReports.index', compact('request_credits', 'survey_addresses', 'survey_report_attributes', 'users'));
+        return view('admin.surveyReports.index');
     }
 
     public function create()

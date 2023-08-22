@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
     // Survey Addresses
     Route::resource('survey-addresses', 'SurveyAddressesController');
+    Route::post('survey-addresses/{requestCredit}/process-survey', 'SurveyAddressesController@processSurvey')->name('survey-addresses.processSurvey');
     Route::get('survey-addresses/{requestCredit}/detail', 'SurveyAddressesController@detail')->name('survey-addresses.detail');
 
     // Survey Report

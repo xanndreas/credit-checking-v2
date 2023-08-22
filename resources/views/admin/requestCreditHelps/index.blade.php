@@ -60,6 +60,31 @@
                         {{ trans('global.actions') }}
                     </th>
                 </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <select class="search form-control" strict="true">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach(App\Models\RequestCreditHelp::TYPE_SELECT as $key => $item)
+                                <option value="{{ $key }}">{{ $item }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search form-control" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
                 </thead>
             </table>
         </div>

@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css')}}"/>
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}"/>
 @endsection
 
 @section('vendor-script')
@@ -20,11 +19,10 @@
     <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/cleavejs/cleave.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 @endsection
 
 @section('page-script')
-    <script src="{{asset('assets/js/admin/survey-addresses.js')}}"></script>
+    <script src="{{asset('assets/js/admin/survey-report.js')}}"></script>
     <script src="{{asset('assets/js/forms-selects.js')}}"></script>
 @endsection
 
@@ -34,10 +32,10 @@
     <!-- Survey Addresses List Table -->
     <div class="card">
         <div class="card-header border-bottom">
-            <h5 class="card-title mb-3">Survey Addresses</h5>
+            <h5 class="card-title mb-3">Survey Reports</h5>
         </div>
         <div class="card-datatable table-responsive">
-            <table class="datatables-surveys table border-top table-hover datatable-SurveyAddresses">
+            <table class="datatables-surveys table border-top table-hover datatable-SurveyReports">
                 <thead>
                 <tr>
                     <th width="10">
@@ -58,12 +56,10 @@
                     <th>
                         {{ trans('cruds.requestCredit.fields.workflow_process') }}
                     </th>
-
                 </tr>
                 </thead>
             </table>
         </div>
-{{--        @include('admin/surveys/form')--}}
     </div>
 @endsection
 

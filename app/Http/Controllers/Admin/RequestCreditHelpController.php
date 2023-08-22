@@ -19,7 +19,7 @@ class RequestCreditHelpController extends Controller
         abort_if(Gate::denies('request_credit_help_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = RequestCreditHelp::query()->select(sprintf('%s.*', (new RequestCreditHelp)->table));
+            $query = RequestCreditHelp::query()->orderBy('type')->select(sprintf('%s.*', (new RequestCreditHelp)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');

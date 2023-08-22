@@ -138,6 +138,29 @@ $(function () {
             .columns.adjust();
     });
 
+    let visibleColumnsIndexes = null;
+    $('.datatable-RequestCreditHelp thead').on('input', '.search', function () {
+        let strict = $(this).attr('strict') || false
+        let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+        let index = $(this).parent().index()
+        if (visibleColumnsIndexes !== null) {
+            index = visibleColumnsIndexes[index]
+        }
+
+        table
+            .column(index + 1)
+            .search(value, strict)
+            .draw()
+    });
+
+    table.on('column-visibility.dt', function (e, settings, column, state) {
+        visibleColumnsIndexes = []
+        table.columns(":visible").every(function (colIdx) {
+            visibleColumnsIndexes.push(colIdx);
+        });
+    });
+
     $('.datatable-RequestCreditHelp tbody').on('click', 'td:not(:first-child, :last-child)', (event) => {
         let row = table.row(event.currentTarget).data();
 
@@ -163,7 +186,7 @@ $(function () {
             savesForm = $(this).parent(),
             hiddenPut = $('input[name="_method"]');
 
-        if (savedIds === ''|| typeof savedIds === 'undefined') {
+        if (savedIds === '' || typeof savedIds === 'undefined') {
             hiddenPut.prop('disabled', true);
             savesForm.attr('action', "/admin/request-credit-helps").submit();
         } else {

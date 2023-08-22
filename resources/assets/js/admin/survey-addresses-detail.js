@@ -31,4 +31,9 @@ $(function () {
         }
     });
 
+    $('.btn-assign').on('click', function () {
+        $('.request_credit_id').val($(this).data('request-credit-id'))
+        $('.assign-form').attr('action', '/admin/survey-addresses/' + ($(this).data('request-credit-id')))
+    });
+
 });

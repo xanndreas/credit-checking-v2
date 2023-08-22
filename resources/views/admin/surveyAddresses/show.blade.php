@@ -2,21 +2,22 @@
 
 @section('title', 'Detail Addresses - Page')
 
-
-@section('vendor-style')
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}"/>
-@endsection
-
 @section('vendor-script')
     <script src="{{asset('assets/vendor/libs/jquery-repeater/jquery-repeater.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+
+    @can('actor_surveyor_admin_access')
+        <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}"/>
+    @endcan
 @endsection
 
 @section('page-script')
+    @can('actor_surveyor_admin_access')
+        <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+    @endcan
+
     <script src="{{asset('assets/js/forms-selects.js')}}"></script>
     <script src="{{asset('assets/js/admin/survey-addresses-detail.js')}}"></script>
 @endsection
-
 
 @section('content')
     <div class="row">
@@ -96,95 +97,163 @@
 
                         </tbody>
                     </table>
-
                     <table class="table table-responsive table-striped mb-3">
                         <tbody>
                         <tr class="table-primary">
-                            <th class="w-25 fw-bold" colspan="2">
+                            <th class="w-25 fw-bold" colspan="5">
                                 Detail Address
                             </th>
                         </tr>
+
+                        @if($surveyAddresses->count() > 0)
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.surveyAddress.fields.request_credit') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.surveyAddress.fields.address_type') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.surveyAddress.fields.addresses') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.surveyAddress.fields.surveyor') }}
+                                </th>
+                                <th class="w-px-14">
+                                    Assign Surveyor
+                                </th>
+                            </tr>
+
+                            @foreach($surveyAddresses as $address)
+                                <tr>
+                                    <td>
+                                        {{ $address->request_credit->batch_number }}
+                                    </td>
+                                    <td>
+                                        {{ $address->address_type }}
+                                    </td>
+                                    <td>
+                                        {{ $address->addresses }}
+                                    </td>
+                                    <td>
+                                        {{ $address->surveyor ? $address->surveyor->name : '' }}
+                                    </td>
+                                    <td>
+                                        @can('actor_surveyor_admin_access')
+                                            <button href="javascript:void(0);" class="btn {{ $address->surveyor ? 'btn-success' : 'btn-warning' }} btn-assign"
+                                               data-request-credit-id="{{ $address->request_credit_id }}"
+                                               data-bs-toggle="modal" data-bs-target="#assignModal"
+                                                {{ $address->surveyor ? 'disabled' : '' }}> {{ $address->surveyor ? 'Assigned' : '' }}</button>
+                                        @endcan
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <th colspan="2">
+                                    No content
+                                </th>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
 
-                    <div class="row">
+                    <div class="row float-end">
                         <div class="col-12">
-
-                            <form method="POST" action="" enctype="multipart/form-data">
-                                @method('put')
+                            <form
+                                action="{{ route('admin.survey-addresses.processSurvey', ['requestCredit'  =>  $requestCredit->id]) }}"
+                                method="post" onsubmit="return confirm('Are you sure you want to process survey?')">
                                 @csrf
-
-                                <div class="survey_address-repeater form-repeater-container mb-3">
-                                    <div data-repeater-list="survey_address">
-                                        <div data-repeater-item>
-                                            <div class="row">
-                                                <div class="mb-3 col-10 mb-0">
-                                                    <label class="required"
-                                                           for="address_type">{{ trans('cruds.surveyAddress.fields.address_type') }}</label>
-                                                    <select
-                                                        class="form-control select2 {{ $errors->has('address_type') ? 'is-invalid' : '' }}"
-                                                        name="address_type" id="address_type" required>
-                                                        @foreach(\App\Models\SurveyAddress::ADDRESS_TYPE_SELECT as $id => $label)
-                                                            <option
-                                                                value="{{ $id }}" {{ $id == old('address_type', '') ? 'selected' : '' }}>{{ $label }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @if($errors->has('address_type'))
-                                                        <div class="invalid-feedback">
-                                                            {{ $errors->first('address_type') }}
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                                <div class="mb-3 col-2 d-flex align-items-center mb-0">
-                                                    <a class="w-100 btn btn-label-danger text-danger mt-4"
-                                                       data-repeater-delete>
-                                                        <i class="ti ti-x ti-xs me-1"></i>
-                                                        <span class="align-middle">Delete</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="mb-3 col-12 mb-0">
-                                                    <label class="required"
-                                                           for="addresses">{{ trans('cruds.surveyAddress.fields.addresses') }}</label>
-                                                    <textarea
-                                                        class="form-control {{ $errors->has('addresses') ? 'is-invalid' : '' }}"
-                                                        type="text" name="addresses" id="addresses"
-                                                        required>{{ old('addresses', '') }}</textarea>
-                                                    @if($errors->has('addresses'))
-                                                        <div class="invalid-feedback">
-                                                            {{ $errors->first('addresses') }}
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-
-                                    <div class="mb-0">
-                                        <a class="btn btn-primary waves-effect text-white" data-repeater-create>
-                                            <i class="ti ti-plus me-1"></i>
-                                            <span class="align-middle">Add</span>
-                                        </a>
-
-                                        <button type="submit" class="btn btn-outline-primary waves-effect text-primary me-sm-3 me-1 ">
-                                            {{ trans('global.save') }}
-                                        </button>
-
-                                        <a class="btn btn-primary float-end" href="{{ route('admin.survey-addresses.index') }}">
-                                            Back
-                                        </a>
-                                    </div>
-                                </div>
+                                <button type="submit"
+                                        class="btn btn-primary waves-effect">
+                                    Process Survey
+                                </button>
                             </form>
                         </div>
                     </div>
+
+                    @can('actor_auto_planner_access')
+                        <div class="row">
+                            <div class="col-12">
+                                <form method="POST" action="{{ route('admin.survey-addresses.store') }}"
+                                      enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="request_credit_id" value="{{ $requestCredit->id }}">
+                                    <div class="survey_address-repeater form-repeater-container mb-3">
+                                        <div data-repeater-list="survey_address">
+                                            <div data-repeater-item>
+                                                <div class="row">
+                                                    <div class="mb-3 col-10 mb-0">
+                                                        <label class="required"
+                                                               for="address_type">{{ trans('cruds.surveyAddress.fields.address_type') }}</label>
+                                                        <select
+                                                            class="form-control {{ $errors->has('address_type') ? 'is-invalid' : '' }}"
+                                                            name="address_type" id="address_type" required>
+                                                            @foreach(\App\Models\SurveyAddress::ADDRESS_TYPE_SELECT as $id => $label)
+                                                                <option
+                                                                    value="{{ $id }}" {{ $id == old('address_type', '') ? 'selected' : '' }}>{{ $label }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @if($errors->has('address_type'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('address_type') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="mb-3 col-2 d-flex align-items-center mb-0">
+                                                        <a class="w-100 btn btn-label-danger text-danger mt-4"
+                                                           data-repeater-delete>
+                                                            <i class="ti ti-x ti-xs me-1"></i>
+                                                            <span class="align-middle">Delete</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="mb-3 col-12 mb-0">
+                                                        <label class="required"
+                                                               for="addresses">{{ trans('cruds.surveyAddress.fields.addresses') }}</label>
+                                                        <textarea
+                                                            class="form-control {{ $errors->has('addresses') ? 'is-invalid' : '' }}"
+                                                            type="text" name="addresses" id="addresses"
+                                                            required>{{ old('addresses', '') }}</textarea>
+                                                        @if($errors->has('addresses'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('addresses') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="mb-0">
+                                            <a class="btn btn-primary waves-effect text-white" data-repeater-create>
+                                                <i class="ti ti-plus me-1"></i>
+                                                <span class="align-middle">Add</span>
+                                            </a>
+
+                                            <button type="submit"
+                                                    class="btn btn-outline-primary waves-effect text-primary me-sm-3 me-1 ">
+                                                {{ trans('global.save') }}
+                                            </button>
+
+                                            <a class="btn btn-primary float-end"
+                                               href="{{ route('admin.survey-addresses.index') }}">
+                                                Back
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    @endcan
                 </div>
             </div>
         </div>
     </div>
 
+    @include('admin.surveyAddresses._partials.assign')
 @endsection

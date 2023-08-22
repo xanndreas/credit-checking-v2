@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\TenantTrait;
+use App\Http\Controllers\Traits\WorkflowCreditRequestTrait;
 use App\Http\Requests\MassDestroySurveyAddressRequest;
 use App\Http\Requests\StoreSurveyAddressRequest;
 use App\Http\Requests\UpdateSurveyAddressRequest;
 use App\Models\RequestCredit;
 use App\Models\SurveyAddress;
 use App\Models\User;
+use App\Models\WorkflowProcess;
 use App\Models\WorkflowRequestCredit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +21,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class SurveyAddressesController extends Controller
 {
-    use TenantTrait;
+    use TenantTrait, WorkflowCreditRequestTrait;
 
     public function index(Request $request)
     {
@@ -30,6 +32,12 @@ class SurveyAddressesController extends Controller
 
             if (Gate::allows('actor_auto_planner_access')) {
                 $query->whereRelation('auto_planner', 'id', Auth::id());
+
+                $requestCreditOnSurvey = WorkflowRequestCredit::with('request_credit', 'process_status')
+                    ->whereRelation('process_status', 'process_status', 'request_surveys')
+                    ->get()->pluck('request_credit_id');
+
+                $query->whereIn('id', $requestCreditOnSurvey);
             } else if (Gate::allows('request_credit_super') || Gate::allows('actor_surveyor_admin_access')) {
                 // do nothing
             } else {
@@ -40,12 +48,7 @@ class SurveyAddressesController extends Controller
                     fn($q) => $q->whereIn('id', $child == null ? [] : $child));
             }
 
-            $requestCreditOnSurvey = WorkflowRequestCredit::with('request_credit', 'process_status')
-                ->whereRelation('process_status', 'process_status', 'request_surveys')
-                ->get()->pluck('request_credit_id');
-
-            $query->whereIn('id', $requestCreditOnSurvey)
-                ->select(sprintf('%s.*', (new RequestCredit)->table));
+            $query->select(sprintf('%s.*', (new RequestCredit)->table));
 
             $table = Datatables::eloquent($query);
             $table->addColumn('placeholder', '&nbsp;');
@@ -113,9 +116,19 @@ class SurveyAddressesController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function store(StoreSurveyAddressRequest $request)
+    public function store(Request $request)
     {
-        $surveyAddress = SurveyAddress::create($request->all());
+        if ($request->has('survey_address') && $request->has('request_credit_id')) {
+            foreach ($request->survey_address as $survey_address) {
+                $surveyAddresses = SurveyAddress::create([
+                    'request_credit_id' => $request->request_credit_id,
+                    'address_type' => $survey_address['address_type'],
+                    'addresses' => $survey_address['address_type'],
+                ]);
+            }
+
+            $this->submitActions(true, Auth::id(), $request->request_credit_id);
+        }
 
         return redirect()->route('admin.survey-addresses.index');
     }
@@ -133,7 +146,7 @@ class SurveyAddressesController extends Controller
         return view('admin.surveyAddresses.edit', compact('request_credits', 'surveyAddress', 'surveyors'));
     }
 
-    public function update(UpdateSurveyAddressRequest $request, SurveyAddress $surveyAddress)
+    public function update(SurveyAddress $surveyAddress, Request $request)
     {
         $surveyAddress->update($request->all());
 
@@ -156,9 +169,24 @@ class SurveyAddressesController extends Controller
         return back();
     }
 
-    public function detail(RequestCredit $requestCredit) {
+    public function detail(RequestCredit $requestCredit)
+    {
+        $surveyAddresses = SurveyAddress::with('request_credit', 'surveyor')
+            ->where('request_credit_id', $requestCredit->id)->get();
 
+        $user = User::with('roles', 'roles.permissions')->whereRelation('roles.permissions', 'title', 'actor_surveyor_access')->get();
 
-        return view('admin.surveyAddresses.show', compact('requestCredit'));
+        return view('admin.surveyAddresses.show', compact('requestCredit', 'surveyAddresses', 'user'));
+    }
+
+    public function processSurvey(RequestCredit $requestCredit, Request $request) {
+        $workflowProcess = WorkflowRequestCredit::where('request_credit_id', $requestCredit->id)->first();
+        if ($workflowProcess) {
+            if ($workflowProcess->process_status->process_status == 'survey_assign') {
+                $this->submitActions(true, Auth::id(), $requestCredit->id);
+            }
+        }
+
+        return redirect()->back();
     }
 }

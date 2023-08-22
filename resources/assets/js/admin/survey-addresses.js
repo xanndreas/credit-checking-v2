@@ -16,6 +16,7 @@ $(function () {
             {data: 'credit_type', name: 'credit_type'},
             {data: 'auto_planner_name', name: 'auto_planner_name'},
             {data: 'request_debtor', name: 'request_debtor.name', searchable: false, orderable: false},
+            {data: 'workflow_status', name: 'workflow_status', searchable: false, orderable: false},
         ],
         orderCellsTop: true,
         order: [[2, 'desc']],
@@ -128,7 +129,7 @@ $(function () {
             .columns.adjust();
     });
 
-    $('.datatable-SurveyAddresses tbody').on('click', 'td:not(:first-child, :last-child)', (event) => {
+    $('.datatable-SurveyAddresses tbody').on('click', 'td:not(:first-child)', (event) => {
         let row = table.row(event.currentTarget).data();
         window.location.href = '/admin/survey-addresses/' + row.id + '/detail';
     });
