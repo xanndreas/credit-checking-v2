@@ -33,12 +33,12 @@ class WorkflowProcessTableSeeder extends Seeder
             ],            [
                 'id'             => 5,
                 'process_status' => 'survey_process',
-                'permissions'    => 'actor_auto_planner_access',
+                'permissions'    => 'actor_surveyor_access',
                 'description'    => '',
             ],            [
                 'id'             => 6,
                 'process_status' => 'survey_report',
-                'permissions'    => 'actor_auto_planner_access',
+                'permissions'    => 'actor_surveyor_access',
                 'description'    => '',
             ],
         ];

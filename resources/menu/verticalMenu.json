@@ -29,12 +29,6 @@
             "permission": "request_credit_help_access"
         },
         {
-            "name": "cruds.requestApproval.title",
-            "icon": "menu-icon tf-icons ti ti-check",
-            "slug": "admin.request-approvals.index",
-            "permission": "request_approval_access"
-        },
-        {
             "menuHeader": "cruds.creditCheckingSurvey.title",
             "permission": "header_checking_survey_access"
         },

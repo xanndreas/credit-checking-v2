@@ -14,6 +14,7 @@ use App\Models\RequestCreditAttribute;
 use App\Models\RequestCreditDebtor;
 use App\Models\RequestCreditHelp;
 use App\Models\User;
+use App\Models\WorkflowRequestCredit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -57,6 +58,7 @@ class RequestCreditController extends Controller
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
+            $table->addColumn('approvals', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
                 $viewGate = 'request_credit_show';
@@ -73,17 +75,41 @@ class RequestCreditController extends Controller
                 ));
             });
 
+
+            $table->editColumn('approvals', function ($row) {
+                $requestApprovals = WorkflowRequestCredit::with('process_status')
+                    ->where('request_credit_id', $row->id)->first();
+
+                $approveGate = 'approval_request_credit_approve';
+
+                return view('admin.requestCredits._partials.approveActions', compact(
+                    'approveGate',
+                    'requestApprovals',
+                    'row'
+                ));
+            });
+
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
+
             $table->editColumn('batch_number', function ($row) {
                 return $row->batch_number ? $row->batch_number : '';
             });
+
             $table->editColumn('credit_type', function ($row) {
                 return $row->credit_type ? RequestCredit::CREDIT_TYPE_SELECT[$row->credit_type] : '';
             });
+
             $table->addColumn('auto_planner_name', function ($row) {
                 return $row->auto_planner ? $row->auto_planner->name : '';
+            });
+
+            $table->addColumn('workflow_status', function ($row) {
+                $workflowRequestCredit = WorkflowRequestCredit::with('process_status')
+                    ->where('request_credit_id', $row->id)->first();
+
+                return $workflowRequestCredit->process_status ? $workflowRequestCredit->process_status->process_status : '';
             });
 
             $table->editColumn('request_debtor', function ($row) {
@@ -107,7 +133,7 @@ class RequestCreditController extends Controller
                 });
             }
 
-            $table->rawColumns(['actions', 'placeholder', 'auto_planner', 'request_debtor', 'request_attribute']);
+            $table->rawColumns(['actions', 'approvals', 'placeholder', 'auto_planner', 'request_debtor', 'request_attribute']);
 
             return $table->make(true);
         }
@@ -252,5 +278,20 @@ class RequestCreditController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function approvals(RequestCredit $requestCredit, Request $request)
+    {
+        if ($request->has('next')) {
+            if ($request->has('process_notes') && $request->next == "false") {
+                $this->submitActions(false, Auth::id(), $requestCredit->id, $request->process_notes);
+            } elseif ($request->next == "true") {
+                $this->submitActions(true, Auth::id(), $requestCredit->id);
+            }
+
+            return redirect()->route('admin.request-credits.index');
+        }
+
+        return response(null, Response::HTTP_BAD_REQUEST);
     }
 }

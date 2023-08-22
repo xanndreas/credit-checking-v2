@@ -28,6 +28,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
     // Request Credit
     Route::resource('request-credits', 'RequestCreditController');
+    Route::post('request-credits/{requestCredit}/approvals', 'RequestCreditController@approvals')->name('request-credits.approvals');
     Route::post('request-credits/download', 'RequestCreditController@download')->name('request-credits.download');
     Route::post('request-credits/media', 'RequestCreditController@storeMedia')->name('request-credits.storeMedia');
 
@@ -46,11 +47,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     // Workflow Request Credit History
     Route::resource('workflow-request-credit-histories', 'WorkflowRequestCreditHistoryController');
 
-    // Request Approval
-    Route::resource('request-approvals', 'RequestApprovalController');
-
     // Survey Addresses
     Route::resource('survey-addresses', 'SurveyAddressesController');
+    Route::get('survey-addresses/{requestCredit}/detail', 'SurveyAddressesController@detail')->name('survey-addresses.detail');
 
     // Survey Report
     Route::resource('survey-reports', 'SurveyReportController');

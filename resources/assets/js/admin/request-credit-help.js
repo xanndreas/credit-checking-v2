@@ -1,56 +1,23 @@
 'use strict';
 
+// Datatable (jquery)
 $(function () {
-    let createdRange = document.querySelector('.created-range');
-    let elMinDate = $('.min-date'), elMaxDate = $('.max-date');
-    let minDate, maxDate;
-
-    if (typeof createdRange !== undefined) {
-        createdRange.flatpickr({
-            mode: 'range',
-            enableTime: true,
-            dateFormat: "Y-m-d H:i",
-
-            onChange: function (dates, dateStr, instance) {
-                if (dates.length === 2) {
-                    minDate = instance.formatDate(dates[0], "Y-m-d H:i:ss");
-                    maxDate = instance.formatDate(dates[1], "Y-m-d H:i:ss");
-
-                    elMaxDate.val(maxDate);
-                    elMinDate.val(minDate);
-
-                    table.draw();
-                }
-            }
-        });
-    }
 
     let dtOverrideGlobals = {
         processing: true,
         serverSide: true,
         retrieve: true,
         aaSorting: [],
-        autoWidth: false,
 
-        ajax:
-            {
-                url: "/admin/request-credits",
-                data: function (d) {
-                    d.minDate = minDate;
-                    d.maxDate = maxDate;
-                }
-            },
+        ajax: "/admin/request-credit-helps",
         columns: [
             {data: 'placeholder', name: 'placeholder'},
             {data: 'id', name: 'id'},
-            {data: 'dealer_text', name: 'dealer_text'},
-            {data: 'request_debtor', name: 'request_debtor.name', searchable: false, orderable: false, visible: false},
-            {data: 'sales_name', name: 'sales_name'},
-            {data: 'product_text', name: 'product_text'},
-            {data: 'workflow_status', name: 'workflow_status'},
-            {data: 'remarks', name: 'remarks'},
-            {data: 'approvals', name: 'Approval'},
-            {data: 'actions', name: 'Actions', orderable: false, searchable: false},
+            {data: 'type', name: 'type'},
+            {data: 'attribute', name: 'attribute'},
+            {data: 'attribute_2', name: 'attribute_2'},
+            {data: 'attribute_3', name: 'attribute_3'},
+            {data: 'actions', name: 'Actions', orderable: false, searchable: false}
         ],
         orderCellsTop: true,
         order: [[2, 'desc']],
@@ -68,7 +35,7 @@ $(function () {
                 display: $.fn.dataTable.Responsive.display.modal({
                     header: function (row) {
                         var data = row.data();
-                        return 'Details of #' + data['id'];
+                        return 'Details of ' + data['name'];
                     }
                 }),
                 type: 'column',
@@ -142,8 +109,12 @@ $(function () {
                 ]
             },
             {
-                text: '<i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span class="d-none d-sm-inline-block">Add Credit Checking</span>',
-                className: 'add-new-credit btn btn-primary',
+                text: '<i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span class="d-none d-sm-inline-block">Add New Help</span>',
+                className: 'add-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'offcanvas',
+                    'data-bs-target': '#offcanvasAddRequestCreditHelp'
+                }
             }
         ],
         columnDefs: [
@@ -157,35 +128,47 @@ $(function () {
                     return '';
                 }
             },
-            {
-                searchable: false,
-                orderable: false,
-                targets: 8,
-            },
         ]
 
     };
-    let table = $('.datatable-requestCredit').DataTable(dtOverrideGlobals);
-
-    let tbodySelector = $('.datatable-requestCredit tbody');
-
-    tbodySelector.on('click', 'td:not(:first-child, :last-child):not(:nth-child(8))', (event) => {
-        let row = table.row(event.currentTarget).data();
-        window.location.href = '/admin/request-credits/' + row.id;
-    });
-
-    tbodySelector.on('click', 'td:eq(7)', (event) => {
-        let row = table.row(event.currentTarget).data();
-        $('.reason-form').attr('action', 'request-credits/' + row.id + '/approvals')
-    });
+    let table = $('.datatable-RequestCreditHelp').DataTable(dtOverrideGlobals);
 
     $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
 
-    $('.add-new-credit').on('click', function () {
-        window.location.href = '/admin/request-credits/create';
+    $('.datatable-RequestCreditHelp tbody').on('click', 'td:not(:first-child, :last-child)', (event) => {
+        let row = table.row(event.currentTarget).data();
+
+        $('#submitAddRequestCreditHelp').attr('data-id', row.id);
+
+        $('input[name="attribute"]').val(row.attribute);
+        $('input[name="attribute_2"]').val(row.attribute_2);
+        $('input[name="attribute_3"]').val(row.attribute_3);
+        $('select[name="type"]').val(row.type).trigger('change');
+
+        let canvasSelector = document.getElementById('offcanvasAddRequestCreditHelp')
+        canvasSelector.addEventListener('hidden.bs.offcanvas', function () {
+            $('#addNewRequestCreditHelpForm').trigger("reset");
+            $('#submitAddRequestCreditHelp').attr('data-id', null);
+        });
+
+        let bsOffCanvasAddRequestCreditHelp = new bootstrap.Offcanvas(canvasSelector)
+        bsOffCanvasAddRequestCreditHelp.show();
     });
 
+    $('#submitAddRequestCreditHelp').on('click', function () {
+        let savedIds = $(this).attr('data-id'),
+            savesForm = $(this).parent(),
+            hiddenPut = $('input[name="_method"]');
+
+        if (savedIds === ''|| typeof savedIds === 'undefined') {
+            hiddenPut.prop('disabled', true);
+            savesForm.attr('action', "/admin/request-credit-helps").submit();
+        } else {
+            hiddenPut.prop('disabled', false);
+            savesForm.attr('action', "/admin/request-credit-helps/" + savedIds).submit();
+        }
+    });
 });

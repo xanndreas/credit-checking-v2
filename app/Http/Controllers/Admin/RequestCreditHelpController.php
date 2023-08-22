@@ -31,7 +31,7 @@ class RequestCreditHelpController extends Controller
                 $deleteGate    = 'request_credit_help_delete';
                 $crudRoutePart = 'request-credit-helps';
 
-                return view('partials.datatablesActions', compact(
+                return view('_partials.datatablesActions', compact(
                     'viewGate',
                     'editGate',
                     'deleteGate',

@@ -366,6 +366,10 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => 89,
                 'title' => 'request_credit_super',
             ],
+            [
+                'id'    => 89,
+                'title' => 'approval_request_credit_approve',
+            ],
 
         ];
 
