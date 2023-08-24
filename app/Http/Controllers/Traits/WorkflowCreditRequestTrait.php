@@ -37,7 +37,7 @@ trait WorkflowCreditRequestTrait
         }
 
         if ($next) {
-            abort_if(Gate::denies($this->nextProcess($workflowRequestCredit->process_status_id)->permissions),
+            abort_if(Gate::denies($workflowRequestCredit->process_status->permissions),
                 Response::HTTP_FORBIDDEN, '403 Forbidden');
 
             $workflowProcessId = $this->nextProcess($workflowRequestCredit->process_status_id)->id;
@@ -46,7 +46,7 @@ trait WorkflowCreditRequestTrait
                 'process_status_id' => $workflowProcessId,
             ]);
         } else {
-            abort_if(Gate::denies($this->previousProcess($workflowRequestCredit->process_status_id)->permissions),
+            abort_if(Gate::denies($workflowRequestCredit->process_status_id->permissions),
                 Response::HTTP_FORBIDDEN, '403 Forbidden');
 
             $workflowProcessId = $this->previousProcess($workflowRequestCredit->process_status_id)->id;

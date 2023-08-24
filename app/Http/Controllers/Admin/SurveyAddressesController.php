@@ -130,34 +130,14 @@ class SurveyAddressesController extends Controller
             $this->submitActions(true, Auth::id(), $request->request_credit_id);
         }
 
-        return redirect()->route('admin.survey-addresses.index');
-    }
-
-    public function edit(SurveyAddress $surveyAddress)
-    {
-        abort_if(Gate::denies('survey_address_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $request_credits = RequestCredit::pluck('batch_number', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $surveyors = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $surveyAddress->load('request_credit', 'surveyor');
-
-        return view('admin.surveyAddresses.edit', compact('request_credits', 'surveyAddress', 'surveyors'));
+        return redirect()->route('admin.survey-addresses.detail', ['requestCredit' => $request->request_credit_id]);
     }
 
     public function update(SurveyAddress $surveyAddress, Request $request)
     {
         $surveyAddress->update($request->all());
 
-        return redirect()->route('admin.survey-addresses.index');
-    }
-
-    public function show(SurveyAddress $surveyAddress)
-    {
-        abort_if(Gate::denies('survey_address_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return response(null, Response::HTTP_NO_CONTENT);
+        return redirect()->route('admin.survey-addresses.detail', ['requestCredit' => $request->request_credit_id]);
     }
 
     public function destroy(SurveyAddress $surveyAddress)
@@ -174,12 +154,17 @@ class SurveyAddressesController extends Controller
         $surveyAddresses = SurveyAddress::with('request_credit', 'surveyor')
             ->where('request_credit_id', $requestCredit->id)->get();
 
-        $user = User::with('roles', 'roles.permissions')->whereRelation('roles.permissions', 'title', 'actor_surveyor_access')->get();
+        $workflowRequestCredit = WorkflowRequestCredit::with('request_credit')
+            ->where('request_credit_id', $requestCredit->id)->first();
 
-        return view('admin.surveyAddresses.show', compact('requestCredit', 'surveyAddresses', 'user'));
+        $user = User::with('roles', 'roles.permissions')
+            ->whereRelation('roles.permissions', 'title', 'actor_surveyor_access')->get();
+
+        return view('admin.surveyAddresses.show', compact('requestCredit', 'surveyAddresses', 'workflowRequestCredit', 'user'));
     }
 
-    public function processSurvey(RequestCredit $requestCredit, Request $request) {
+    public function processSurvey(RequestCredit $requestCredit, Request $request)
+    {
         $workflowProcess = WorkflowRequestCredit::where('request_credit_id', $requestCredit->id)->first();
         if ($workflowProcess) {
             if ($workflowProcess->process_status->process_status == 'survey_assign') {

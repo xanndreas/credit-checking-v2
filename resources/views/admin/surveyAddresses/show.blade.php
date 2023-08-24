@@ -140,10 +140,12 @@
                                     </td>
                                     <td>
                                         @can('actor_surveyor_admin_access')
-                                            <button href="javascript:void(0);" class="btn {{ $address->surveyor ? 'btn-success' : 'btn-warning' }} btn-assign"
-                                               data-request-credit-id="{{ $address->request_credit_id }}"
-                                               data-bs-toggle="modal" data-bs-target="#assignModal"
-                                                {{ $address->surveyor ? 'disabled' : '' }}> {{ $address->surveyor ? 'Assigned' : '' }}</button>
+                                            <button href="javascript:void(0);"
+                                                    class="btn {{ $address->surveyor ? 'btn-success' : 'btn-warning' }} btn-assign"
+                                                    data-request-credit-id="{{ $address->request_credit_id }}"
+                                                    data-survey-addresses-id="{{ $address->id }}"
+                                                    data-bs-toggle="modal" data-bs-target="#assignModal"
+                                                {{ $address->surveyor ? 'disabled' : '' }}> {{ $address->surveyor ? 'Assigned' : 'Assign' }}</button>
                                         @endcan
                                     </td>
                                 </tr>
@@ -158,98 +160,107 @@
                         </tbody>
                     </table>
 
-                    <div class="row float-end">
+                    <div class="row">
                         <div class="col-12">
-                            <form
-                                action="{{ route('admin.survey-addresses.processSurvey', ['requestCredit'  =>  $requestCredit->id]) }}"
-                                method="post" onsubmit="return confirm('Are you sure you want to process survey?')">
+                            <form method="POST" action="{{ route('admin.survey-addresses.store') }}"
+                                  enctype="multipart/form-data">
                                 @csrf
-                                <button type="submit"
-                                        class="btn btn-primary waves-effect">
-                                    Process Survey
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                                <input type="hidden" name="request_credit_id" value="{{ $requestCredit->id }}">
+                                <div class="survey_address-repeater form-repeater-container mb-3">
+                                    @can('actor_auto_planner_access')
+                                        @if ($workflowRequestCredit->process_status->process_status !== 'survey_assign')
+                                            <div data-repeater-list="survey_address">
+                                                <div data-repeater-item>
+                                                    <div class="row">
+                                                        <div class="mb-3 col-10 mb-0">
+                                                            <label class="required"
+                                                                   for="address_type">{{ trans('cruds.surveyAddress.fields.address_type') }}</label>
+                                                            <select
+                                                                class="form-control {{ $errors->has('address_type') ? 'is-invalid' : '' }}"
+                                                                name="address_type" id="address_type" required>
+                                                                @foreach(\App\Models\SurveyAddress::ADDRESS_TYPE_SELECT as $id => $label)
+                                                                    <option
+                                                                        value="{{ $id }}" {{ $id == old('address_type', '') ? 'selected' : '' }}>{{ $label }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            @if($errors->has('address_type'))
+                                                                <div class="invalid-feedback">
+                                                                    {{ $errors->first('address_type') }}
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                        <div class="mb-3 col-2 d-flex align-items-center mb-0">
+                                                            <a class="w-100 btn btn-label-danger text-danger mt-4"
+                                                               data-repeater-delete>
+                                                                <i class="ti ti-x ti-xs me-1"></i>
+                                                                <span class="align-middle">Delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
 
-                    @can('actor_auto_planner_access')
-                        <div class="row">
-                            <div class="col-12">
-                                <form method="POST" action="{{ route('admin.survey-addresses.store') }}"
-                                      enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="hidden" name="request_credit_id" value="{{ $requestCredit->id }}">
-                                    <div class="survey_address-repeater form-repeater-container mb-3">
-                                        <div data-repeater-list="survey_address">
-                                            <div data-repeater-item>
-                                                <div class="row">
-                                                    <div class="mb-3 col-10 mb-0">
-                                                        <label class="required"
-                                                               for="address_type">{{ trans('cruds.surveyAddress.fields.address_type') }}</label>
-                                                        <select
-                                                            class="form-control {{ $errors->has('address_type') ? 'is-invalid' : '' }}"
-                                                            name="address_type" id="address_type" required>
-                                                            @foreach(\App\Models\SurveyAddress::ADDRESS_TYPE_SELECT as $id => $label)
-                                                                <option
-                                                                    value="{{ $id }}" {{ $id == old('address_type', '') ? 'selected' : '' }}>{{ $label }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        @if($errors->has('address_type'))
-                                                            <div class="invalid-feedback">
-                                                                {{ $errors->first('address_type') }}
-                                                            </div>
-                                                        @endif
+                                                    <div class="row">
+                                                        <div class="mb-3 col-12 mb-0">
+                                                            <label class="required"
+                                                                   for="addresses">{{ trans('cruds.surveyAddress.fields.addresses') }}</label>
+                                                            <textarea
+                                                                class="form-control {{ $errors->has('addresses') ? 'is-invalid' : '' }}"
+                                                                type="text" name="addresses" id="addresses"
+                                                                required>{{ old('addresses', '') }}</textarea>
+                                                            @if($errors->has('addresses'))
+                                                                <div class="invalid-feedback">
+                                                                    {{ $errors->first('addresses') }}
+                                                                </div>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-3 col-2 d-flex align-items-center mb-0">
-                                                        <a class="w-100 btn btn-label-danger text-danger mt-4"
-                                                           data-repeater-delete>
-                                                            <i class="ti ti-x ti-xs me-1"></i>
-                                                            <span class="align-middle">Delete</span>
-                                                        </a>
-                                                    </div>
+
                                                 </div>
-
-                                                <div class="row">
-                                                    <div class="mb-3 col-12 mb-0">
-                                                        <label class="required"
-                                                               for="addresses">{{ trans('cruds.surveyAddress.fields.addresses') }}</label>
-                                                        <textarea
-                                                            class="form-control {{ $errors->has('addresses') ? 'is-invalid' : '' }}"
-                                                            type="text" name="addresses" id="addresses"
-                                                            required>{{ old('addresses', '') }}</textarea>
-                                                        @if($errors->has('addresses'))
-                                                            <div class="invalid-feedback">
-                                                                {{ $errors->first('addresses') }}
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-
                                             </div>
-                                        </div>
+                                        @endif
+                                    @endcan
 
+                                    <div class="mb-0">
+                                        @can('actor_auto_planner_access')
+                                            @if ($workflowRequestCredit->process_status->process_status !== 'survey_assign')
+                                                <a class="btn btn-primary waves-effect text-white" data-repeater-create>
+                                                    <i class="ti ti-plus me-1"></i>
+                                                    <span class="align-middle">Add</span>
+                                                </a>
 
-                                        <div class="mb-0">
-                                            <a class="btn btn-primary waves-effect text-white" data-repeater-create>
-                                                <i class="ti ti-plus me-1"></i>
-                                                <span class="align-middle">Add</span>
-                                            </a>
+                                                <button type="submit"
+                                                        class="btn btn-outline-primary waves-effect text-primary me-sm-3 me-1 ">
+                                                    {{ trans('global.save') }}
+                                                </button>
+                                            @endif
+                                        @endcan
 
-                                            <button type="submit"
-                                                    class="btn btn-outline-primary waves-effect text-primary me-sm-3 me-1 ">
-                                                {{ trans('global.save') }}
-                                            </button>
-
-                                            <a class="btn btn-primary float-end"
+                                        <div class="mb-0 float-end">
+                                            <a class="btn btn-primary"
                                                href="{{ route('admin.survey-addresses.index') }}">
                                                 Back
                                             </a>
+
+                                            @can('actor_surveyor_admin_access')
+                                                @if ($workflowRequestCredit->process_status->process_status == 'survey_assign')
+                                                    <a href="javascript:void(0);"
+                                                       onclick="document.getElementById('form-process-survey').submit();"
+                                                       class="btn btn-outline-danger waves-effect text-danger">
+                                                        Process Survey
+                                                    </a>
+                                                @endif
+                                            @endcan
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
+                            <form id="form-process-survey"
+                                  action="{{ route('admin.survey-addresses.processSurvey', ['requestCredit'  =>  $requestCredit->id]) }}"
+                                  method="post"
+                                  onsubmit="return confirm('Are you sure you want to process survey?')">
+                                @csrf
+                            </form>
                         </div>
-                    @endcan
+                    </div>
                 </div>
             </div>
         </div>
