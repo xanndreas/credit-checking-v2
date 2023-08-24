@@ -54,7 +54,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('survey-addresses/{requestCredit}/detail', 'SurveyAddressesController@detail')->name('survey-addresses.detail');
 
     // Survey Report
-    Route::resource('survey-reports', 'SurveyReportController');
+    Route::resource('survey-reports', 'SurveyReportController')->except('create', 'store');
+    Route::get('survey-addresses/{surveyAddress}/create', 'SurveyReportController@create')->name('survey-reports.create');
+    Route::get('survey-addresses/{surveyAddress}/download', 'SurveyReportController@download')->name('survey-reports.download');
+    Route::post('survey-addresses/{surveyAddress}/store', 'SurveyReportController@store')->name('survey-reports.store');
+    Route::post('survey-addresses/media', 'SurveyReportController@storeMedia')->name('survey-reports.storeMedia');
 
     // Survey Report Attribute
     Route::resource('survey-report-attributes', 'SurveyReportAttributeController');

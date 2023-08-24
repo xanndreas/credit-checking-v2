@@ -123,7 +123,7 @@ class SurveyAddressesController extends Controller
                 $surveyAddresses = SurveyAddress::create([
                     'request_credit_id' => $request->request_credit_id,
                     'address_type' => $survey_address['address_type'],
-                    'addresses' => $survey_address['address_type'],
+                    'addresses' => $survey_address['addresses'],
                 ]);
             }
 

@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Models\SurveyReport;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class StoreSurveyReportRequest extends FormRequest
 {
@@ -17,24 +17,41 @@ class StoreSurveyReportRequest extends FormRequest
     public function rules()
     {
         return [
-            'request_credit_id' => [
+            'office_note' => [
                 'required',
-                'integer',
+                'string',
             ],
-            'survey_address_id' => [
+            'owner_beneficial' => [
                 'required',
-                'integer',
+                'string',
             ],
-            'survey_attributes.*' => [
-                'integer',
+            'owner_status' => [
+                'required',
+                'string',
             ],
-            'survey_attributes' => [
+            'parking_access' => [
+                'required',
+                'string',
+            ],
+            'attachments' => [
+                'required',
+            ],
+            'survey_address' => [
                 'array',
             ],
-            'submited_by_id' => [
-                'required',
-                'integer',
+            'document_attachment' => [
+                'array',
             ],
+            'environmental_check' => [
+                'array',
+            ],
+            'note' => [
+                'array',
+            ],
+            'incomplete_document' => [
+                'array',
+            ],
+
         ];
     }
 }

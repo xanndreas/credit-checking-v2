@@ -42,19 +42,22 @@
 
                     </th>
                     <th>
-                        {{ trans('cruds.requestCredit.fields.batch_number') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.requestCredit.fields.credit_type') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.requestCredit.fields.auto_planner') }}
+                        {{ trans('cruds.surveyAddress.fields.request_credit') }}
                     </th>
                     <th>
                         {{ trans('cruds.requestCredit.fields.request_debtor') }}
                     </th>
                     <th>
-                        {{ trans('cruds.requestCredit.fields.workflow_process') }}
+                        {{ trans('cruds.surveyAddress.fields.address_type') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.surveyAddress.fields.addresses') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.surveyAddress.fields.surveyor') }}
+                    </th>
+                    <th>
+                        Report
                     </th>
                 </tr>
                 </thead>
