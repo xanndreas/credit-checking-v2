@@ -20,7 +20,7 @@
 
 @section('page-script')
     <script src="{{asset('assets/js/admin/user-trees.js')}}"></script>
-    <script src="{{asset('assets/js/tree-tables.js')}}"></script>
+    <script src="{{asset('assets/js/admin/tree-tables.js')}}"></script>
 @endsection
 
 @section('content')

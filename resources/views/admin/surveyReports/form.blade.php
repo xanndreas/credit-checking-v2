@@ -101,7 +101,7 @@
                                     <div class="row">
                                         <div class="mb-3 col-2 mb-0">
                                             <label class="form-label" for="survey_address-1-1">Tipe Alamat</label>
-                                            <input type="text" id="survey_address-1-1" name="attribute_1"
+                                            <input type="text" id="survey_address-1-1" name="attribute"
                                                    class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-4 mb-0">
@@ -176,7 +176,7 @@
                                     <div class="row">
                                         <div class="mb-3 col-2 mb-0">
                                             <label class="form-label" for="document_attachment-1-1">Tipe Dokumen</label>
-                                            <input type="text" id="document_attachment-1-1" name="attribute_1"
+                                            <input type="text" id="document_attachment-1-1" name="attribute"
                                                    class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-8 mb-0">
@@ -206,7 +206,7 @@
                                     <div class="row">
                                         <div class="mb-3 col-2 mb-0">
                                             <label class="form-label" for="environmental_check-1-1">Witness</label>
-                                            <input type="text" id="environmental_check-1-1" name="attribute_1"
+                                            <input type="text" id="environmental_check-1-1" name="attribute"
                                                    class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-8 mb-0">
@@ -236,7 +236,7 @@
                                     <div class="row">
                                         <div class="mb-3 col-10 mb-0">
                                             <label class="form-label" for="note-1-1">Notes</label>
-                                            <input type="text" id="note-1-1" name="attribute_1" class="form-control"/>
+                                            <input type="text" id="note-1-1" name="attribute" class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-2 d-flex align-items-center mb-0">
                                             <a class="w-100 btn btn-label-danger text-danger mt-4" data-repeater-delete>
@@ -260,7 +260,7 @@
                                     <div class="row">
                                         <div class="mb-3 col-2 mb-0">
                                             <label class="form-label" for="incomplete_document-1-1">Types</label>
-                                            <input type="text" id="incomplete_document-1-1" name="attribute_1"
+                                            <input type="text" id="incomplete_document-1-1" name="attribute"
                                                    class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-8 mb-0">

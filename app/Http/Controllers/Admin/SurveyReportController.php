@@ -55,7 +55,10 @@ class SurveyReportController extends Controller
                 $surveyReports = SurveyReport::with('survey_address')->where('survey_address_id', $row->id)
                     ->first();
 
-                return view('admin.surveyReports._partials.reportActions', compact('surveyReports', 'row'));
+                $workflowRequestCredit = WorkflowRequestCredit::with('request_credit', 'process_status')
+                    ->where('request_credit_id', $row->request_credit_id)->first();
+
+                return view('admin.surveyReports._partials.reportActions', compact('surveyReports', 'workflowRequestCredit', 'row'));
             });
 
             $table->addColumn('request_credit_batch_number', function ($row) {
@@ -172,13 +175,14 @@ class SurveyReportController extends Controller
         return redirect()->route('admin.survey-reports.index');
     }
 
-    public function download(SurveyAddress $surveyAddress) {
+    public function download(SurveyAddress $surveyAddress)
+    {
         $surveyReport = SurveyReport::with('survey_attributes', 'survey_address', 'survey_address.surveyor')
             ->where('survey_address_id', $surveyAddress->id)->first();
 
         if ($surveyReport) {
             $pdf = Pdf::loadView('admin.printTemplates.surveyReport', compact('surveyReport'));
-            return $pdf->download('SURVEY-'.$surveyReport->created_at.'.pdf');
+            return $pdf->download('SURVEY-' . $surveyReport->created_at . '.pdf');
         }
 
         return response(null, Response::HTTP_NOT_FOUND);

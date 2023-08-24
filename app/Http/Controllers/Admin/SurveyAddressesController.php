@@ -38,7 +38,8 @@ class SurveyAddressesController extends Controller
                     ->get()->pluck('request_credit_id');
 
                 $query->whereIn('id', $requestCreditOnSurvey);
-            } else if (Gate::allows('request_credit_super') || Gate::allows('actor_surveyor_admin_access')) {
+            } else if (Gate::allows('request_credit_super') || Gate::allows('actor_surveyor_admin_access') ||
+                Gate::allows('actor_surveyor_access')) {
                 // do nothing
             } else {
                 $child = $this->tenantChildUser(User::with('roles')

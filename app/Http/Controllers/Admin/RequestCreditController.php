@@ -259,6 +259,7 @@ class RequestCreditController extends Controller
 
         $requestCredit->load('auto_planner', 'request_debtors', 'request_attributes');
 
+
         return view('admin.requestCredits.show', compact('requestCredit'));
     }
 

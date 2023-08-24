@@ -6,7 +6,7 @@
 <p style="margin-left: 20px;">1. &nbsp;Alamat Survey:</p>
 
 @foreach($surveyReport->survey_attributes->filter(function ($row) { return $row->object_name == 'survey_address'; }) as $items)
-    <p style="margin-left: 40px;">- &nbsp;{{$items->attribute_1}}: {{$items->attribute_2}}</p>
+    <p style="margin-left: 40px;">- &nbsp;{{$items->attribute}}: {{$items->attribute_2}}</p>
 @endforeach
 
 <p style="margin-left: 20px;">2. &nbsp;Akses Jalan dan Parkir
@@ -19,12 +19,12 @@
 
 <p style="margin-left: 20px;">5. &nbsp;Document yang Ditunjukan:</p>
 @foreach($surveyReport->survey_attributes->filter(function ($row) { return $row->object_name == 'document_attachment'; }) as $items)
-    <p style="margin-left: 40px;">- &nbsp;{{$items->attribute_1}}: {{$items->attribute_2}}</p>
+    <p style="margin-left: 40px;">- &nbsp;{{$items->attribute}}: {{$items->attribute_2}}</p>
 @endforeach
 
 <p style="margin-left: 20px;">6. &nbsp;Cek Lingkungan:</p>
 @foreach($surveyReport->survey_attributes->filter(function ($row) { return $row->object_name == 'environmental_check'; }) as $items)
-    <p style="margin-left: 40px;">- &nbsp;{{$items->attribute_1}}: {{$items->attribute_2}}</p>
+    <p style="margin-left: 40px;">- &nbsp;{{$items->attribute}}: {{$items->attribute_2}}</p>
 @endforeach
 
 <p style="margin-left: 20px;">7. &nbsp;Tempat Bekerja &nbsp;&mdash; {{ $surveyReport->survey_attributes->filter(function ($row) { return $row->object_name == 'office_note'; })->first()->attribute ?? '' }}</p>
@@ -32,14 +32,14 @@
 <p style="margin-left: 20px;">Note:</p>
 
 @foreach($surveyReport->survey_attributes->filter(function ($row) { return $row->object_name == 'note'; }) as $items)
-    <p style="margin-left: 40px;">- &nbsp;{{$items->attribute_1}}</p>
+    <p style="margin-left: 40px;">- &nbsp;{{$items->attribute}}</p>
 @endforeach
 
 <p style="margin-left: 20px;"><br></p>
 <p style="margin-left: 20px;">Data Kurang:</p>
 
 @foreach($surveyReport->survey_attributes->filter(function ($row) { return $row->object_name == 'incomplete_document'; }) as $items)
-    <p style="margin-left: 40px;">- &nbsp;{{$items->attribute_1}}: {{$items->attribute_2}}</p>
+    <p style="margin-left: 40px;">- &nbsp;{{$items->attribute}}: {{$items->attribute_2}}</p>
 @endforeach
 
 <p style="margin-left: 20px;"><br></p>
