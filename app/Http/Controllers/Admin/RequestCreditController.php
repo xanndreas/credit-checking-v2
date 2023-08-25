@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\CreditCheckingExport;
+use App\Http\Controllers\Api\V1\Admin\WorkflowRequestCreditHistoryApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Controllers\Traits\TenantTrait;
@@ -15,6 +16,7 @@ use App\Models\RequestCreditDebtor;
 use App\Models\RequestCreditHelp;
 use App\Models\User;
 use App\Models\WorkflowRequestCredit;
+use App\Models\WorkflowRequestCreditHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -259,8 +261,16 @@ class RequestCreditController extends Controller
 
         $requestCredit->load('auto_planner', 'request_debtors', 'request_attributes');
 
+        $workflowRequestCredit = WorkflowRequestCredit::with('request_credit')
+            ->where('request_credit_id', $requestCredit->id)->first();
 
-        return view('admin.requestCredits.show', compact('requestCredit'));
+        $workflowRequestCreditHistory = null;
+        if ($workflowRequestCredit) {
+            $workflowRequestCreditHistory = WorkflowRequestCreditHistory::with('workflow_request_credit', 'actor')
+                ->where('workflow_request_credit_id', $workflowRequestCredit->id)->get();
+        }
+
+        return view('admin.requestCredits.show', compact('requestCredit', 'workflowRequestCreditHistory', 'workflowRequestCredit'));
     }
 
     public function destroy(RequestCredit $requestCredit)
@@ -286,12 +296,14 @@ class RequestCreditController extends Controller
         if ($request->has('next')) {
             if ($request->has('process_notes') && $request->next == "false") {
                 if ($request->process_notes != null) {
-                    $this->submitActions(true, Auth::id(), $requestCredit->id, $request->process_notes);
+                    $this->submitActions(true, Auth::id(), $requestCredit->id, $request->process_notes, 'Pass');
                 } else {
-                    $this->submitActions(false, Auth::id(), $requestCredit->id, $request->process_notes);
+                    $this->submitActions(false, Auth::id(), $requestCredit->id, $request->process_notes, 'Pass');
                 }
-            } elseif ($request->next == "true") {
-                $this->submitActions(true, Auth::id(), $requestCredit->id);
+            } elseif ($request->next == "true" && $request->process_notes != null) {
+                $this->submitActions(true, Auth::id(), $requestCredit->id, $request->process_notes, 'Reject');
+            } else {
+                return response(null, Response::HTTP_BAD_REQUEST);
             }
 
             return redirect()->route('admin.request-credits.index');

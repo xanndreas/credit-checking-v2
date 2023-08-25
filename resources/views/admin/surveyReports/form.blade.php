@@ -14,9 +14,18 @@
 @section('page-script')
     <script src="{{asset('assets/js/admin/survey-reports.js')}}"></script>
     <script>
-        let uploadedAttachmentsMap = {}
+        let uploadedIdentityMap = {},
+            uploadedLegalityMap = {},
+            uploadedIncomeMap = {},
+            uploadedCheckingAccountMap = {},
+            uploadedHomePictureMap = {},
+            uploadedOfficePictureMap = {},
+            uploadedSlikMap = {},
+            uploadedBkrOfficePictureMap = {},
+            uploadedUnitRefinancingMap = {},
+            uploadedGuarantorMap = {};
 
-        Dropzone.options.attachmentsDropzone = {
+        Dropzone.options.identityDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
@@ -30,8 +39,8 @@
                 height: 40960
             },
             success: function (file, response) {
-                $('form').append('<input type="hidden" name="attachments[]" value="' + response.name + '">')
-                uploadedAttachmentsMap[file.name] = response.name
+                $('form').append('<input type="hidden" name="identity[]" value="' + response.name + '">')
+                uploadedIdentityMap[file.name] = response.name
             },
             removedfile: function (file) {
                 console.log(file)
@@ -40,13 +49,13 @@
                 if (typeof file.file_name !== 'undefined') {
                     name = file.file_name
                 } else {
-                    name = uploadedAttachmentsMap[file.name]
+                    name = uploadedIdentityMap[file.name]
                 }
-                $('form').find('input[name="attachments[]"][value="' + name + '"]').remove()
+                $('form').find('input[name="identity[]"][value="' + name + '"]').remove()
             },
             init: function () {
-                @if(isset($surveyReport) && $surveyReport->attachments)
-                let files = {!! json_encode($surveyReport->attachments) !!}
+                @if(isset($surveyReport) && $surveyReport->identity)
+                let files = {!! json_encode($surveyReport->identity) !!}
 
                 for(let
                 i in files
@@ -56,7 +65,7 @@
                     this.options.addedfile.call(this, file)
                     this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
                     file.previewElement.classList.add('dz-complete')
-                    $('form').append('<input type="hidden" name="attachments[]" value="' + file.file_name + '">')
+                    $('form').append('<input type="hidden" name="identity[]" value="' + file.file_name + '">')
                 }
 
                 @endif
@@ -78,6 +87,574 @@
                 return _results
             }
         }
+
+        Dropzone.options.legalityDropzone = {
+            url: '{{ route('admin.survey-reports.storeMedia') }}',
+            maxFilesize: 10, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 10,
+                width: 40960,
+                height: 40960
+            },
+            success: function (file, response) {
+                $('form').append('<input type="hidden" name="legality[]" value="' + response.name + '">')
+                uploadedLegalityMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                console.log(file)
+                file.previewElement.remove()
+                let name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedLegalityMap[file.name]
+                }
+                $('form').find('input[name="legality[]"][value="' + name + '"]').remove()
+            },
+            init: function () {
+                @if(isset($surveyReport) && $surveyReport->legality)
+                let files = {!! json_encode($surveyReport->legality) !!}
+
+                for(let
+                i in files
+            )
+                {
+                    let file = files[i]
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="legality[]" value="' + file.file_name + '">')
+                }
+
+                @endif
+            },
+            error: function (file, response) {
+                if ($.type(response) === 'string') {
+                    let message = response
+                } else {
+                    let message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+        Dropzone.options.incomeDropzone = {
+            url: '{{ route('admin.survey-reports.storeMedia') }}',
+            maxFilesize: 10, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 10,
+                width: 40960,
+                height: 40960
+            },
+            success: function (file, response) {
+                $('form').append('<input type="hidden" name="income[]" value="' + response.name + '">')
+                uploadedIncomeMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                console.log(file)
+                file.previewElement.remove()
+                let name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedIncomeMap[file.name]
+                }
+                $('form').find('input[name="income[]"][value="' + name + '"]').remove()
+            },
+            init: function () {
+                @if(isset($surveyReport) && $surveyReport->income)
+                let files = {!! json_encode($surveyReport->income) !!}
+
+                for(let
+                i in files
+            )
+                {
+                    let file = files[i]
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="income[]" value="' + file.file_name + '">')
+                }
+
+                @endif
+            },
+            error: function (file, response) {
+                if ($.type(response) === 'string') {
+                    let message = response
+                } else {
+                    let message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+        Dropzone.options.checking_accountDropzone = {
+            url: '{{ route('admin.survey-reports.storeMedia') }}',
+            maxFilesize: 10, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 10,
+                width: 40960,
+                height: 40960
+            },
+            success: function (file, response) {
+                $('form').append('<input type="hidden" name="checking_account[]" value="' + response.name + '">')
+                uploadedCheckingAccountMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                console.log(file)
+                file.previewElement.remove()
+                let name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedCheckingAccountMap[file.name]
+                }
+                $('form').find('input[name="checking_account[]"][value="' + name + '"]').remove()
+            },
+            init: function () {
+                @if(isset($surveyReport) && $surveyReport->checking_account)
+                let files = {!! json_encode($surveyReport->checking_account) !!}
+
+                for(let
+                i in files
+            )
+                {
+                    let file = files[i]
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="checking_account[]" value="' + file.file_name + '">')
+                }
+
+                @endif
+            },
+            error: function (file, response) {
+                if ($.type(response) === 'string') {
+                    let message = response
+                } else {
+                    let message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+        Dropzone.options.home_pictureDropzone = {
+            url: '{{ route('admin.survey-reports.storeMedia') }}',
+            maxFilesize: 10, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 10,
+                width: 40960,
+                height: 40960
+            },
+            success: function (file, response) {
+                $('form').append('<input type="hidden" name="home_picture[]" value="' + response.name + '">')
+                uploadedHomePictureMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                console.log(file)
+                file.previewElement.remove()
+                let name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedHomePictureMap[file.name]
+                }
+                $('form').find('input[name="home_picture[]"][value="' + name + '"]').remove()
+            },
+            init: function () {
+                @if(isset($surveyReport) && $surveyReport->home_picture)
+                let files = {!! json_encode($surveyReport->home_picture) !!}
+
+                for(let
+                i in files
+            )
+                {
+                    let file = files[i]
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="home_picture[]" value="' + file.file_name + '">')
+                }
+
+                @endif
+            },
+            error: function (file, response) {
+                if ($.type(response) === 'string') {
+                    let message = response
+                } else {
+                    let message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+        Dropzone.options.office_pictureDropzone = {
+            url: '{{ route('admin.survey-reports.storeMedia') }}',
+            maxFilesize: 10, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 10,
+                width: 40960,
+                height: 40960
+            },
+            success: function (file, response) {
+                $('form').append('<input type="hidden" name="office_picture[]" value="' + response.name + '">')
+                uploadedOfficePicturesMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                console.log(file)
+                file.previewElement.remove()
+                let name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedOfficePicturesMap[file.name]
+                }
+                $('form').find('input[name="office_picture[]"][value="' + name + '"]').remove()
+            },
+            init: function () {
+                @if(isset($surveyReport) && $surveyReport->office_picture)
+                let files = {!! json_encode($surveyReport->office_picture) !!}
+
+                for(let
+                i in files
+            )
+                {
+                    let file = files[i]
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="office_picture[]" value="' + file.file_name + '">')
+                }
+
+                @endif
+            },
+            error: function (file, response) {
+                if ($.type(response) === 'string') {
+                    let message = response
+                } else {
+                    let message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+        Dropzone.options.slikDropzone = {
+            url: '{{ route('admin.survey-reports.storeMedia') }}',
+            maxFilesize: 10, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 10,
+                width: 40960,
+                height: 40960
+            },
+            success: function (file, response) {
+                $('form').append('<input type="hidden" name="slik[]" value="' + response.name + '">')
+                uploadedSliksMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                console.log(file)
+                file.previewElement.remove()
+                let name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedSliksMap[file.name]
+                }
+                $('form').find('input[name="slik[]"][value="' + name + '"]').remove()
+            },
+            init: function () {
+                @if(isset($surveyReport) && $surveyReport->slik)
+                let files = {!! json_encode($surveyReport->slik) !!}
+
+                for(let
+                i in files
+            )
+                {
+                    let file = files[i]
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="slik[]" value="' + file.file_name + '">')
+                }
+
+                @endif
+            },
+            error: function (file, response) {
+                if ($.type(response) === 'string') {
+                    let message = response
+                } else {
+                    let message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+        Dropzone.options.bkr_office_pictureDropzone = {
+            url: '{{ route('admin.survey-reports.storeMedia') }}',
+            maxFilesize: 10, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 10,
+                width: 40960,
+                height: 40960
+            },
+            success: function (file, response) {
+                $('form').append('<input type="hidden" name="bkr_office_picture[]" value="' + response.name + '">')
+                uploadedBkrOfficePicturesMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                console.log(file)
+                file.previewElement.remove()
+                let name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedBkrOfficePicturesMap[file.name]
+                }
+                $('form').find('input[name="bkr_office_picture[]"][value="' + name + '"]').remove()
+            },
+            init: function () {
+                @if(isset($surveyReport) && $surveyReport->bkr_office_picture)
+                let files = {!! json_encode($surveyReport->bkr_office_picture) !!}
+
+                for(let
+                i in files
+            )
+                {
+                    let file = files[i]
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="bkr_office_picture[]" value="' + file.file_name + '">')
+                }
+
+                @endif
+            },
+            error: function (file, response) {
+                if ($.type(response) === 'string') {
+                    let message = response
+                } else {
+                    let message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+        Dropzone.options.unit_refinancingDropzone = {
+            url: '{{ route('admin.survey-reports.storeMedia') }}',
+            maxFilesize: 10, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 10,
+                width: 40960,
+                height: 40960
+            },
+            success: function (file, response) {
+                $('form').append('<input type="hidden" name="unit_refinancing[]" value="' + response.name + '">')
+                uploadedUnitRefinancingsMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                console.log(file)
+                file.previewElement.remove()
+                let name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedUnitRefinancingsMap[file.name]
+                }
+                $('form').find('input[name="unit_refinancing[]"][value="' + name + '"]').remove()
+            },
+            init: function () {
+                @if(isset($surveyReport) && $surveyReport->unit_refinancing)
+                let files = {!! json_encode($surveyReport->unit_refinancing) !!}
+
+                for(let
+                i in files
+            )
+                {
+                    let file = files[i]
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="unit_refinancing[]" value="' + file.file_name + '">')
+                }
+
+                @endif
+            },
+            error: function (file, response) {
+                if ($.type(response) === 'string') {
+                    let message = response
+                } else {
+                    let message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+        Dropzone.options.guarantorDropzone = {
+            url: '{{ route('admin.survey-reports.storeMedia') }}',
+            maxFilesize: 10, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 10,
+                width: 40960,
+                height: 40960
+            },
+            success: function (file, response) {
+                $('form').append('<input type="hidden" name="guarantor[]" value="' + response.name + '">')
+                uploadedGuarantorMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                console.log(file)
+                file.previewElement.remove()
+                let name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedGuarantorMap[file.name]
+                }
+                $('form').find('input[name="guarantor[]"][value="' + name + '"]').remove()
+            },
+            init: function () {
+                @if(isset($surveyReport) && $surveyReport->guarantor)
+                let files = {!! json_encode($surveyReport->guarantor) !!}
+
+                for(let
+                i in files
+            )
+                {
+                    let file = files[i]
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="guarantor[]" value="' + file.file_name + '">')
+                }
+
+                @endif
+            },
+            error: function (file, response) {
+                if ($.type(response) === 'string') {
+                    let message = response
+                } else {
+                    let message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
     </script>
 @endsection
 
@@ -287,8 +864,9 @@
                         <div class="mb-3 col-sm-12">
                             <label class="required"
                                    for="attachments">Attachments</label>
-                            <div class="needsclick dropzone form-control {{ $errors->has('attachments') ? 'is-invalid' : '' }}"
-                                 id="attachments-dropzone">
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('attachments') ? 'is-invalid' : '' }}"
+                                id="attachments-dropzone">
                             </div>
                             @if($errors->has('attachments'))
                                 <div class="invalid-feedback">

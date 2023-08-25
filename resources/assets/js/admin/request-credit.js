@@ -174,7 +174,7 @@ $(function () {
         window.location.href = '/admin/request-credits/' + row.id;
     });
 
-    tbodySelector.on('click', 'td:eq(7)', (event) => {
+    tbodySelector.on('click', 'td:nth-child(8)', (event) => {
         let row = table.row(event.currentTarget).data();
         $('.reason-form').attr('action', 'request-credits/' + row.id + '/approvals')
     });

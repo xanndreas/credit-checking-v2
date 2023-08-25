@@ -95,5 +95,6 @@
         </div>
     </div>
     @include('admin.requestCredits._partials.reason')
+    @include('admin.requestCredits._partials.reasonApprove')
 @endsection
 

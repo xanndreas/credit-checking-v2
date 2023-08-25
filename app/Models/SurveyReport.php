@@ -17,7 +17,16 @@ class SurveyReport extends Model implements HasMedia
     public $table = 'survey_reports';
 
     protected $appends = [
-        'attachments',
+        'identity',
+        'legality',
+        'income',
+        'checking_account',
+        'home_picture',
+        'office_picture',
+        'slik',
+        'bkr_office_picture',
+        'unit_refinancing',
+        'guarantor',
     ];
 
     protected $dates = [
@@ -65,10 +74,108 @@ class SurveyReport extends Model implements HasMedia
     {
         return $this->belongsTo(User::class, 'submited_by_id');
     }
-
-    public function getAttachmentsAttribute()
+    public function getIdentityAttribute()
     {
-        $files = $this->getMedia('attachments');
+        $files = $this->getMedia('identity');
+        $files->each(function ($item) {
+            $item->url = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
+            $item->preview = $item->getUrl('preview');
+        });
+
+        return $files;
+    }
+    public function getLegalityAttribute()
+    {
+        $files = $this->getMedia('legality');
+        $files->each(function ($item) {
+            $item->url = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
+            $item->preview = $item->getUrl('preview');
+        });
+
+        return $files;
+    }
+    public function getIncomeAttribute()
+    {
+        $files = $this->getMedia('income');
+        $files->each(function ($item) {
+            $item->url = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
+            $item->preview = $item->getUrl('preview');
+        });
+
+        return $files;
+    }
+    public function getCheckingAccountAttribute()
+    {
+        $files = $this->getMedia('checking_account');
+        $files->each(function ($item) {
+            $item->url = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
+            $item->preview = $item->getUrl('preview');
+        });
+
+        return $files;
+    }
+    public function getHomePictureAttribute()
+    {
+        $files = $this->getMedia('home_picture');
+        $files->each(function ($item) {
+            $item->url = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
+            $item->preview = $item->getUrl('preview');
+        });
+
+        return $files;
+    }
+    public function getOfficePictureAttribute()
+    {
+        $files = $this->getMedia('office_picture');
+        $files->each(function ($item) {
+            $item->url = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
+            $item->preview = $item->getUrl('preview');
+        });
+
+        return $files;
+    }
+    public function getSlikAttribute()
+    {
+        $files = $this->getMedia('slik');
+        $files->each(function ($item) {
+            $item->url = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
+            $item->preview = $item->getUrl('preview');
+        });
+
+        return $files;
+    }
+    public function getBkrOfficePictureAttribute()
+    {
+        $files = $this->getMedia('bkr_office_picture');
+        $files->each(function ($item) {
+            $item->url = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
+            $item->preview = $item->getUrl('preview');
+        });
+
+        return $files;
+    }
+    public function getUnitRefinancingAttribute()
+    {
+        $files = $this->getMedia('unit_refinancing');
+        $files->each(function ($item) {
+            $item->url = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
+            $item->preview = $item->getUrl('preview');
+        });
+
+        return $files;
+    }
+    public function getGuarantorAttribute()
+    {
+        $files = $this->getMedia('guarantor');
         $files->each(function ($item) {
             $item->url = $item->getUrl();
             $item->thumbnail = $item->getUrl('thumb');
