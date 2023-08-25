@@ -112,8 +112,6 @@
                                 @endforeach
                             </td>
                         </tr>
-                        
-
 
                         </tbody>
                     </table>

@@ -4,20 +4,22 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
+use App\Http\Controllers\Traits\TenantTrait;
 use App\Http\Requests\MassDestroyUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
-use Gate;
+use App\Models\UserTenant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
 class UsersController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, TenantTrait;
 
     public function index(Request $request)
     {
@@ -139,11 +141,47 @@ class UsersController extends Controller
         return redirect()->route('admin.users.index');
     }
 
-    public function show(User $user)
+    public function show(User $user, Request $request)
     {
         abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->load('roles');
+        if ($request->ajax()) {
+
+            $teamTree = [[
+                'tt_key' => $user->id,
+                'tt_parent' => 0,
+                'name' => $user->name,
+                'email' => $user->email,
+                'email_verified_at' => $user->email_verified_at,
+                'status' => $user->approved == 1 ? 'Active' : 'Inactive',
+                'roles' => $user->roles->first()->title,
+                'children' => []
+            ]];
+
+            $users = User::with(['roles'])->whereIn('id', $this->tenantChildUserTree($user->id))->get();
+            foreach ($users as $user) {
+                $parent = UserTenant::with('user')
+                    ->where('user_id', $user->id)
+                    ->where('parent_id', '!=', null)
+                    ->first();
+
+                $teamTree[] = [
+                    'tt_key' => $user->id,
+                    'tt_parent' => $parent ? $parent->parent_id : 0,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'email_verified_at' => $user->email_verified_at,
+                    'status' => $user->approved == 1 ? 'Active' : 'Inactive',
+                    'roles' => $user->roles->first()->title,
+                    'children' => []
+                ];
+            }
+
+            $teamTreeOrderChild = $this->unflattering($teamTree);
+            $teamTreeFlatten = $this->flattenArray($teamTreeOrderChild);
+
+            return response()->json($teamTreeFlatten);
+        }
 
         return view('admin.users.show', compact('user'));
     }

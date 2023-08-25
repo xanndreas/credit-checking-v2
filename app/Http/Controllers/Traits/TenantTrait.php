@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Traits;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserTenant;
 
 trait TenantTrait
 {
@@ -61,6 +62,60 @@ trait TenantTrait
         }
 
         return $tenantChild;
+    }
+
+    public function tenantChildUserTree($parentId)
+    {
+        $userIds = [];
+
+        $userTenant = UserTenant::with('user')
+            ->where('parent_id', $parentId)
+            ->get();
+
+        foreach ($userTenant as $user) {
+            $userIds[] = $user->user_id;
+            $childUserIds = $this->tenantChildUserTree($user->user_id);
+            $userIds = array_merge($userIds, $childUserIds);
+        }
+
+        return $userIds;
+    }
+
+    function flattenArray($array, &$result = [])
+    {
+        foreach ($array as $value) {
+            $result[] = array_diff_key($value, array_flip(["children"]));
+
+            if (isset($value['children']) && is_array($value['children'])) {
+                $this->flattenArray($value['children'], $result);
+            }
+        }
+
+        return $result;
+    }
+
+    function unflattering($flatArray): array
+    {
+        $refs = array();
+        $result = array();
+
+        while (count($flatArray) > 0) {
+            for ($i = count($flatArray) - 1; $i >= 0; $i--) {
+                if ($flatArray[$i]["tt_parent"] == 0) {
+                    $result[$flatArray[$i]["tt_key"]] = $flatArray[$i];
+                    $refs[$flatArray[$i]["tt_key"]] = &$result[$flatArray[$i]["tt_key"]];
+                    unset($flatArray[$i]);
+                    $flatArray = array_values($flatArray);
+                } else if (array_key_exists($flatArray[$i]["tt_parent"], $refs)) {
+                    $o = $flatArray[$i];
+                    $refs[$flatArray[$i]["tt_key"]] = $o;
+                    $refs[$flatArray[$i]["tt_parent"]]["children"][] = &$refs[$flatArray[$i]["tt_key"]];
+                    unset($flatArray[$i]);
+                    $flatArray = array_values($flatArray);
+                }
+            }
+        }
+        return $result;
     }
 
 }
