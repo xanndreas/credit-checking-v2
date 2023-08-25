@@ -29,6 +29,8 @@
 
                 <div class="card-body">
                     <table class="table table-responsive table-striped mb-3">
+                        <input id="credit_type" type="hidden" value="{{ $requestCredit->credit_type }}">
+
                         <tbody>
                         <tr class="table-primary">
                             <th class="w-25 fw-bold" colspan="2">

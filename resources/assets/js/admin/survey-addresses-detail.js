@@ -9,7 +9,7 @@ $(function () {
     let rowSurveyAddress = 2;
     let colSurveyAddress = 1;
 
-    $('.survey_address-repeater').repeater({
+    let surveyAddressRepeater = $('.survey_address-repeater').repeater({
         show: function () {
             let fromControl = $(this).find('.form-control, .form-select');
             let formLabel = $(this).find('.form-label');
@@ -30,6 +30,28 @@ $(function () {
             confirm('Are you sure you want to delete this element?') && $(this).slideUp(e);
         }
     });
+
+    let surveyAddressInit = null;
+    if (surveyAddressRepeater !== 'undefined') {
+        let creditType = $('#credit_type').val();
+        if (creditType === 'individu') {
+            surveyAddressInit = [{
+                'address_type': 'domicile',
+            }, {
+                'address_type': 'guarantor',
+            }, {
+                'address_type': 'office',
+            }];
+        } else if (creditType === 'badan_usaha') {
+            surveyAddressInit = [{
+                'address_type': 'shareholder',
+            }, {
+                'address_type': 'office',
+            }];
+        }
+    }
+
+    surveyAddressRepeater.setList(surveyAddressInit);
 
     $('.btn-assign').on('click', function () {
         $('.request_credit_id').val($(this).data('request-credit-id'));

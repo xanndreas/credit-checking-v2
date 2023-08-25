@@ -29,11 +29,13 @@ class SurveyAddress extends Model
         'domicile' => 'Domicile',
         'gurantor' => 'Guarantor',
         'office'   => 'Office',
+        'other'    => 'Other',
     ];
 
     public const ADDRESS_TYPE_SELECT_BUSINESS = [
         'office'        => 'Office',
         'shareholder'   => 'Shareholders',
+        'other'         => 'Other',
     ];
 
     protected $fillable = [
