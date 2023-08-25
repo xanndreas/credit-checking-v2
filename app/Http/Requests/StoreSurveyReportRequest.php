@@ -33,9 +33,6 @@ class StoreSurveyReportRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'attachments' => [
-                'required',
-            ],
             'survey_address' => [
                 'array',
             ],
@@ -49,6 +46,46 @@ class StoreSurveyReportRequest extends FormRequest
                 'array',
             ],
             'incomplete_document' => [
+                'array',
+                'required',
+            ],
+            'identity' => [
+                'array',
+                'required',
+            ],
+            'legality' => [
+                'required',
+                'array',
+            ],
+            'income' => [
+                'required',
+                'array',
+            ],
+            'checking_account' => [
+                'required',
+                'array',
+            ],
+            'home_picture' => [
+                'required',
+                'array',
+            ],
+            'office_picture' => [
+                'required',
+                'array',
+            ],
+            'slik' => [
+                'required',
+                'array',
+            ],
+            'bkr_office_picture' => [
+                'required',
+                'array',
+            ],
+            'unit_refinancing' => [
+                'array',
+            ],
+            'guarantor' => [
+                'required',
                 'array',
             ],
 

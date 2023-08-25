@@ -45,8 +45,63 @@
 <p style="margin-left: 20px;"><br></p>
 <p style="margin-left: 20px;">Lampiran Gambar:</p>
 
-@if($surveyReport->attachments)
-    @foreach($surveyReport->attachments as $items)
+@if($surveyReport->identity)
+    @foreach($surveyReport->identity as $items)
         <p style="margin-left: 40px;">- &nbsp; {{ $items->getUrl() }}</p>
     @endforeach
 @endif
+
+@if($surveyReport->legality)
+    @foreach($surveyReport->legality as $items)
+        <p style="margin-left: 40px;">- &nbsp; {{ $items->getUrl() }}</p>
+    @endforeach
+@endif
+
+@if($surveyReport->income)
+    @foreach($surveyReport->income as $items)
+        <p style="margin-left: 40px;">- &nbsp; {{ $items->getUrl() }}</p>
+    @endforeach
+@endif
+
+@if($surveyReport->checking_account)
+    @foreach($surveyReport->checking_account as $items)
+        <p style="margin-left: 40px;">- &nbsp; {{ $items->getUrl() }}</p>
+    @endforeach
+@endif
+
+@if($surveyReport->home_picture)
+    @foreach($surveyReport->home_picture as $items)
+        <p style="margin-left: 40px;">- &nbsp; {{ $items->getUrl() }}</p>
+    @endforeach
+@endif
+
+@if($surveyReport->office_picture)
+    @foreach($surveyReport->office_picture as $items)
+        <p style="margin-left: 40px;">- &nbsp; {{ $items->getUrl() }}</p>
+    @endforeach
+@endif
+
+@if($surveyReport->slik)
+    @foreach($surveyReport->slik as $items)
+        <p style="margin-left: 40px;">- &nbsp; {{ $items->getUrl() }}</p>
+    @endforeach
+@endif
+
+@if($surveyReport->bkr_office_picture)
+    @foreach($surveyReport->bkr_office_picture as $items)
+        <p style="margin-left: 40px;">- &nbsp; {{ $items->getUrl() }}</p>
+    @endforeach
+@endif
+
+@if($surveyReport->unit_refinancing)
+    @foreach($surveyReport->unit_refinancing as $items)
+        <p style="margin-left: 40px;">- &nbsp; {{ $items->getUrl() }}</p>
+    @endforeach
+@endif
+
+@if($surveyReport->guarantor)
+    @foreach($surveyReport->guarantor as $items)
+        <p style="margin-left: 40px;">- &nbsp; {{ $items->getUrl() }}</p>
+    @endforeach
+@endif
+

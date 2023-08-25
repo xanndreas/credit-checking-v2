@@ -17,6 +17,16 @@ class CustomPathGenerator implements PathGenerator
             'npwp_photos' => '/NPWP/',
             'other_photos' => '/Others/',
             'attachments' => '/Attachments/',
+            'identity' => '/Identity/',
+            'legality' => '/Legality/',
+            'income' => '/Income/',
+            'checking_account' => '/CheckingAccout/',
+            'home_picture' => '/HomePicture/',
+            'office_picture' => '/OfficePicture/',
+            'slik' => '/Slik/',
+            'bkr_office_picture' => '/BkrOfficePicture/',
+            'unit_refinancing' => '/UnitRefinancing/',
+            'guarantor' => '/Guarantor/'
         };
 
         return $mediaPath;

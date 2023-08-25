@@ -214,7 +214,7 @@
             }
         }
 
-        Dropzone.options.checking_accountDropzone = {
+        Dropzone.options.checkingAccountDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
@@ -277,7 +277,7 @@
             }
         }
 
-        Dropzone.options.home_pictureDropzone = {
+        Dropzone.options.homePictureDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
@@ -340,7 +340,7 @@
             }
         }
 
-        Dropzone.options.office_pictureDropzone = {
+        Dropzone.options.officePictureDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
@@ -355,7 +355,7 @@
             },
             success: function (file, response) {
                 $('form').append('<input type="hidden" name="office_picture[]" value="' + response.name + '">')
-                uploadedOfficePicturesMap[file.name] = response.name
+                uploadedOfficePictureMap[file.name] = response.name
             },
             removedfile: function (file) {
                 console.log(file)
@@ -364,7 +364,7 @@
                 if (typeof file.file_name !== 'undefined') {
                     name = file.file_name
                 } else {
-                    name = uploadedOfficePicturesMap[file.name]
+                    name = uploadedOfficePictureMap[file.name]
                 }
                 $('form').find('input[name="office_picture[]"][value="' + name + '"]').remove()
             },
@@ -418,7 +418,7 @@
             },
             success: function (file, response) {
                 $('form').append('<input type="hidden" name="slik[]" value="' + response.name + '">')
-                uploadedSliksMap[file.name] = response.name
+                uploadedSlikMap[file.name] = response.name
             },
             removedfile: function (file) {
                 console.log(file)
@@ -427,7 +427,7 @@
                 if (typeof file.file_name !== 'undefined') {
                     name = file.file_name
                 } else {
-                    name = uploadedSliksMap[file.name]
+                    name = uploadedSlikMap[file.name]
                 }
                 $('form').find('input[name="slik[]"][value="' + name + '"]').remove()
             },
@@ -466,7 +466,7 @@
             }
         }
 
-        Dropzone.options.bkr_office_pictureDropzone = {
+        Dropzone.options.bkrOfficePictureDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
@@ -481,7 +481,7 @@
             },
             success: function (file, response) {
                 $('form').append('<input type="hidden" name="bkr_office_picture[]" value="' + response.name + '">')
-                uploadedBkrOfficePicturesMap[file.name] = response.name
+                uploadedBkrOfficePictureMap[file.name] = response.name
             },
             removedfile: function (file) {
                 console.log(file)
@@ -490,7 +490,7 @@
                 if (typeof file.file_name !== 'undefined') {
                     name = file.file_name
                 } else {
-                    name = uploadedBkrOfficePicturesMap[file.name]
+                    name = uploadedBkrOfficePictureMap[file.name]
                 }
                 $('form').find('input[name="bkr_office_picture[]"][value="' + name + '"]').remove()
             },
@@ -529,7 +529,7 @@
             }
         }
 
-        Dropzone.options.unit_refinancingDropzone = {
+        Dropzone.options.unitRefinancingDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
@@ -544,7 +544,7 @@
             },
             success: function (file, response) {
                 $('form').append('<input type="hidden" name="unit_refinancing[]" value="' + response.name + '">')
-                uploadedUnitRefinancingsMap[file.name] = response.name
+                uploadedUnitRefinancingMap[file.name] = response.name
             },
             removedfile: function (file) {
                 console.log(file)
@@ -553,7 +553,7 @@
                 if (typeof file.file_name !== 'undefined') {
                     name = file.file_name
                 } else {
-                    name = uploadedUnitRefinancingsMap[file.name]
+                    name = uploadedUnitRefinancingMap[file.name]
                 }
                 $('form').find('input[name="unit_refinancing[]"][value="' + name + '"]').remove()
             },
@@ -863,14 +863,131 @@
                         </div>
                         <div class="mb-3 col-sm-12">
                             <label class="required"
-                                   for="attachments">Attachments</label>
+                                   for="identity">Identity</label>
                             <div
-                                class="needsclick dropzone form-control {{ $errors->has('attachments') ? 'is-invalid' : '' }}"
-                                id="attachments-dropzone">
+                                class="needsclick dropzone form-control {{ $errors->has('identity') ? 'is-invalid' : '' }}"
+                                id="identity-dropzone">
                             </div>
-                            @if($errors->has('attachments'))
+                            @if($errors->has('identity'))
                                 <div class="invalid-feedback">
-                                    {{ $errors->first('attachments') }}
+                                    {{ $errors->first('identity') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <label class="required"
+                                   for="legality">Legality</label>
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('legality') ? 'is-invalid' : '' }}"
+                                id="legality-dropzone">
+                            </div>
+                            @if($errors->has('legality'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('legality') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <label class="required"
+                                   for="income">Income</label>
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('income') ? 'is-invalid' : '' }}"
+                                id="income-dropzone">
+                            </div>
+                            @if($errors->has('income'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('income') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <label class="required"
+                                   for="checking_account">Checking Account</label>
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('checking_account') ? 'is-invalid' : '' }}"
+                                id="checking_account-dropzone">
+                            </div>
+                            @if($errors->has('checking_account'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('checking_account') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <label class="required"
+                                   for="home_picture">Home Picture</label>
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('home_picture') ? 'is-invalid' : '' }}"
+                                id="home_picture-dropzone">
+                            </div>
+                            @if($errors->has('home_picture'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('home_picture') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <label class="required"
+                                   for="office_picture">Office Picture</label>
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('office_picture') ? 'is-invalid' : '' }}"
+                                id="office_picture-dropzone">
+                            </div>
+                            @if($errors->has('office_picture'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('office_picture') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <label class="required"
+                                   for="slik">SLIK</label>
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('slik') ? 'is-invalid' : '' }}"
+                                id="slik-dropzone">
+                            </div>
+                            @if($errors->has('slik'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('slik') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <label class="required"
+                                   for="bkr_office_picture">BKR/Office Picture</label>
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('bkr_office_picture') ? 'is-invalid' : '' }}"
+                                id="bkr_office_picture-dropzone">
+                            </div>
+                            @if($errors->has('bkr_office_picture'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('bkr_office_picture') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <label class="required"
+                                   for="unit_refinancing">Unit Refinancing</label>
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('unit_refinancing') ? 'is-invalid' : '' }}"
+                                id="unit_refinancing-dropzone">
+                            </div>
+                            @if($errors->has('unit_refinancing'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('unit_refinancing') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <label class="required"
+                                   for="guarantor">Guarantor Images</label>
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('guarantor') ? 'is-invalid' : '' }}"
+                                id="guarantor-dropzone">
+                            </div>
+                            @if($errors->has('guarantor'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('guarantor') }}
                                 </div>
                             @endif
                         </div>

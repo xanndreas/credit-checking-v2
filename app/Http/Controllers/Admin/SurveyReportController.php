@@ -165,9 +165,54 @@ class SurveyReportController extends Controller
             }
         }
 
-        foreach ($request->input('attachments', []) as $file) {
+        foreach ($request->input('identity', []) as $file) {
             $surveyReport->addMedia(storage_path('tmp/uploads/' . basename($file)))
-                ->toMediaCollection('attachments');
+                ->toMediaCollection('identity');
+        }
+
+        foreach ($request->input('legality', []) as $file) {
+            $surveyReport->addMedia(storage_path('tmp/uploads/' . basename($file)))
+                ->toMediaCollection('legality');
+        }
+
+        foreach ($request->input('income', []) as $file) {
+            $surveyReport->addMedia(storage_path('tmp/uploads/' . basename($file)))
+                ->toMediaCollection('income');
+        }
+
+        foreach ($request->input('checking_account', []) as $file) {
+            $surveyReport->addMedia(storage_path('tmp/uploads/' . basename($file)))
+                ->toMediaCollection('checking_account');
+        }
+
+        foreach ($request->input('home_picture', []) as $file) {
+            $surveyReport->addMedia(storage_path('tmp/uploads/' . basename($file)))
+                ->toMediaCollection('home_picture');
+        }
+
+        foreach ($request->input('office_picture', []) as $file) {
+            $surveyReport->addMedia(storage_path('tmp/uploads/' . basename($file)))
+                ->toMediaCollection('office_picture');
+        }
+
+        foreach ($request->input('slik', []) as $file) {
+            $surveyReport->addMedia(storage_path('tmp/uploads/' . basename($file)))
+                ->toMediaCollection('slik');
+        }
+
+        foreach ($request->input('bkr_office_picture', []) as $file) {
+            $surveyReport->addMedia(storage_path('tmp/uploads/' . basename($file)))
+                ->toMediaCollection('bkr_office_picture');
+        }
+
+        foreach ($request->input('unit_refinancing', []) as $file) {
+            $surveyReport->addMedia(storage_path('tmp/uploads/' . basename($file)))
+                ->toMediaCollection('unit_refinancing');
+        }
+
+        foreach ($request->input('guarantor', []) as $file) {
+            $surveyReport->addMedia(storage_path('tmp/uploads/' . basename($file)))
+                ->toMediaCollection('guarantor');
         }
 
         $surveyReport->survey_attributes()->sync($surveyReportAttributeId);
@@ -177,6 +222,7 @@ class SurveyReportController extends Controller
 
     public function download(SurveyAddress $surveyAddress)
     {
+
         $surveyReport = SurveyReport::with('survey_attributes', 'survey_address', 'survey_address.surveyor')
             ->where('survey_address_id', $surveyAddress->id)->first();
 
