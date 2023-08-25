@@ -178,7 +178,7 @@
                                                             <select
                                                                 class="form-control {{ $errors->has('address_type') ? 'is-invalid' : '' }}"
                                                                 name="address_type" id="address_type" required>
-                                                                @foreach(\App\Models\SurveyAddress::ADDRESS_TYPE_SELECT as $id => $label)
+                                                                @foreach($surveyAddressesSelect as $id => $label)
                                                                     <option
                                                                         value="{{ $id }}" {{ $id == old('address_type', '') ? 'selected' : '' }}>{{ $label }}</option>
                                                                 @endforeach

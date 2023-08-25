@@ -161,7 +161,12 @@ class SurveyAddressesController extends Controller
         $user = User::with('roles', 'roles.permissions')
             ->whereRelation('roles.permissions', 'title', 'actor_surveyor_access')->get();
 
-        return view('admin.surveyAddresses.show', compact('requestCredit', 'surveyAddresses', 'workflowRequestCredit', 'user'));
+
+        $surveyAddressesSelect = $requestCredit->credit_type == 'individu' ? SurveyAddress::ADDRESS_TYPE_SELECT_PERSONAL :
+            SurveyAddress::ADDRESS_TYPE_SELECT_BUSINESS;
+
+
+        return view('admin.surveyAddresses.show', compact('requestCredit', 'surveyAddresses', 'surveyAddressesSelect', 'workflowRequestCredit', 'user'));
     }
 
     public function processSurvey(RequestCredit $requestCredit, Request $request)

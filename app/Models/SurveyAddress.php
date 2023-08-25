@@ -25,6 +25,17 @@ class SurveyAddress extends Model
         'office'   => 'Office',
     ];
 
+    public const ADDRESS_TYPE_SELECT_PERSONAL = [
+        'domicile' => 'Domicile',
+        'gurantor' => 'Guarantor',
+        'office'   => 'Office',
+    ];
+
+    public const ADDRESS_TYPE_SELECT_BUSINESS = [
+        'office'        => 'Office',
+        'shareholder'   => 'Shareholders',
+    ];
+
     protected $fillable = [
         'request_credit_id',
         'address_type',
