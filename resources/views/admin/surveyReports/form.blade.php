@@ -688,7 +688,7 @@
                                         </div>
                                         <div class="mb-3 col-4 mb-0">
                                             <label class="form-label" for="survey_address-1-2">Catatan</label>
-                                            <input type="text" id="survey_address-1-2" name="attribute_2"
+                                            <input type="text" id="survey_address-1-3" name="attribute_3"
                                                    class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-2 d-flex align-items-center mb-0">
@@ -862,8 +862,7 @@
                             </div>
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required"
-                                   for="identity">Identity</label>
+                            <label class="required">Identity</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('identity') ? 'is-invalid' : '' }}"
                                 id="identity-dropzone">
@@ -875,8 +874,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required"
-                                   for="legality">Legality</label>
+                            <label class="required">Legality</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('legality') ? 'is-invalid' : '' }}"
                                 id="legality-dropzone">
@@ -888,8 +886,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required"
-                                   for="income">Income</label>
+                            <label class="required">Income</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('income') ? 'is-invalid' : '' }}"
                                 id="income-dropzone">
@@ -901,8 +898,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required"
-                                   for="checking_account">Checking Account</label>
+                            <label class="required">Checking Account</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('checking_account') ? 'is-invalid' : '' }}"
                                 id="checking_account-dropzone">
@@ -914,8 +910,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required"
-                                   for="home_picture">Home Picture</label>
+                            <label class="required">Home Picture</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('home_picture') ? 'is-invalid' : '' }}"
                                 id="home_picture-dropzone">
@@ -927,8 +922,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required"
-                                   for="office_picture">Office Picture</label>
+                            <label class="required">Office Picture</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('office_picture') ? 'is-invalid' : '' }}"
                                 id="office_picture-dropzone">
@@ -940,8 +934,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required"
-                                   for="slik">SLIK</label>
+                            <label class="required">SLIK</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('slik') ? 'is-invalid' : '' }}"
                                 id="slik-dropzone">
@@ -953,8 +946,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required"
-                                   for="bkr_office_picture">BKR/Office Picture</label>
+                            <label class="required">BKR/Office Picture</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('bkr_office_picture') ? 'is-invalid' : '' }}"
                                 id="bkr_office_picture-dropzone">
@@ -966,8 +958,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required"
-                                   for="unit_refinancing">Unit Refinancing</label>
+                            <label class="required">Unit Refinancing</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('unit_refinancing') ? 'is-invalid' : '' }}"
                                 id="unit_refinancing-dropzone">
@@ -979,8 +970,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required"
-                                   for="guarantor">Guarantor Images</label>
+                            <label class="required">Guarantor Images</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('guarantor') ? 'is-invalid' : '' }}"
                                 id="guarantor-dropzone">

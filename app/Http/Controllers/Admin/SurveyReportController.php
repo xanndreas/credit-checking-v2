@@ -76,7 +76,7 @@ class SurveyReportController extends Controller
             });
 
             $table->editColumn('address_type', function ($row) {
-                return $row->address_type ? SurveyAddress::ADDRESS_TYPE_SELECT[$row->address_type] : '';
+                return $row->address_type ? (SurveyAddress::ADDRESS_TYPE_SELECT[$row->address_type] ?? '') : '';
             });
 
             $table->editColumn('addresses', function ($row) {
