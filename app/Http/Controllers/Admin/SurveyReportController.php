@@ -102,7 +102,8 @@ class SurveyReportController extends Controller
         return view('admin.surveyReports.form', compact('surveyAddress'));
     }
 
-    public function store(SurveyAddress $surveyAddress, StoreSurveyReportRequest $request)
+    // public function store(SurveyAddress $surveyAddress, StoreSurveyReportRequest $request)
+    public function store(SurveyAddress $surveyAddress, Request $request)
     {
         $surveyReport = SurveyReport::create([
             'request_credit_id' => $surveyAddress->request_credit_id,

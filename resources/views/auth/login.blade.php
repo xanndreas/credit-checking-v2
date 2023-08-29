@@ -34,7 +34,7 @@
             <div class="d-none d-lg-flex col-lg-7 p-0">
                 <div class="auth-cover-bg auth-cover-bg-color d-flex justify-content-center align-items-center">
                     <img
-                        src="{{ asset('assets/img/illustrations/auth-two-step-illustration-'.$configData['style'].'.png') }}"
+                        src="{{ asset('assets/img/illustrations/auth-register-illustration-dark.png') }}"
                         alt="auth-login-cover" class="img-fluid my-5 auth-illustration"
                         data-app-light-img="illustrations/auth-two-step-illustration-light.png"
                         data-app-dark-img="illustrations/auth-two-step-illustration-dark.png">
@@ -59,14 +59,13 @@
                     </div>
                     <!-- /Logo -->
 {{--                    <h3 class=" mb-1 fw-bold">Welcome to {{config('variables.templateName')}}!</h3>--}}
-                    <p class="mb-4">Please sign-in to your account and start the adventure</p>
-
+                <p class="mb-4">Login dengan akun yang sudah terdaftar</p>
                     <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="mb-3">
                             <label for="email" class="form-label">Email </label>
                             <input type="text" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" id="email" name="email"
-                                   placeholder="Enter your email or username" autofocus value="{{ old('email', null) }}">
+                                   placeholder="Masukan Email" autofocus value="{{ old('email', null) }}">
                             @if($errors->has('email'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('email') }}

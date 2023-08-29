@@ -296,12 +296,12 @@ class RequestCreditController extends Controller
         if ($request->has('next')) {
             if ($request->has('process_notes') && $request->next == "false") {
                 if ($request->process_notes != null) {
-                    $this->submitActions(true, Auth::id(), $requestCredit->id, $request->process_notes, 'Pass');
+                    $this->submitActions(true, Auth::id(), $requestCredit->id, $request->process_notes, 'Reject');
                 } else {
-                    $this->submitActions(false, Auth::id(), $requestCredit->id, $request->process_notes, 'Pass');
+                    $this->submitActions(false, Auth::id(), $requestCredit->id, $request->process_notes, 'Reject');
                 }
             } elseif ($request->next == "true" && $request->process_notes != null) {
-                $this->submitActions(true, Auth::id(), $requestCredit->id, $request->process_notes, 'Reject');
+                $this->submitActions(true, Auth::id(), $requestCredit->id, $request->process_notes, 'Pass');
             } else {
                 return response(null, Response::HTTP_BAD_REQUEST);
             }

@@ -22,9 +22,9 @@
                 <div class="d-flex align-items-end row">
                     <div class="col-7">
                         <div class="card-body text-nowrap">
-                            <h5 class="card-title mb-0">Here available task</h5>
-                            <p class="mb-2">Click button below to start credit checking</p>
-                            <a href="javascript:void(0);" class="btn btn-primary">Start </a>
+                            <h5 class="card-title mb-0">Form Credit Checking</h5>
+                            <p class="mb-2">Tombol start untuk mengisi form</p>
+                            <a href="{{ route('admin.request-credits.create') }}" class="btn btn-primary">Start </a>
                         </div>
                     </div>
                     <div class="col-5 text-center text-sm-left">

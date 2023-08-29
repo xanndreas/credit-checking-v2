@@ -12,7 +12,7 @@
 @endsection
 
 @section('page-script')
-    <script src="{{asset('assets/js/admin/survey-reports.js')}}"></script>
+    <script src="{{asset('assets/js/admin/survey-report-create.js')}}"></script>
     <script>
         let uploadedIdentityMap = {},
             uploadedLegalityMap = {},
