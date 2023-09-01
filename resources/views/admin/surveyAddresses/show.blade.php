@@ -102,7 +102,7 @@
                     <table class="table table-responsive table-striped mb-3">
                         <tbody>
                         <tr class="table-primary">
-                            <th class="w-25 fw-bold" colspan="5">
+                            <th class="w-25 fw-bold" colspan="6">
                                 Detail Address
                             </th>
                         </tr>
@@ -120,6 +120,9 @@
                                 </th>
                                 <th>
                                     {{ trans('cruds.surveyAddress.fields.surveyor') }}
+                                </th>
+                                <th>
+                                    Remarks
                                 </th>
                                 <th class="w-px-14">
                                     Assign Surveyor
@@ -141,13 +144,16 @@
                                         {{ $address->surveyor ? $address->surveyor->name : '' }}
                                     </td>
                                     <td>
+                                        {{ $address->remarks }}
+                                    </td>
+                                    <td>
                                         @can('actor_surveyor_admin_access')
                                             <button href="javascript:void(0);"
                                                     class="btn {{ $address->surveyor ? 'btn-success' : 'btn-warning' }} btn-assign"
                                                     data-request-credit-id="{{ $address->request_credit_id }}"
                                                     data-survey-addresses-id="{{ $address->id }}"
                                                     data-bs-toggle="modal" data-bs-target="#assignModal"
-                                                {{ $address->surveyor ? 'disabled' : '' }}> {{ $address->surveyor ? 'Assigned' : 'Assign' }}</button>
+                                                > {{ $address->surveyor ? 'Re Assign' : 'Assign' }}</button>
                                         @endcan
                                     </td>
                                 </tr>

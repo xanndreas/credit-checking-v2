@@ -16,6 +16,7 @@
                             <th class="fw-bold">Attribute</th>
                             <th class="fw-bold">Actor</th>
                             <th class="fw-bold">Date</th>
+                            <th class="fw-bold">Time</th>
                         </tr>
                         @foreach($workflowRequestCreditHistory as $item)
                             <tr>
@@ -24,6 +25,7 @@
                                 <th>{{ $item->attribute }}</th>
                                 <th>{{ $item->actor->name ?? '' }}</th>
                                 <th>{{ \Carbon\Carbon::parse($item->created_at)->format('j F, Y') }}</th>
+                                <th>{{ \Carbon\Carbon::parse($item->created_at)->format('H:i:s') }}</th>
                             </tr>
                         @endforeach
                     </table>

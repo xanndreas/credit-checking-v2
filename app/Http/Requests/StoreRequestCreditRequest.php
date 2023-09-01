@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Models\RequestCredit;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class StoreRequestCreditRequest extends FormRequest
 {
@@ -24,26 +24,22 @@ class StoreRequestCreditRequest extends FormRequest
                 'sometimes',
                 'required',
             ],
-            'debtor_identity_type' => [
-                'sometimes',
-                'required',
-            ],
+
             'debtor_identity_number' => [
+                'exclude_unless:debtor_identity_type,==,ktp,npwp',
+                'numeric',
                 'sometimes',
-                'required',
                 'min:16',
             ],
             'partner_name' => [
                 'sometimes',
                 'required',
             ],
-            'partner_identity_type' => [
-                'sometimes',
-                'required',
-            ],
+
             'partner_identity_number' => [
+                'exclude_unless:partner_identity_type,==,ktp,npwp',
+                'numeric',
                 'sometimes',
-                'required',
                 'min:16',
             ],
             'guarantor_name' => [
@@ -55,8 +51,19 @@ class StoreRequestCreditRequest extends FormRequest
                 'required',
             ],
             'guarantor_identity_number' => [
+                'exclude_unless:guarantor_identity_type,==,ktp,npwp',
+                'numeric',
+                'sometimes',
+                'min:16',
+            ],
+            'guarantor_partner_identity_type' => [
                 'sometimes',
                 'required',
+            ],
+            'guarantor_partner_identity_number' => [
+                'exclude_unless:guarantor_partner_identity_type,==,ktp,npwp',
+                'numeric',
+                'sometimes',
                 'min:16',
             ],
             'business_name' => [
@@ -65,18 +72,15 @@ class StoreRequestCreditRequest extends FormRequest
             ],
             'business_identity_number' => [
                 'sometimes',
-                'required',
                 'min:16',
             ],
             'shareholder_name' => [
                 'sometimes',
                 'required',
             ],
-            'shareholder_identity_type' => [
-                'sometimes',
-                'required',
-            ],
             'shareholder_identity_number' => [
+                'exclude_unless:shareholder_identity_type,==,ktp,npwp',
+                'numeric',
                 'sometimes',
                 'required',
                 'min:16',
@@ -149,17 +153,9 @@ class StoreRequestCreditRequest extends FormRequest
             ],
             'npwp_photos' => [
                 'array',
-                'required',
-            ],
-            'npwp_photos.*' => [
-                'required',
             ],
             'other_photos' => [
                 'array',
-                'required',
-            ],
-            'other_photos.*' => [
-                'required',
             ],
             'remarks' => [
                 'string',

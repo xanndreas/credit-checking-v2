@@ -12,6 +12,7 @@ class CreateSurveyAddressesTable extends Migration
             $table->bigIncrements('id');
             $table->string('address_type');
             $table->longText('addresses')->nullable();
+            $table->longText('remarks')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -428,7 +428,7 @@
                                                for="debtor_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('debtor_identity_number') ? 'is-invalid' : '' }}"
-                                            type="number" name="debtor_identity_number" id="debtor_identity_number"
+                                            type="text" name="debtor_identity_number" id="debtor_identity_number"
                                             value="{{ old('debtor_identity_number', '') }}"
                                             required>
                                         @if($errors->has('debtor_identity_number'))
@@ -475,7 +475,7 @@
                                                for="partner_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('partner_identity_number') ? 'is-invalid' : '' }}"
-                                            type="number" name="partner_identity_number" id="partner_identity_number"
+                                            type="text" name="partner_identity_number" id="partner_identity_number"
                                             value="{{ old('partner_identity_number', '') }}"
                                             required>
                                         @if($errors->has('partner_identity_number'))
@@ -522,13 +522,61 @@
                                                for="guarantor_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('guarantor_identity_number') ? 'is-invalid' : '' }}"
-                                            type="number" name="guarantor_identity_number"
+                                            type="text" name="guarantor_identity_number"
                                             id="guarantor_identity_number"
                                             value="{{ old('guarantor_identity_number', '') }}"
                                             required>
                                         @if($errors->has('guarantor_identity_number'))
                                             <div class="invalid-feedback">
                                                 {{ $errors->first('guarantor_identity_number') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-sm-6"> <br>
+                                        <label class="required"
+                                               for="guarantor_partner_name">{{ trans('cruds.requestCreditDebtor.fields.name_guarantor_partner') }}<span class="text-danger">*</span></label>
+                                        <input
+                                            class="form-control {{ $errors->has('guarantor_partner_name') ? 'is-invalid' : '' }}"
+                                            type="text" name="guarantor_partner_name" id="guarantor_partner_name"
+                                            value="{{ old('guarantor_partnerv_name', '') }}" required>
+                                        @if($errors->has('guarantor_partner_name'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('guarantor_partner_name') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-sm-3"> <br>
+                                        <label
+                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}<span class="text-danger">*</span></label>
+                                        <select
+                                            class="form-control {{ $errors->has('guarantor_partner_identity_type') ? 'is-invalid' : '' }}"
+                                            name="guarantor_partner_identity_type" id="guarantor_partner_identity_type" required>
+                                            <option
+                                                value="" {{ old('guarantor_partner_identity_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                                            @foreach(App\Models\RequestCreditDebtor::IDENTITY_TYPE_SELECT as $key => $label)
+                                                <option
+                                                    value="{{ $key }}" {{ old('guarantor_partner_identity_type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                                            @endforeach
+                                        </select>
+                                        @if($errors->has('guarantor_partner_identity_type'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('guarantor_partner_identity_type') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-sm-3"> <br>
+                                        <label class="required"
+                                               for="guarantor_partner_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
+                                        <input
+                                            class="form-control {{ $errors->has('guarantor_partner_identity_number') ? 'is-invalid' : '' }}"
+                                            type="text" name="guarantor_partner_identity_number"
+                                            id="guarantor_partner_identity_number"
+                                            value="{{ old('guarantor_partner_identity_number', '') }}"
+                                            required>
+                                        @if($errors->has('guarantor_partner_identity_number'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('guarantor_partner_identity_number') }}
                                             </div>
                                         @endif
                                     </div>
@@ -552,7 +600,7 @@
                                                for="business_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('business_identity_number') ? 'is-invalid' : '' }}"
-                                            type="number" name="business_identity_number" id="business_identity_number"
+                                            type="text" name="business_identity_number" id="business_identity_number"
                                             value="{{ old('business_identity_number', '') }}"
                                             required>
                                         @if($errors->has('business_identity_number'))
@@ -599,7 +647,7 @@
                                                for="shareholder_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('shareholder_identity_number') ? 'is-invalid' : '' }}"
-                                            type="number" name="shareholder_identity_number"
+                                            type="text" name="shareholder_identity_number"
                                             id="shareholder_identity_number"
                                             value="{{ old('shareholder_identity_number', '') }}"
                                             required>

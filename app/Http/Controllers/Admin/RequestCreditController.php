@@ -180,7 +180,7 @@ class RequestCreditController extends Controller
 
         $creditPersonel = [];
         if ($request->credit_type == 'individu')
-            $creditPersonel = ['debtor', 'debtor_partner', 'guarantor'];
+            $creditPersonel = ['debtor', 'debtor_partner', 'guarantor', 'guarantor_partner'];
         else if ($request->credit_type == 'badan_usaha')
             $creditPersonel = ['business', 'shareholder'];
 
@@ -284,6 +284,8 @@ class RequestCreditController extends Controller
 
     public function download(Request $request)
     {
+        abort_if(Gate::denies('request_credit_download'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         if ($request->minDate != null && $request->maxDate != null) {
             return Excel::download(new CreditCheckingExport($request->minDate, $request->maxDate), 'request-credit.xlsx');
         }

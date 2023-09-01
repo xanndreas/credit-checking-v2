@@ -15,26 +15,6 @@ class PermissionsTableSeeder extends Seeder
                 'title' => 'user_management_access',
             ],
             [
-                'id'    => 2,
-                'title' => 'permission_create',
-            ],
-            [
-                'id'    => 3,
-                'title' => 'permission_edit',
-            ],
-            [
-                'id'    => 4,
-                'title' => 'permission_show',
-            ],
-            [
-                'id'    => 5,
-                'title' => 'permission_delete',
-            ],
-            [
-                'id'    => 6,
-                'title' => 'permission_access',
-            ],
-            [
                 'id'    => 7,
                 'title' => 'role_create',
             ],
@@ -83,10 +63,6 @@ class PermissionsTableSeeder extends Seeder
                 'title' => 'request_credit_create',
             ],
             [
-                'id'    => 19,
-                'title' => 'request_credit_edit',
-            ],
-            [
                 'id'    => 20,
                 'title' => 'request_credit_show',
             ],
@@ -97,26 +73,6 @@ class PermissionsTableSeeder extends Seeder
             [
                 'id'    => 22,
                 'title' => 'request_credit_access',
-            ],
-            [
-                'id'    => 23,
-                'title' => 'request_credit_debtor_create',
-            ],
-            [
-                'id'    => 24,
-                'title' => 'request_credit_debtor_edit',
-            ],
-            [
-                'id'    => 25,
-                'title' => 'request_credit_debtor_show',
-            ],
-            [
-                'id'    => 26,
-                'title' => 'request_credit_debtor_delete',
-            ],
-            [
-                'id'    => 27,
-                'title' => 'request_credit_debtor_access',
             ],
             [
                 'id'    => 28,
@@ -137,94 +93,6 @@ class PermissionsTableSeeder extends Seeder
             [
                 'id'    => 32,
                 'title' => 'request_credit_help_access',
-            ],
-            [
-                'id'    => 33,
-                'title' => 'workflow_access',
-            ],
-            [
-                'id'    => 34,
-                'title' => 'workflow_process_create',
-            ],
-            [
-                'id'    => 35,
-                'title' => 'workflow_process_edit',
-            ],
-            [
-                'id'    => 36,
-                'title' => 'workflow_process_show',
-            ],
-            [
-                'id'    => 37,
-                'title' => 'workflow_process_delete',
-            ],
-            [
-                'id'    => 38,
-                'title' => 'workflow_process_access',
-            ],
-            [
-                'id'    => 39,
-                'title' => 'workflow_request_credit_create',
-            ],
-            [
-                'id'    => 40,
-                'title' => 'workflow_request_credit_edit',
-            ],
-            [
-                'id'    => 41,
-                'title' => 'workflow_request_credit_show',
-            ],
-            [
-                'id'    => 42,
-                'title' => 'workflow_request_credit_delete',
-            ],
-            [
-                'id'    => 43,
-                'title' => 'workflow_request_credit_access',
-            ],
-            [
-                'id'    => 44,
-                'title' => 'workflow_request_credit_history_create',
-            ],
-            [
-                'id'    => 45,
-                'title' => 'workflow_request_credit_history_edit',
-            ],
-            [
-                'id'    => 46,
-                'title' => 'workflow_request_credit_history_show',
-            ],
-            [
-                'id'    => 47,
-                'title' => 'workflow_request_credit_history_delete',
-            ],
-            [
-                'id'    => 48,
-                'title' => 'workflow_request_credit_history_access',
-            ],
-            [
-                'id'    => 49,
-                'title' => 'credit_checking_survey_access',
-            ],
-            [
-                'id'    => 50,
-                'title' => 'request_approval_create',
-            ],
-            [
-                'id'    => 51,
-                'title' => 'request_approval_edit',
-            ],
-            [
-                'id'    => 52,
-                'title' => 'request_approval_show',
-            ],
-            [
-                'id'    => 53,
-                'title' => 'request_approval_delete',
-            ],
-            [
-                'id'    => 54,
-                'title' => 'request_approval_access',
             ],
             [
                 'id'    => 55,
@@ -265,46 +133,6 @@ class PermissionsTableSeeder extends Seeder
             [
                 'id'    => 64,
                 'title' => 'survey_report_access',
-            ],
-            [
-                'id'    => 65,
-                'title' => 'survey_report_attribute_create',
-            ],
-            [
-                'id'    => 66,
-                'title' => 'survey_report_attribute_edit',
-            ],
-            [
-                'id'    => 67,
-                'title' => 'survey_report_attribute_show',
-            ],
-            [
-                'id'    => 68,
-                'title' => 'survey_report_attribute_delete',
-            ],
-            [
-                'id'    => 69,
-                'title' => 'survey_report_attribute_access',
-            ],
-            [
-                'id'    => 70,
-                'title' => 'request_credit_attribute_create',
-            ],
-            [
-                'id'    => 71,
-                'title' => 'request_credit_attribute_edit',
-            ],
-            [
-                'id'    => 72,
-                'title' => 'request_credit_attribute_show',
-            ],
-            [
-                'id'    => 73,
-                'title' => 'request_credit_attribute_delete',
-            ],
-            [
-                'id'    => 74,
-                'title' => 'request_credit_attribute_access',
             ],
             [
                 'id'    => 75,
@@ -367,8 +195,16 @@ class PermissionsTableSeeder extends Seeder
                 'title' => 'request_credit_super',
             ],
             [
-                'id'    => 89,
+                'id'    => 90,
                 'title' => 'approval_request_credit_approve',
+            ],
+            [
+                'id'    => 91,
+                'title' => 'request_credit_download',
+            ],
+            [
+                'id'    => 92,
+                'title' => 'survey_address_download',
             ],
 
         ];

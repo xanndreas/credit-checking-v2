@@ -27,7 +27,7 @@ class RequestCreditDebtor extends Model
 
     protected $fillable = [
         'personel_type',
-        'name',
+        'name',     
         'identity_type',
         'identity_number',
         'created_at',
@@ -39,6 +39,7 @@ class RequestCreditDebtor extends Model
         'debtor'         => 'Debtor',
         'debtor_partner' => 'Debtor Partner',
         'guarantor'      => 'Guarantor',
+        'guarantor_partner' => 'Guarantor Partner',
         'business'       => 'Business',
         'shareholder'    => 'Shareholder',
     ];

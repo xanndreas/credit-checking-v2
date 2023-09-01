@@ -73,6 +73,10 @@ trait WorkflowCreditRequestTrait
         return false;
     }
 
+    public function submitHistoryOnly() {
+
+    }
+
     public function nextProcess($currentId)
     {
         return WorkflowProcess::where('id', '>', $currentId)->orderBy('id', 'asc')->first();

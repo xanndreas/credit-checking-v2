@@ -102,7 +102,6 @@ class SurveyReportController extends Controller
         return view('admin.surveyReports.form', compact('surveyAddress'));
     }
 
-    // public function store(SurveyAddress $surveyAddress, StoreSurveyReportRequest $request)
     public function store(SurveyAddress $surveyAddress, Request $request)
     {
         $surveyReport = SurveyReport::create([
@@ -223,6 +222,7 @@ class SurveyReportController extends Controller
 
     public function download(SurveyAddress $surveyAddress)
     {
+        abort_if(Gate::denies('survey_address_download'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $surveyReport = SurveyReport::with('survey_attributes', 'survey_address', 'survey_address.surveyor')
             ->where('survey_address_id', $surveyAddress->id)->first();
