@@ -73,8 +73,26 @@ trait WorkflowCreditRequestTrait
         return false;
     }
 
-    public function submitHistoryOnly() {
+    public function submitHistoryOnly($userId, $requestCreditId, $notes = null, $attribute = null, $attribute_2 = null): bool
+    {
+        $workflowRequestCredit = WorkflowRequestCredit::with('process_status')
+            ->where('request_credit_id', $requestCreditId)->first();
 
+        $workflowRequestCreditHistory = WorkflowRequestCreditHistory::create([
+            'workflow_request_credit_id' => $workflowRequestCredit->id,
+            'actor_id' => $userId,
+            'process_status' => $workflowRequestCredit->process_status ?
+                $workflowRequestCredit->process_status->process_status : '',
+            'process_notes' => $notes,
+            'attribute' => $attribute,
+            'attribute_2' => $attribute_2,
+        ]);
+
+        if ($workflowRequestCreditHistory) {
+            return true;
+        }
+
+        return false;
     }
 
     public function nextProcess($currentId)

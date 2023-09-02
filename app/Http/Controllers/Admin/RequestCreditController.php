@@ -111,7 +111,7 @@ class RequestCreditController extends Controller
                 $workflowRequestCredit = WorkflowRequestCredit::with('process_status')
                     ->where('request_credit_id', $row->id)->first();
 
-                return $workflowRequestCredit->process_status ? $workflowRequestCredit->process_status->process_status : '';
+                return $workflowRequestCredit ? $workflowRequestCredit->process_status->process_status : '';
             });
 
             $table->editColumn('request_debtor', function ($row) {
@@ -194,6 +194,17 @@ class RequestCreditController extends Controller
 
                     'identity_number' => $requestAll[$item . '_identity_number'],
                 ])->id;
+            }
+
+            if (isset($requestAll[$item.'_dyn_name'])) {
+                foreach ($requestAll[$item.'_dyn_name'] as $itemDyn) {
+                    $requestCreditDebtor[] = RequestCreditDebtor::create([
+                        'personel_type' => $item,
+                        'name' => $itemDyn['shareholder_dyn_name'],
+                        'identity_type' => null,
+                        'identity_number' => null,
+                    ])->id;
+                }
             }
         }
 

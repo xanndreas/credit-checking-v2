@@ -56,9 +56,11 @@
                         {{ trans('cruds.requestCredit.fields.request_debtor') }}
                     </th>
                     <th>
+                        Remarks
+                    </th>
+                    <th>
                         {{ trans('cruds.requestCredit.fields.workflow_process') }}
                     </th>
-
                 </tr>
                 </thead>
             </table>

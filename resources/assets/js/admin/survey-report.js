@@ -129,11 +129,13 @@ $(function () {
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
-    //
-    // $('.datatable-SurveyReports tbody').on('click', 'td:not(:first-child)', (event) => {
-    //     let row = table.row(event.currentTarget).data();
-    //     window.location.href = '/admin/survey-reports/' + row.id + '/detail';
-    // });
+
+    $('.datatable-SurveyReports tbody').on('click', 'td:nth-child(7)', (event) => {
+        let row = table.row(event.currentTarget).data();
+
+        $('#survey_address_id').val(row.id);
+        $('#remarks_update_form').attr('action', '/admin/survey-reports/' + row.id + '/update-remarks')
+    });
 
     $('#submitAddSurveyReports').on('click', function () {
         let savedIds = $(this).attr('data-id'),
@@ -148,5 +150,4 @@ $(function () {
             savesForm.attr('action', "/admin/surveys/" + savedIds).submit();
         }
     });
-
 });

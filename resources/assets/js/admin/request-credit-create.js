@@ -4,6 +4,37 @@ $(function () {
     const select2 = $('.select2'),
         selectPicker = $('.selectpicker');
 
+
+    $('.form-repeater-container').on('submit', function (e) {
+        e.preventDefault();
+    });
+
+    let rowShareholderName = 2;
+    let colShareholderName = 1;
+
+    $('.shareholder_dyn_name-repeater').repeater({
+        show: function () {
+            let fromControl = $(this).find('.form-control, .form-select');
+            let formLabel = $(this).find('.form-label');
+
+            fromControl.each(function (i) {
+                let id = 'form-repeater-' + rowShareholderName + '-' + colShareholderName;
+                $(fromControl[i]).attr('id', id);
+                $(formLabel[i]).attr('for', id);
+                colShareholderName++;
+            });
+
+            rowShareholderName++;
+
+            $(this).slideDown();
+        },
+
+        hide: function (e) {
+            confirm('Are you sure you want to delete this element?') && $(this).slideUp(e);
+        }
+    });
+
+
     if (selectPicker.length) {
         selectPicker.selectpicker();
     }

@@ -13,6 +13,7 @@
     <script src="{{asset('assets/vendor/libs/bs-stepper/bs-stepper.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/jquery-repeater/jquery-repeater.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
 
 @endsection
@@ -355,7 +356,8 @@
                                            value="{{ auth()->user()->id }}"/>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="d-block">{{ trans('cruds.requestCredit.fields.credit_type') }}<span class="text-danger">*</span></label>
+                                    <label class="d-block">{{ trans('cruds.requestCredit.fields.credit_type') }}<span
+                                            class="text-danger">*</span></label>
                                     @foreach(App\Models\RequestCredit::CREDIT_TYPE_SELECT as $key => $label)
                                         <div
                                             class="form-check form-check-inline mt-3 {{ $errors->has('credit_type') ? 'is-invalid' : '' }}">
@@ -391,9 +393,10 @@
                             </div>
                             <div class="row g-3">
                                 <div class="personal-container row">
-                                    <div class="col-sm-6"> <br>
+                                    <div class="col-sm-6"><br>
                                         <label class="required"
-                                               for="debtor_name">{{ trans('cruds.requestCreditDebtor.fields.name_debtor') }}<span class="text-danger">*</span></label>
+                                               for="debtor_name">{{ trans('cruds.requestCreditDebtor.fields.name_debtor') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('debtor_name') ? 'is-invalid' : '' }}"
                                             type="text" name="debtor_name" id="debtor_name"
@@ -404,9 +407,10 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-3"> <br>
+                                    <div class="col-sm-3"><br>
                                         <label
-                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}<span class="text-danger">*</span></label>
+                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}
+                                            <span class="text-danger">*</span></label>
                                         <select
                                             class="form-control {{ $errors->has('debtor_identity_type') ? 'is-invalid' : '' }}"
                                             name="debtor_identity_type" id="debtor_identity_type" required>
@@ -423,9 +427,10 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-3"> <br>
+                                    <div class="col-sm-3"><br>
                                         <label class="required"
-                                               for="debtor_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
+                                               for="debtor_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('debtor_identity_number') ? 'is-invalid' : '' }}"
                                             type="text" name="debtor_identity_number" id="debtor_identity_number"
@@ -440,7 +445,8 @@
 
                                     <div class="col-sm-6"><br>
                                         <label class="required"
-                                               for="partner_name">{{ trans('cruds.requestCreditDebtor.fields.name_partner') }}<span class="text-danger">*</span></label>
+                                               for="partner_name">{{ trans('cruds.requestCreditDebtor.fields.name_partner') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('partner_name') ? 'is-invalid' : '' }}"
                                             type="text" name="partner_name" id="partner_name"
@@ -451,9 +457,10 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-3"> <br>
+                                    <div class="col-sm-3"><br>
                                         <label
-                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}<span class="text-danger">*</span></label>
+                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}
+                                            <span class="text-danger">*</span></label>
                                         <select
                                             class="form-control {{ $errors->has('partner_identity_type') ? 'is-invalid' : '' }}"
                                             name="partner_identity_type" id="partner_identity_type" required>
@@ -472,7 +479,8 @@
                                     </div>
                                     <div class="col-sm-3"><br>
                                         <label class="required"
-                                               for="partner_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
+                                               for="partner_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('partner_identity_number') ? 'is-invalid' : '' }}"
                                             type="text" name="partner_identity_number" id="partner_identity_number"
@@ -485,9 +493,10 @@
                                         @endif
                                     </div>
 
-                                    <div class="col-sm-6"> <br>
+                                    <div class="col-sm-6"><br>
                                         <label class="required"
-                                               for="guarantor_name">{{ trans('cruds.requestCreditDebtor.fields.name_guarantor') }}<span class="text-danger">*</span></label>
+                                               for="guarantor_name">{{ trans('cruds.requestCreditDebtor.fields.name_guarantor') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('guarantor_name') ? 'is-invalid' : '' }}"
                                             type="text" name="guarantor_name" id="guarantor_name"
@@ -498,9 +507,10 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-3"> <br>
+                                    <div class="col-sm-3"><br>
                                         <label
-                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}<span class="text-danger">*</span></label>
+                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}
+                                            <span class="text-danger">*</span></label>
                                         <select
                                             class="form-control {{ $errors->has('guarantor_identity_type') ? 'is-invalid' : '' }}"
                                             name="guarantor_identity_type" id="guarantor_identity_type" required>
@@ -517,9 +527,10 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-3"> <br>
+                                    <div class="col-sm-3"><br>
                                         <label class="required"
-                                               for="guarantor_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
+                                               for="guarantor_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('guarantor_identity_number') ? 'is-invalid' : '' }}"
                                             type="text" name="guarantor_identity_number"
@@ -533,9 +544,10 @@
                                         @endif
                                     </div>
 
-                                    <div class="col-sm-6"> <br>
+                                    <div class="col-sm-6"><br>
                                         <label class="required"
-                                               for="guarantor_partner_name">{{ trans('cruds.requestCreditDebtor.fields.name_guarantor_partner') }}<span class="text-danger">*</span></label>
+                                               for="guarantor_partner_name">{{ trans('cruds.requestCreditDebtor.fields.name_guarantor_partner') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('guarantor_partner_name') ? 'is-invalid' : '' }}"
                                             type="text" name="guarantor_partner_name" id="guarantor_partner_name"
@@ -546,12 +558,14 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-3"> <br>
+                                    <div class="col-sm-3"><br>
                                         <label
-                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}<span class="text-danger">*</span></label>
+                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}
+                                            <span class="text-danger">*</span></label>
                                         <select
                                             class="form-control {{ $errors->has('guarantor_partner_identity_type') ? 'is-invalid' : '' }}"
-                                            name="guarantor_partner_identity_type" id="guarantor_partner_identity_type" required>
+                                            name="guarantor_partner_identity_type" id="guarantor_partner_identity_type"
+                                            required>
                                             <option
                                                 value="" {{ old('guarantor_partner_identity_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                                             @foreach(App\Models\RequestCreditDebtor::IDENTITY_TYPE_SELECT as $key => $label)
@@ -565,9 +579,10 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-3"> <br>
+                                    <div class="col-sm-3"><br>
                                         <label class="required"
-                                               for="guarantor_partner_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
+                                               for="guarantor_partner_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('guarantor_partner_identity_number') ? 'is-invalid' : '' }}"
                                             type="text" name="guarantor_partner_identity_number"
@@ -582,9 +597,10 @@
                                     </div>
                                 </div>
                                 <div class="business-container row">
-                                    <div class="col-sm-6"> <br>
+                                    <div class="col-sm-6"><br>
                                         <label class="required"
-                                               for="business_name">{{ trans('cruds.requestCreditDebtor.fields.name_business') }}<span class="text-danger">*</span></label>
+                                               for="business_name">{{ trans('cruds.requestCreditDebtor.fields.name_business') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('business_name') ? 'is-invalid' : '' }}"
                                             type="text" name="business_name" id="business_name"
@@ -595,9 +611,10 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-6"> <br>
+                                    <div class="col-sm-6"><br>
                                         <label class="required"
-                                               for="business_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
+                                               for="business_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('business_identity_number') ? 'is-invalid' : '' }}"
                                             type="text" name="business_identity_number" id="business_identity_number"
@@ -610,9 +627,10 @@
                                         @endif
                                     </div>
 
-                                    <div class="col-sm-6"> <br>
+                                    <div class="col-sm-6"><br>
                                         <label class="required"
-                                               for="shareholder_name">{{ trans('cruds.requestCreditDebtor.fields.name_shareholders') }}<span class="text-danger">*</span></label>
+                                               for="shareholder_name">{{ trans('cruds.requestCreditDebtor.fields.name_shareholders') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('shareholder_name') ? 'is-invalid' : '' }}"
                                             type="text" name="shareholder_name" id="shareholder_name"
@@ -623,9 +641,10 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-3"> <br>
+                                    <div class="col-sm-3"><br>
                                         <label
-                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}<span class="text-danger">*</span></label>
+                                            class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}
+                                            <span class="text-danger">*</span></label>
                                         <select
                                             class="form-control {{ $errors->has('shareholder_identity_type') ? 'is-invalid' : '' }}"
                                             name="shareholder_identity_type" id="shareholder_identity_type" required>
@@ -642,9 +661,10 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-3"> <br>
+                                    <div class="col-sm-3"><br>
                                         <label class="required"
-                                               for="shareholder_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}<span class="text-danger">*</span></label>
+                                               for="shareholder_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}
+                                            <span class="text-danger">*</span></label>
                                         <input
                                             class="form-control {{ $errors->has('shareholder_identity_number') ? 'is-invalid' : '' }}"
                                             type="text" name="shareholder_identity_number"
@@ -656,6 +676,29 @@
                                                 {{ $errors->first('shareholder_identity_number') }}
                                             </div>
                                         @endif
+                                    </div>
+
+                                    <div class="shareholder_dyn_name-repeater form-repeater-container mb-3 mt-3">
+                                        <div data-repeater-list="shareholder_dyn_name">
+                                            <div data-repeater-item>
+                                                <div class="row">
+                                                    <div class="mb-3 col-sm-12 mb-0">
+                                                        <label
+                                                            for="shareholder_dyn_name-1-1">{{ trans('cruds.requestCreditDebtor.fields.name_shareholders') }}
+                                                        </label>
+                                                        <input type="text" id="shareholder_dyn_name-1-1"
+                                                               name="shareholder_dyn_name"
+                                                               class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-0">
+                                            <a class="btn btn-xs text-lightest btn-primary" data-repeater-create>
+                                                <i class="ti ti-plus me-1"></i>
+                                                <span class="align-middle">Add</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -679,7 +722,8 @@
                             <div class="row g-3">
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="attr_dealer_text">{{ trans('cruds.requestCredit.fields.dealer') }}<span class="text-danger">*</span></label>
+                                           for="attr_dealer_text">{{ trans('cruds.requestCredit.fields.dealer') }}<span
+                                            class="text-danger">*</span></label>
                                     <select
                                         class="form-select select2 {{ $errors->has('attr_dealer_text') ? 'is-invalid' : '' }}"
                                         name="attr_dealer_text" id="attr_dealer_text" required>
@@ -712,7 +756,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="attr_sales_name">{{ trans('cruds.requestCredit.fields.sales_name') }}<span class="text-danger">*</span></label>
+                                           for="attr_sales_name">{{ trans('cruds.requestCredit.fields.sales_name') }}
+                                        <span class="text-danger">*</span></label>
                                     <input
                                         class="form-control {{ $errors->has('attr_sales_name') ? 'is-invalid' : '' }}"
                                         type="text" name="attr_sales_name" id="attr_sales_name"
@@ -726,7 +771,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="attr_product_text">{{ trans('cruds.requestCredit.fields.product_name') }}<span class="text-danger">*</span></label>
+                                           for="attr_product_text">{{ trans('cruds.requestCredit.fields.product_name') }}
+                                        <span class="text-danger">*</span></label>
                                     <select
                                         class="form-control select2 {{ $errors->has('attr_product_text') ? 'is-invalid' : '' }}"
                                         name="attr_product_text" id="attr_product_text" required>
@@ -746,7 +792,8 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="attr_brand_text">{{ trans('cruds.requestCredit.fields.brand') }}<span class="text-danger">*</span></label>
+                                           for="attr_brand_text">{{ trans('cruds.requestCredit.fields.brand') }}<span
+                                            class="text-danger">*</span></label>
                                     <select
                                         class="form-control select2 {{ $errors->has('attr_brand_text') ? 'is-invalid' : '' }}"
                                         name="attr_brand_text" id="attr_brand_text" required>
@@ -781,7 +828,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="attr_models">{{ trans('cruds.requestCredit.fields.models') }}<span class="text-danger">*</span></label>
+                                           for="attr_models">{{ trans('cruds.requestCredit.fields.models') }}<span
+                                            class="text-danger">*</span></label>
                                     <input class="form-control {{ $errors->has('attr_models') ? 'is-invalid' : '' }}"
                                            type="text"
                                            name="attr_models" id="attr_models" value="{{ old('attr_models', '') }}"
@@ -794,7 +842,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="attr_number_of_units">{{ trans('cruds.requestCredit.fields.number_of_units') }}<span class="text-danger">*</span></label>
+                                           for="attr_number_of_units">{{ trans('cruds.requestCredit.fields.number_of_units') }}
+                                        <span class="text-danger">*</span></label>
                                     <input
                                         class="form-control {{ $errors->has('attr_number_of_units') ? 'is-invalid' : '' }}"
                                         type="number" name="attr_number_of_units" id="attr_number_of_units"
@@ -807,7 +856,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="attr_otr">{{ trans('cruds.requestCredit.fields.otr') }}<span class="text-danger">*</span></label>
+                                           for="attr_otr">{{ trans('cruds.requestCredit.fields.otr') }}<span
+                                            class="text-danger">*</span></label>
                                     <input class="form-control {{ $errors->has('attr_otr') ? 'is-invalid' : '' }}"
                                            type="text" data-type="currency"
                                            name="attr_otr" id="attr_otr" value="{{ old('attr_otr', '') }}" step="0.01"
@@ -820,10 +870,12 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="attr_debt_principal">{{ trans('cruds.requestCredit.fields.debt_principal') }}<span class="text-danger">*</span></label>
+                                           for="attr_debt_principal">{{ trans('cruds.requestCredit.fields.debt_principal') }}
+                                        <span class="text-danger">*</span></label>
                                     <input
                                         class="form-control {{ $errors->has('attr_debt_principal') ? 'is-invalid' : '' }}"
-                                        type="text" data-type="currency" name="attr_debt_principal" id="attr_debt_principal"
+                                        type="text" data-type="currency" name="attr_debt_principal"
+                                        id="attr_debt_principal"
                                         value="{{ old('attr_debt_principal', '') }}" required>
                                     @if($errors->has('attr_debt_principal'))
                                         <div class="invalid-feedback">
@@ -833,7 +885,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="attr_insurance_text">{{ trans('cruds.requestCredit.fields.insurance_text') }}<span class="text-danger">*</span></label>
+                                           for="attr_insurance_text">{{ trans('cruds.requestCredit.fields.insurance_text') }}
+                                        <span class="text-danger">*</span></label>
                                     <select
                                         class="form-control select2 {{ $errors->has('attr_insurance_text') ? 'is-invalid' : '' }}"
                                         name="attr_insurance_text" id="attr_insurance_text" required>
@@ -852,7 +905,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="attr_tenors_text">{{ trans('cruds.requestCredit.fields.tenors_text') }}<span class="text-danger">*</span></label>
+                                           for="attr_tenors_text">{{ trans('cruds.requestCredit.fields.tenors_text') }}
+                                        <span class="text-danger">*</span></label>
                                     <select
                                         class="form-control select2 {{ $errors->has('attr_tenors_text') ? 'is-invalid' : '' }}"
                                         name="attr_tenors_text" id="attr_tenors_text" required>
@@ -872,7 +926,8 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label
-                                        for="attr_down_payment_text">Down Payment<span class="text-danger">*</span></label>
+                                        for="attr_down_payment_text">Down Payment<span
+                                            class="text-danger">*</span></label>
                                     <select
                                         class="form-control select2 {{ $errors->has('attr_down_payment_text') ? 'is-invalid' : '' }}"
                                         name="attr_down_payment_text" id="attr_down_payment_text" required>
@@ -905,7 +960,8 @@
                                     @endif
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="d-block">{{ trans('cruds.requestCredit.fields.addm_addb') }}<span class="text-danger">*</span></label>
+                                    <label class="d-block">{{ trans('cruds.requestCredit.fields.addm_addb') }}<span
+                                            class="text-danger">*</span></label>
                                     <div
                                         class="form-check form-check-inline mt-3 {{ $errors->has('attr_addm_addb') ? 'is-invalid' : '' }}">
                                         <input class="form-check-input" type="radio" id="type_addm"
@@ -928,7 +984,8 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="required"
-                                           for="attr_effective_rates">{{ trans('cruds.requestCredit.fields.effective_rates') }}<span class="text-danger">*</span></label>
+                                           for="attr_effective_rates">{{ trans('cruds.requestCredit.fields.effective_rates') }}
+                                        <span class="text-danger">*</span></label>
                                     <input
                                         class="form-control {{ $errors->has('attr_effective_rates') ? 'is-invalid' : '' }}"
                                         type="number" name="attr_effective_rates" id="attr_effective_rates"
@@ -941,7 +998,8 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="required"
-                                           for="attr_car_year">{{ trans('cruds.requestCredit.fields.car_year') }}<span class="text-danger">*</span></label>
+                                           for="attr_car_year">{{ trans('cruds.requestCredit.fields.car_year') }}<span
+                                            class="text-danger">*</span></label>
                                     <input
                                         class="form-control {{ $errors->has('attr_car_year') ? 'is-invalid' : '' }}"
                                         type="number" name="attr_car_year" id="attr_car_year"
@@ -954,7 +1012,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="required"
-                                           for="attr_debtor_phone">{{ trans('cruds.requestCredit.fields.debtor_phone') }}<span class="text-danger">*</span></label>
+                                           for="attr_debtor_phone">{{ trans('cruds.requestCredit.fields.debtor_phone') }}
+                                        <span class="text-danger">*</span></label>
                                     <input
                                         class="form-control {{ $errors->has('attr_debtor_phone') ? 'is-invalid' : '' }}"
                                         type="text" name="attr_debtor_phone" id="attr_debtor_phone"
@@ -978,7 +1037,8 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="id_photos">{{ trans('cruds.requestCredit.fields.id_photos') }}<span class="text-danger">*</span></label>
+                                           for="id_photos">{{ trans('cruds.requestCredit.fields.id_photos') }}<span
+                                            class="text-danger">*</span></label>
                                     <div
                                         class="form-control needsclick dropzone {{ $errors->has('id_photos') ? 'is-invalid' : '' }}"
                                         id="id_photos-dropzone">
@@ -991,7 +1051,8 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="kk_photos">{{ trans('cruds.requestCredit.fields.kk_photos') }}<span class="text-danger">*</span></label>
+                                           for="kk_photos">{{ trans('cruds.requestCredit.fields.kk_photos') }}<span
+                                            class="text-danger">*</span></label>
                                     <div
                                         class="form-control needsclick dropzone {{ $errors->has('kk_photos') ? 'is-invalid' : '' }}"
                                         id="kk_photos-dropzone">
@@ -1003,8 +1064,9 @@
                                     @endif
                                 </div>
                                 <div class="col-sm-12">
-                                    <label class="required"
-                                           for="npwp_photos">{{ trans('cruds.requestCredit.fields.npwp_photos') }}<span class="text-danger">*</span></label>
+                                    <label
+                                           for="npwp_photos">{{ trans('cruds.requestCredit.fields.npwp_photos') }}<span
+                                            class="text-danger">*</span></label>
                                     <div
                                         class="form-control needsclick dropzone {{ $errors->has('npwp_photos') ? 'is-invalid' : '' }}"
                                         id="npwp_photos-dropzone">
@@ -1016,8 +1078,9 @@
                                     @endif
                                 </div>
                                 <div class="col-sm-12">
-                                    <label class="required"
-                                           for="other_photos">{{ trans('cruds.requestCredit.fields.other_photos') }}<span class="text-danger">*</span></label>
+                                    <label
+                                           for="other_photos">{{ trans('cruds.requestCredit.fields.other_photos') }}
+                                        <span class="text-danger">*</span></label>
                                     <div
                                         class="form-control needsclick dropzone {{ $errors->has('other_photos') ? 'is-invalid' : '' }}"
                                         id="other_photos-dropzone">

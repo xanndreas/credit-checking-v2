@@ -1,4 +1,4 @@
-<div class="modal fade modal-lg text-start" id="historyModal" tabindex="-1" aria-labelledby="historyModal"
+<div class="modal fade modal-xl text-start" id="historyModal" tabindex="-1" aria-labelledby="historyModal"
      aria-hidden="true"
      data-bs-backdrop="static">
     <div class="modal-dialog">

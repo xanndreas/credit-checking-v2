@@ -82,6 +82,10 @@ class SurveyAddressesController extends Controller
                 return $row->credit_type ? RequestCredit::CREDIT_TYPE_SELECT[$row->credit_type] : '';
             });
 
+            $table->editColumn('remarks', function ($row) {
+                return $row->remarks ? $row->remarks : '';
+            });
+
             $table->addColumn('auto_planner_name', function ($row) {
                 return $row->auto_planner ? $row->auto_planner->name : '';
             });
@@ -90,7 +94,7 @@ class SurveyAddressesController extends Controller
                 $workflowRequestCredit = WorkflowRequestCredit::with('process_status')
                     ->where('request_credit_id', $row->id)->first();
 
-                return $workflowRequestCredit->process_status ? $workflowRequestCredit->process_status->process_status : '';
+                return $workflowRequestCredit ? $workflowRequestCredit->process_status->process_status : '';
             });
 
             $table->editColumn('request_debtor', function ($row) {
@@ -136,6 +140,9 @@ class SurveyAddressesController extends Controller
 
     public function update(SurveyAddress $surveyAddress, Request $request)
     {
+        if ($request->process_notes)
+            $this->submitHistoryOnly(Auth::id(), $request->request_credit_id, $request->process_notes);
+
         $surveyAddress->update($request->all());
 
         return redirect()->route('admin.survey-addresses.detail', ['requestCredit' => $request->request_credit_id]);

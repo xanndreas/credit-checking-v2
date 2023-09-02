@@ -42,6 +42,7 @@ class SurveyAddress extends Model
         'request_credit_id',
         'address_type',
         'addresses',
+        'remarks',
         'surveyor_id',
         'created_at',
         'updated_at',

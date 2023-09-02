@@ -64,5 +64,6 @@
             </table>
         </div>
     </div>
+    @include('admin.surveyReports._partials.remarks')
 @endsection
 

@@ -260,6 +260,14 @@ class SurveyReportController extends Controller
         return redirect()->route('admin.survey-reports.index');
     }
 
+    public function updateRemarks(SurveyAddress $surveyAddress, Request $request) {
+        $surveyAddress->update([
+            'remarks' => $request->remarks
+        ]);
+
+        return redirect()->route('admin.survey-reports.index');
+    }
+
     public function show(SurveyReport $surveyReport)
     {
         abort_if(Gate::denies('survey_report_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');

@@ -16,6 +16,7 @@ $(function () {
             {data: 'credit_type', name: 'credit_type'},
             {data: 'auto_planner_name', name: 'auto_planner_name'},
             {data: 'request_debtor', name: 'request_debtor.name', searchable: false, orderable: false},
+            {data: 'remarks', name: 'remarks'},
             {data: 'workflow_status', name: 'workflow_status', searchable: false, orderable: false},
         ],
         orderCellsTop: true,

@@ -28,7 +28,7 @@
         Dropzone.options.identityDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.zip,.rar,.pdf',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -71,11 +71,13 @@
                 @endif
             },
             error: function (file, response) {
+                let message;
                 if ($.type(response) === 'string') {
-                    let message = response
+                    message = response
                 } else {
-                    let message = response.errors.file
+                    message = response.errors.file
                 }
+
                 file.previewElement.classList.add('dz-error')
                 _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
                 _results = []
@@ -91,7 +93,7 @@
         Dropzone.options.legalityDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.zip,.rar,.pdf',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -154,7 +156,7 @@
         Dropzone.options.incomeDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.zip,.rar,.pdf',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -217,7 +219,7 @@
         Dropzone.options.checkingAccountDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.zip,.rar,.pdf',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -280,7 +282,7 @@
         Dropzone.options.homePictureDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.zip,.rar,.pdf',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -343,7 +345,7 @@
         Dropzone.options.officePictureDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.zip,.rar,.pdf',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -406,7 +408,7 @@
         Dropzone.options.slikDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.zip,.rar,.pdf',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -469,7 +471,7 @@
         Dropzone.options.bkrOfficePictureDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.zip,.rar,.pdf',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -532,7 +534,7 @@
         Dropzone.options.unitRefinancingDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.zip,.rar,.pdf',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -595,7 +597,7 @@
         Dropzone.options.guarantorDropzone = {
             url: '{{ route('admin.survey-reports.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.zip,.rar,.pdf',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"

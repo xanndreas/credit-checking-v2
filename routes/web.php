@@ -55,6 +55,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
     // Survey Report
     Route::resource('survey-reports', 'SurveyReportController')->except('create', 'store');
+    Route::put('survey-reports/{surveyAddress}/update-remarks', 'SurveyReportController@updateRemarks')->name('survey-reports.updateRemarks');
+
     Route::get('survey-addresses/{surveyAddress}/create', 'SurveyReportController@create')->name('survey-reports.create');
     Route::get('survey-addresses/{surveyAddress}/download', 'SurveyReportController@download')->name('survey-reports.download');
     Route::post('survey-addresses/{surveyAddress}/store', 'SurveyReportController@store')->name('survey-reports.store');
