@@ -21,13 +21,13 @@ class SurveyAddress extends Model
 
     public const ADDRESS_TYPE_SELECT = [
         'domicile' => 'Domicile',
-        'gurantor' => 'Guarantor',
+        'guarantor' => 'Guarantor',
         'office'   => 'Office',
     ];
 
     public const ADDRESS_TYPE_SELECT_PERSONAL = [
         'domicile' => 'Domicile',
-        'gurantor' => 'Guarantor',
+        'guarantor' => 'Guarantor',
         'office'   => 'Office',
         'other'    => 'Other',
     ];

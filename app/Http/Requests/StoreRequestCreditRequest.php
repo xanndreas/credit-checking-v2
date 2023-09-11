@@ -24,8 +24,12 @@ class StoreRequestCreditRequest extends FormRequest
                 'sometimes',
                 'required',
             ],
-
+            'debtor_identity_type' => [
+                'sometimes',
+                'required',
+            ],
             'debtor_identity_number' => [
+                'required',
                 'exclude_unless:debtor_identity_type,==,ktp,npwp',
                 'numeric',
                 'sometimes',
@@ -33,7 +37,6 @@ class StoreRequestCreditRequest extends FormRequest
             ],
             'partner_name' => [
                 'sometimes',
-                'required',
             ],
 
             'partner_identity_number' => [
@@ -44,11 +47,9 @@ class StoreRequestCreditRequest extends FormRequest
             ],
             'guarantor_name' => [
                 'sometimes',
-                'required',
             ],
             'guarantor_identity_type' => [
                 'sometimes',
-                'required',
             ],
             'guarantor_identity_number' => [
                 'exclude_unless:guarantor_identity_type,==,ktp,npwp',
@@ -56,9 +57,11 @@ class StoreRequestCreditRequest extends FormRequest
                 'sometimes',
                 'min:16',
             ],
+            'guarantor_partner_name' => [
+                'sometimes',
+            ],
             'guarantor_partner_identity_type' => [
                 'sometimes',
-                'required',
             ],
             'guarantor_partner_identity_number' => [
                 'exclude_unless:guarantor_partner_identity_type,==,ktp,npwp',
@@ -72,12 +75,17 @@ class StoreRequestCreditRequest extends FormRequest
             ],
             'business_identity_number' => [
                 'sometimes',
+                'required',
                 'min:16',
             ],
             'shareholder_name' => [
                 'sometimes',
                 'required',
             ],
+            // 'shareholder_identity_type' => [
+            //     'sometimes',
+            //     'required',
+            // ],
             'shareholder_identity_number' => [
                 'exclude_unless:shareholder_identity_type,==,ktp,npwp',
                 'numeric',
@@ -132,6 +140,10 @@ class StoreRequestCreditRequest extends FormRequest
             'attr_effective_rates' => [
                 'numeric',
                 'required',
+            ],
+            'attr_car_year' => [
+                'numeric',
+                'min:4',
             ],
             'attr_debtor_phone' => [
                 'string',

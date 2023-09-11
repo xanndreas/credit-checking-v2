@@ -17,7 +17,7 @@
                         <tbody>
                         <tr>
                             <th class="w-25">
-                                {{ trans('cruds.requestCredit.fields.dealer') }}
+                                {{ trans('cruds.requestCredit.fields.auto_planner') }}
                             </th>
                             <td>
                                 {{ $requestCredit->auto_planner->name ?? '' }}
@@ -27,8 +27,8 @@
                         @foreach($requestCredit->request_debtors as $debtors)
                             <tr>
                                 <th class="w-25">
-                                    {{ \App\Models\RequestCreditDebtor::PERSONEL_TYPE_SELECT[$debtors->personel_type] }}
                                     {{ trans('cruds.requestCreditDebtor.fields.name') }}
+                                    {{ \App\Models\RequestCreditDebtor::PERSONEL_TYPE_SELECT[$debtors->personel_type] }}
                                 </th>
                                 <td>
                                     {{ $debtors->name }}
@@ -36,8 +36,8 @@
                             </tr>
                             <tr>
                                 <th class="w-25">
-                                    {{ \App\Models\RequestCreditDebtor::PERSONEL_TYPE_SELECT[$debtors->personel_type] }}
                                     {{ trans('cruds.requestCreditDebtor.fields.identity_type') }}
+                                    {{ \App\Models\RequestCreditDebtor::PERSONEL_TYPE_SELECT[$debtors->personel_type] }}
                                 </th>
                                 <td>
                                     {{ $debtors->identity_type }}
@@ -45,11 +45,11 @@
                             </tr>
                             <tr>
                                 <th class="w-25">
+                                    {{ trans('cruds.requestCreditDebtor.fields.identity_number') }}
                                     {{ \App\Models\RequestCreditDebtor::PERSONEL_TYPE_SELECT[$debtors->personel_type] }}
-                                    {{ trans('cruds.requestCreditDebtor.fields.identity_type') }}
                                 </th>
                                 <td>
-                                    {{ $debtors->identity_type }}
+                                    {{ $debtors->identity_number }}
                                 </td>
                             </tr>
                         @endforeach

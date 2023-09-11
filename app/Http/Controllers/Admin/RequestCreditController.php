@@ -200,9 +200,9 @@ class RequestCreditController extends Controller
                 foreach ($requestAll[$item.'_dyn_name'] as $itemDyn) {
                     $requestCreditDebtor[] = RequestCreditDebtor::create([
                         'personel_type' => $item,
-                        'name' => $itemDyn['shareholder_dyn_name'],
-                        'identity_type' => null,
-                        'identity_number' => null,
+                        'name' => $itemDyn['shareholder_dyn_name-1-1'],
+                        'identity_type' => $itemDyn['shareholder_dyn_name-1-2'],
+                        'identity_number' => $itemDyn['shareholder_dyn_name-1-3'],
                     ])->id;
                 }
             }
