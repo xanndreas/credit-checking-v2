@@ -70,6 +70,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
     // Settings
     Route::post('settings/media', 'SettingController@storeMedia')->name('settings.storeMedia');
+    Route::get('settings/login-logs', 'SettingController@loginLogs')->name('settings.loginLogs');
+
     Route::resource('settings', 'SettingController')->only(['index', 'update']);
 });
 

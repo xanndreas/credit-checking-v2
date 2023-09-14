@@ -113,6 +113,12 @@
                                 aria-selected="false">Roles
                         </button>
                     </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-pills-login-logs" aria-controls="navs-pills-login-logs"
+                                aria-selected="false">Login Logs
+                        </button>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="navs-pills-top-pages" role="tabpanel">
@@ -161,6 +167,42 @@
                         </div>
 
                         @include('admin.settings.form')
+                    </div>
+                    <div class="tab-pane fade" id="navs-pills-login-logs" role="tabpanel">
+                        <div class="card-header border-bottom">
+                            <h5 class="card-title mb-3">Login Logs</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="datatables-users table border-top table-hover datatable-LoginLogs">
+                                <thead>
+                                <tr>
+                                    <th class="w-px-14">
+                                    </th>
+                                    <th>
+                                        Auth Name
+                                    </th>
+                                    <th>
+                                        IP Address
+                                    </th>
+                                    <th>
+                                        User Agent
+                                    </th>
+                                    <th>
+                                        Login At
+                                    </th>
+                                    <th>
+                                        Login Success
+                                    </th>
+                                    <th>
+                                        Logout At
+                                    </th>
+                                    <th>
+                                        Clear By User
+                                    </th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,9 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
         "maatwebsite/excel": "^3.1",
+        "rappasoft/laravel-authentication-log": "*",
         "spatie/laravel-medialibrary": "^10.11",
+        "torann/geoip": "^3.0",
         "yajra/laravel-datatables-oracle": "^9.19"
     },
     "require-dev": {
