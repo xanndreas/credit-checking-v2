@@ -64,7 +64,7 @@
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
                                         <a class="dropdown-item"
-                                           href="{{ Route::has('profile.show') ? route('profile.show') : 'javascript:void(0);' }}">
+                                           href="{{ Route::has('profile.password.edit') ? route('profile.password.edit') : 'javascript:void(0);' }}">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
