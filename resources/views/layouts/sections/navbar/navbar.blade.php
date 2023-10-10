@@ -64,8 +64,8 @@
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
                                         <a class="dropdown-item"
-                                        href="{{ Route::has('profile.password.edit') ? route('profile.password.edit') : 'javascript:void(0);' }}">
-                                        <div class="d-flex">
+                                           href="{{ Route::has('profile.show') ? route('profile.show') : 'javascript:void(0);' }}">
+                                            <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
                                                         <span
@@ -82,12 +82,7 @@
                                                         John Doe
                                                     @endif
                                                 </span>
-                                                    <small class="text-muted">
-                                                        @if (Auth::check())
-                                                        {{ Auth::user()->roles->first()->title }}
-                                                    @else
-                                                        John Doe
-                                                    @endif</small>
+                                                    <small class="text-muted">Admin</small>
                                                 </div>
                                             </div>
                                         </a>

@@ -27,7 +27,8 @@
                         @foreach($requestCredit->request_debtors as $debtors)
                             <tr>
                                 <th class="w-25">
-                                    {{ trans('cruds.requestCreditDebtor.fields.name_debtor') }}
+                                    {{ trans('cruds.requestCreditDebtor.fields.name') }}
+                                    {{ \App\Models\RequestCreditDebtor::PERSONEL_TYPE_SELECT[$debtors->personel_type] }}
                                 </th>
                                 <td>
                                     {{ $debtors->name }}

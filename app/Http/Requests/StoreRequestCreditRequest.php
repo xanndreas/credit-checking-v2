@@ -35,12 +35,12 @@ class StoreRequestCreditRequest extends FormRequest
                 'sometimes',
                 'min:16',
             ],
-            'debtor_partner_name' => [
+            'partner_name' => [
                 'sometimes',
             ],
 
-            'debtor_partner_identity_number' => [
-                'exclude_unless:debtor_partner_identity_type,==,ktp,npwp',
+            'partner_identity_number' => [
+                'exclude_unless:partner_identity_type,==,ktp,npwp',
                 'numeric',
                 'sometimes',
                 'min:16',
@@ -103,9 +103,6 @@ class StoreRequestCreditRequest extends FormRequest
             'attr_product_text' => [
                 'required',
             ],
-            'attr_type_product' => [
-                'required',
-            ],
             'attr_brand_text' => [
                 'required',
             ],
@@ -127,10 +124,6 @@ class StoreRequestCreditRequest extends FormRequest
                 'required',
             ],
             'attr_insurance_text' => [
-                'required',
-            ],
-            'attr_cash_credit' => [
-                'string',
                 'required',
             ],
             'attr_down_payment_text' => [
@@ -165,6 +158,10 @@ class StoreRequestCreditRequest extends FormRequest
             ],
             'kk_photos' => [
                 'array',
+                'required',
+            ],
+            'kk_photos.*' => [
+                'required',
             ],
             'npwp_photos' => [
                 'array',

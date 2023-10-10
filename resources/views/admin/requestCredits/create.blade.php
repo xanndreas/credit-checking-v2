@@ -29,7 +29,7 @@
         Dropzone.options.idPhotosDropzone = {
             url: '{{ route('admin.request-credits.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -92,7 +92,7 @@
         Dropzone.options.kkPhotosDropzone = {
             url: '{{ route('admin.request-credits.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -155,7 +155,7 @@
         Dropzone.options.npwpPhotosDropzone = {
             url: '{{ route('admin.request-credits.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -218,7 +218,7 @@
         Dropzone.options.otherPhotosDropzone = {
             url: '{{ route('admin.request-credits.storeMedia') }}',
             maxFilesize: 10, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf',
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -445,15 +445,15 @@
 
                                     <div class="col-sm-6"><br>
                                         <label class="required"
-                                               for="debtor_partner_name">{{ trans('cruds.requestCreditDebtor.fields.name_partner') }}
+                                               for="partner_name">{{ trans('cruds.requestCreditDebtor.fields.name_partner') }}
                                         </label>
                                         <input
-                                            class="form-control {{ $errors->has('debtor_partner_name') ? 'is-invalid' : '' }}"
-                                            type="text" name="debtor_partner_name" id="debtor_partner_name"
-                                            value="{{ old('debtor_partner_name', '') }}" required>
-                                        @if($errors->has('debtor_partner_name'))
+                                            class="form-control {{ $errors->has('partner_name') ? 'is-invalid' : '' }}"
+                                            type="text" name="partner_name" id="partner_name"
+                                            value="{{ old('partner_name', '') }}" required>
+                                        @if($errors->has('partner_name'))
                                             <div class="invalid-feedback">
-                                                {{ $errors->first('debtor_partner_name') }}
+                                                {{ $errors->first('partner_name') }}
                                             </div>
                                         @endif
                                     </div>
@@ -462,33 +462,33 @@
                                             class="required">{{ trans('cruds.requestCreditDebtor.fields.identity_type') }}
                                         </label>
                                         <select
-                                            class="form-control {{ $errors->has('debtor_partner_identity_type') ? 'is-invalid' : '' }}"
-                                            name="debtor_partner_identity_type" id="debtor_partner_identity_type" required>
+                                            class="form-control {{ $errors->has('partner_identity_type') ? 'is-invalid' : '' }}"
+                                            name="partner_identity_type" id="partner_identity_type" required>
                                             <option
-                                                value="" {{ old('debtor_partner_identity_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                                                value="" {{ old('partner_identity_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                                             @foreach(App\Models\RequestCreditDebtor::IDENTITY_TYPE_SELECT as $key => $label)
                                                 <option
-                                                    value="{{ $key }}" {{ old('debtor_partner_identity_type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                                                    value="{{ $key }}" {{ old('partner_identity_type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                                             @endforeach
                                         </select>
-                                        @if($errors->has('debtor_partner_identity_type'))
+                                        @if($errors->has('partner_identity_type'))
                                             <div class="invalid-feedback">
-                                                {{ $errors->first('debtor_partner_identity_type') }}
+                                                {{ $errors->first('partner_identity_type') }}
                                             </div>
                                         @endif
                                     </div>
                                     <div class="col-sm-3"><br>
                                         <label class="required"
-                                               for="debtor_partner_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}
+                                               for="partner_identity_number">{{ trans('cruds.requestCreditDebtor.fields.identity_number') }}
                                         </label>
                                         <input
-                                            class="form-control {{ $errors->has('debtor_partner_identity_number') ? 'is-invalid' : '' }}"
-                                            type="text" name="debtor_partner_identity_number" id="debtor_partner_identity_number"
-                                            value="{{ old('debtor_partner_identity_number', '') }}"
+                                            class="form-control {{ $errors->has('partner_identity_number') ? 'is-invalid' : '' }}"
+                                            type="text" name="partner_identity_number" id="partner_identity_number"
+                                            value="{{ old('partner_identity_number', '') }}"
                                             required>
-                                        @if($errors->has('debtor_partner_identity_number'))
+                                        @if($errors->has('partner_identity_number'))
                                             <div class="invalid-feedback">
-                                                {{ $errors->first('debtor_partner_identity_number') }}
+                                                {{ $errors->first('partner_identity_number') }}
                                             </div>
                                         @endif
                                     </div>
@@ -767,7 +767,7 @@
                                            for="attr_dealer_text">{{ trans('cruds.requestCredit.fields.dealer') }}<span
                                             class="text-danger">*</span></label>
                                     <select
-                                        class="form-control select2 {{ $errors->has('attr_dealer_text') ? 'is-invalid' : '' }}"
+                                        class="form-select select2 {{ $errors->has('attr_dealer_text') ? 'is-invalid' : '' }}"
                                         name="attr_dealer_text" id="attr_dealer_text" required>
                                         <option
                                             value="" {{ old('attr_dealer_text', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
@@ -796,10 +796,46 @@
                                         </div>
                                     @endif
                                 </div>
+                                <div class="col-sm-6">
+                                    <label class="required"
+                                           for="attr_sales_name">{{ trans('cruds.requestCredit.fields.sales_name') }}
+                                        <span class="text-danger">*</span></label>
+                                    <input
+                                        class="form-control {{ $errors->has('attr_sales_name') ? 'is-invalid' : '' }}"
+                                        type="text" name="attr_sales_name" id="attr_sales_name"
+                                        value="{{ old('attr_sales_name', '') }}"
+                                        required>
+                                    @if($errors->has('attr_sales_name'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('attr_sales_name') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="required"
+                                           for="attr_product_text">{{ trans('cruds.requestCredit.fields.product_name') }}
+                                        <span class="text-danger">*</span></label>
+                                    <select
+                                        class="form-control select2 {{ $errors->has('attr_product_text') ? 'is-invalid' : '' }}"
+                                        name="attr_product_text" id="attr_product_text" required>
+                                        <option
+                                            value="" {{ old('attr_product_text', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+
+                                        @foreach($products as $id => $entry)
+                                            <option
+                                                value="{{ $id }}" {{ old('attr_product_text') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if($errors->has('attr_product_text'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('attr_product_text') }}
+                                        </div>
+                                    @endif
+                                </div>
                                 <div class="col-sm-12">
                                     <label class="required"
                                            for="attr_brand_text">{{ trans('cruds.requestCredit.fields.brand') }}<span
-                                            class="text-danger"> *</span></label>
+                                            class="text-danger">*</span></label>
                                     <select
                                         class="form-control select2 {{ $errors->has('attr_brand_text') ? 'is-invalid' : '' }}"
                                         name="attr_brand_text" id="attr_brand_text" required>
@@ -843,63 +879,6 @@
                                     @if($errors->has('attr_models'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('attr_models') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="required"
-                                           for="attr_sales_name">{{ trans('cruds.requestCredit.fields.sales_name') }}
-                                        <span class="text-danger">*</span></label>
-                                    <input
-                                        class="form-control {{ $errors->has('attr_sales_name') ? 'is-invalid' : '' }}"
-                                        type="text" name="attr_sales_name" id="attr_sales_name"
-                                        value="{{ old('attr_sales_name', '') }}"
-                                        required>
-                                    @if($errors->has('attr_sales_name'))
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('attr_sales_name') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="required"
-                                           for="attr_product_text">{{ trans('cruds.requestCredit.fields.product_name') }}
-                                        <span class="text-danger">*</span></label>
-                                    <select
-                                        class="form-control select2 {{ $errors->has('attr_product_text') ? 'is-invalid' : '' }}"
-                                        name="attr_product_text" id="attr_product_text" required>
-                                        <option
-                                            value="" {{ old('attr_product_text', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-
-                                        @foreach($products as $id => $entry)
-                                            <option
-                                                value="{{ $id }}" {{ old('attr_product_text') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if($errors->has('attr_product_text'))
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('attr_product_text') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="required"
-                                           for="attr_type_product">{{ trans('cruds.requestCredit.fields.type_product') }}
-                                        <span class="text-danger">*</span></label>
-                                    <select
-                                        class="form-control select2 {{ $errors->has('attr_type_product') ? 'is-invalid' : '' }}"
-                                        name="attr_type_product" id="attr_type_product" required>
-                                        <option
-                                            value="" {{ old('attr_type_product', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-
-                                        @foreach($type_products as $id => $entry)
-                                            <option
-                                                value="{{ $id }}" {{ old('attr_type_product') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if($errors->has('attr_type_product'))
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('attr_type_product') }}
                                         </div>
                                     @endif
                                 </div>
@@ -963,29 +942,6 @@
                                     @if($errors->has('attr_insurance_text'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('attr_insurance_text') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="d-block">{{ trans('cruds.requestCredit.fields.cash_credit') }}<span
-                                            class="text-danger">*</span></label>
-                                    <div
-                                        class="form-check form-check-inline mt-3 {{ $errors->has('attr_cash_credit') ? 'is-invalid' : '' }}">
-                                        <input class="form-check-input" type="radio" id="type_cash"
-                                               name="attr_cash_credit"
-                                               value="cash" {{ old('attr_cash_credit', '') === 'Cash' ? 'checked' : '' }} >
-                                        <label class="form-check-label" for="type_cash">Cash</label>
-                                    </div>
-                                    <div
-                                        class="form-check form-check-inline mt-3 {{ $errors->has('attr_cash_credit') ? 'is-invalid' : '' }}">
-                                        <input class="form-check-input" type="radio" id="type_credit"
-                                               name="attr_cash_credit"
-                                               value="credit" {{ old('attr_cash_credit', '') === 'Credit' ? 'checked' : '' }} >
-                                        <label class="form-check-label" for="type_credit">Credit</label>
-                                    </div>
-                                    @if($errors->has('attr_cash_credit'))
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('attr_cash_credit') }}
                                         </div>
                                     @endif
                                 </div>
@@ -1137,7 +1093,8 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label class="required"
-                                           for="kk_photos">{{ trans('cruds.requestCredit.fields.kk_photos') }}</label>
+                                           for="kk_photos">{{ trans('cruds.requestCredit.fields.kk_photos') }}<span
+                                            class="text-danger">*</span></label>
                                     <div
                                         class="form-control needsclick dropzone {{ $errors->has('kk_photos') ? 'is-invalid' : '' }}"
                                         id="kk_photos-dropzone">
