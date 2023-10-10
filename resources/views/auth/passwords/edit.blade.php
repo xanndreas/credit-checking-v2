@@ -19,7 +19,7 @@
     <!-- Modern -->
     <div class="row">
         <div class="col-12 mb-3">
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header">
                     {{ trans('global.edit') }} {{ trans('global.my_profile') }}
                 </div>
@@ -55,7 +55,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="row">
@@ -68,7 +68,7 @@
                     <form method="POST" action="{{ route("profile.password.update") }}">
                         @csrf
                         <div class="mb-3">
-                            <label class="required" for="title">New {{ trans('cruds.user.fields.password') }}</label>
+                            <label class="required" for="title">New Password</label>
                             <input class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
                                    type="password"
                                    name="password" id="password" required>
@@ -79,8 +79,7 @@
                             @endif
                         </div>
                         <div class="mb-3">
-                            <label class="required" for="title">Repeat
-                                New {{ trans('cruds.user.fields.password') }}</label>
+                            <label class="required" for="title">Repeat New Password</label>
                             <input class="form-control" type="password" name="password_confirmation"
                                    id="password_confirmation" required>
                         </div>
@@ -93,7 +92,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     {{ trans('global.delete_account') }}
@@ -110,8 +109,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
 @endsection
-

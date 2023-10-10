@@ -5,7 +5,7 @@
 
 @extends('layouts/layoutMaster')
 
-@section('title', 'Login Cover - Pages')
+@section('title', 'Login Page')
 
 @section('vendor-style')
     <!-- Vendor -->
@@ -73,15 +73,15 @@
                             @endif
                         </div>
                         <div class="mb-3 form-password-toggle">
-                            <div class="d-flex justify-content-between">
-                                <label class="form-label" for="password">Password</label>
-                                <a href="javascript:void(0);">
-                                    <small>{{ trans('global.forgot_password') }}</small>
-                                </a>
-                            </div>
+                            <!--<div class="d-flex justify-content-between">-->
+                            <!--    <label class="form-label" for="password">Password</label>-->
+                            <!--    <a href="javascript:alert('Call IT Team!');">-->
+                            <!--        <small>{{ trans('global.forgot_password') }}</small>-->
+                            <!--    </a>-->
+                            <!--</div>-->
                             <div class="input-group input-group-merge">
                                 <input type="password" id="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
-                                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                       placeholder="********"
                                        aria-describedby="password"/>
                                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 @if($errors->has('password'))
@@ -91,25 +91,25 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember-me" name="remember">
-                                <label class="form-check-label" for="remember-me">
-                                    {{ trans('global.remember_me') }}
-                                </label>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary d-grid w-100">
+                        <!--<div class="mb-3">-->
+                        <!--    <div class="form-check">-->
+                        <!--        <input class="form-check-input" type="checkbox" id="remember-me" name="remember">-->
+                        <!--        <label class="form-check-label" for="remember-me">-->
+                        <!--            {{ trans('global.remember_me') }}-->
+                        <!--        </label>-->
+                        <!--    </div>-->
+                        <!--</div>-->
+                        <button class="btn btn-primary d-grid w-100"><i class="ti ti-lock-open"></i>
                             {{ trans('global.login') }}
                         </button>
                     </form>
 
-                    <p class="text-center">
-                        <span>New on our platform?</span>
-                        <a href="{{ route('register') }}">
-                            <span> {{ trans('global.register') }}</span>
-                        </a>
-                    </p>
+                    <!--<p class="text-center" style="display:none">-->
+                    <!--    <span>Using Android?</span></br>-->
+                    <!--    <a href="/apk/k-force.apk"><i class="ti ti-download"></i>-->
+                    <!--        <span>Get K-Force Here!</span>-->
+                    <!--    </a>-->
+                    <!--</p>                -->
                 </div>
             </div>
             <!-- /Login -->

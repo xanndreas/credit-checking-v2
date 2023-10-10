@@ -27,6 +27,8 @@ class StoreUserRequest extends FormRequest
             ],
             'password' => [
                 'required',
+                'min:8',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
             ],
             'roles.*' => [
                 'integer',
