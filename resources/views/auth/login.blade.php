@@ -73,12 +73,12 @@
                             @endif
                         </div>
                         <div class="mb-3 form-password-toggle">
-                            <div class="d-flex justify-content-between">
+                            {{-- <div class="d-flex justify-content-between">
                                 <label class="form-label" for="password">Password</label>
                                 <a href="javascript:void(0);">
                                     <small>{{ trans('global.forgot_password') }}</small>
                                 </a>
-                            </div>
+                            </div> --}}
                             <div class="input-group input-group-merge">
                                 <input type="password" id="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"

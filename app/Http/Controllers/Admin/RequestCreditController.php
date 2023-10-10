@@ -151,18 +151,20 @@ class RequestCreditController extends Controller
 
         $plHolder = RequestCreditHelp::where('type', 'placeholders')->pluck('attribute', 'attribute');
 
-        $dealers = RequestCreditHelp::where('type', 'dealers')->pluck('attribute', 'attribute')->concat($plHolder);
+        $dealers = RequestCreditHelp::where('type', 'dealers')->pluck('attribute', 'attribute');
 
-        $products = RequestCreditHelp::where('type', 'products')->pluck('attribute', 'attribute')->concat($plHolder);
+        $products = RequestCreditHelp::where('type', 'products')->pluck('attribute', 'attribute');
 
-        $brands = RequestCreditHelp::where('type', 'brands')->pluck('attribute', 'attribute')->concat($plHolder);
+        $type_products = RequestCreditHelp::where('type', 'type_products')->pluck('attribute', 'attribute');
+
+        $brands = RequestCreditHelp::where('type', 'brands')->pluck('attribute', 'attribute');
 
         $insurances = RequestCreditHelp::where('type', 'insurances')->pluck('attribute', 'attribute');
 
         $tenors = RequestCreditHelp::where('type', 'tenors')->pluck('attribute', 'attribute');
 
         return view('admin.requestCredits.create',
-            compact('auto_planners', 'brands', 'dealers', 'insurances', 'products', 'tenors'));
+            compact('auto_planners', 'brands', 'dealers', 'insurances', 'products', 'tenors', 'type_products'));
     }
 
     public function store(StoreRequestCreditRequest $request)
@@ -224,28 +226,29 @@ class RequestCreditController extends Controller
 
         $requestCredit->request_debtors()->sync($requestCreditDebtor);
         $requestCredit->request_attributes()->sync($requestCreditAttribute);
+        $businessDebtor = $request->debtor_name ?? $request->business_name;
 
         foreach ($request->input('id_photos', []) as $file) {
             $requestCredit->addMedia(storage_path('tmp/uploads/' . basename($file)))
-                ->usingFileName('KTP_' . $request->debtor_name . '_' . uniqid() . '.' . explode('.', $file)[1])
+                ->usingFileName('KTP_' . $businessDebtor . '.' . explode('.', $file)[1])
                 ->toMediaCollection('id_photos');
         }
 
         foreach ($request->input('kk_photos', []) as $file) {
             $requestCredit->addMedia(storage_path('tmp/uploads/' . basename($file)))
-                ->usingFileName('KK_' . $request->debtor_name . '_' . uniqid() . '.' . explode('.', $file)[1])
+                ->usingFileName('KK_' . $businessDebtor . '.' . explode('.', $file)[1])
                 ->toMediaCollection('kk_photos');
         }
 
         foreach ($request->input('npwp_photos', []) as $file) {
             $requestCredit->addMedia(storage_path('tmp/uploads/' . basename($file)))
-                ->usingFileName('NPWP_' . $request->debtor_name . '_' . uniqid() . '.' . explode('.', $file)[1])
+                ->usingFileName('NPWP_' . $businessDebtor . '.' . explode('.', $file)[1])
                 ->toMediaCollection('npwp_photos');
         }
 
         foreach ($request->input('other_photos', []) as $file) {
             $requestCredit->addMedia(storage_path('tmp/uploads/' . basename($file)))
-                ->usingFileName('Other_' . $request->debtor_name . '_' . uniqid() . '.' . explode('.', $file)[1])
+                ->usingFileName('Other_' . $businessDebtor . '.' . explode('.', $file)[1])
                 ->toMediaCollection('other_photos');
         }
 

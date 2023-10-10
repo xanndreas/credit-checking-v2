@@ -12,8 +12,9 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping
+class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 {
     use Exportable, TenantTrait;
 
@@ -63,6 +64,7 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping
             'Nama Pemegang Saham / Pengurus',
             'Nomer Identitas Pemegang Saham / Pengurus',
             'Dealer',
+            'Nama Sales',
             'Produk',
             'Brand',
             'Model (yang lengkap)',
@@ -78,9 +80,8 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping
             'Nomer HP Calon Debitur',
             'REMARKS',
             'UPLOAD KTP, KK, NPWP, DLL',
-            'Nama Pemegang Saham / Pengurus',
-            'Nomer Identitas Pemegang Saham / Pengurus',
-            'Nama Sales'
+            'Cara Bayar Asuransi',
+            'Tipe Produk'
         ];
     }
 
@@ -100,21 +101,24 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping
             $requestMedia .= $other_photo->getUrl() . ', ';
         }
 
+        $businessDebtor = $this->debtor_finder($row->request_debtors, 'business') ?? $this->debtor_finder($row->request_debtors, 'debtor');
+
         return [
             $row->created_at,
             $row->auto_planner->email,
             $row->auto_planner->name,
             RequestCredit::CREDIT_TYPE_SELECT[$row->credit_type],
-            $this->attribute_finder($row->request_attributes, 'dealer_text'),
-            $this->debtor_finder($row->request_debtors, 'debtor')->name ?? '',
-            $this->debtor_finder($row->request_debtors, 'debtor')->identity_type ?? '',
-            $this->debtor_finder($row->request_debtors, 'debtor')->identity_number ?? '',
+            $businessDebtor ? $businessDebtor->name : '', // Menampilkan business name atau debtor name
+            $businessDebtor ? $businessDebtor->identity_type : '', // Menampilkan identity_type
+            $businessDebtor ? $businessDebtor->identity_number : '', // Menampilkan identity_number
             $this->debtor_finder($row->request_debtors, 'debtor_partner')->name ?? '',
             $this->debtor_finder($row->request_debtors, 'debtor_partner')->identity_number ?? '',
             $this->debtor_finder($row->request_debtors, 'guarantor')->name ?? '',
             $this->debtor_finder($row->request_debtors, 'guarantor')->identity_number ?? '',
+            $this->debtor_finder($row->request_debtors, 'shareholder')->name ?? '',
             $this->debtor_finder($row->request_debtors, 'shareholder')->identity_number ?? '',
             $this->attribute_finder($row->request_attributes, 'dealer_text'),
+            $this->attribute_finder($row->request_attributes, 'sales_name'),
             $this->attribute_finder($row->request_attributes, 'product_text'),
             $this->attribute_finder($row->request_attributes, 'brand_text'),
             $this->attribute_finder($row->request_attributes, 'models'),
@@ -130,9 +134,8 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping
             $this->attribute_finder($row->request_attributes, 'debtor_phone'),
             $this->attribute_finder($row->request_attributes, 'remarks'),
             $requestMedia,
-            $this->debtor_finder($row->request_debtors, 'shareholder')->name ?? '',
-            $this->debtor_finder($row->request_debtors, 'shareholder')->identity_number ?? '',
-            $row->auto_planner->name
+            $this->attribute_finder($row->request_attributes, 'cash_credit'),
+            $this->attribute_finder($row->request_attributes, 'type_product'),
         ];
     }
 
