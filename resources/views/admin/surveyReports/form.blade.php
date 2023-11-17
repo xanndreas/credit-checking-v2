@@ -672,6 +672,9 @@
                     <h5 class="card-header">
                         Survey Report
                     </h5>
+                    <small class="card-header">Form dengan tanda <span class="text-danger">*</span> Wajib Diisi</small>
+                    <br>
+                    <br>
 
                     <div class="card-body">
                         <div class="survey_address-repeater form-repeater-container mb-3">
@@ -679,17 +682,23 @@
                                 <div data-repeater-item>
                                     <div class="row">
                                         <div class="mb-3 col-2 mb-0">
-                                            <label class="form-label" for="survey_address-1-1">Tipe Alamat</label>
+                                            <label class="form-label" for="survey_address-1-1">Tipe Alamat
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" id="survey_address-1-1" name="attribute"
                                                    class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-4 mb-0">
-                                            <label class="form-label" for="survey_address-1-2">Alamat</label>
+                                            <label class="form-label" for="survey_address-1-2">Alamat
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" id="survey_address-1-2" name="attribute_2"
                                                    class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-4 mb-0">
-                                            <label class="form-label" for="survey_address-1-2">Catatan</label>
+                                            <label class="form-label" for="survey_address-1-2">Catatan
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" id="survey_address-1-3" name="attribute_3"
                                                    class="form-control"/>
                                         </div>
@@ -710,7 +719,9 @@
                             </div>
                         </div>
                         <div class="mb-3 col-12 mb-0">
-                            <label class="form-label" for="parking_access">Parking Access</label>
+                            <label class="form-label" for="parking_access">Akses Jalan & Parkir
+                                <span class="text-danger">*</span>
+                            </label>
                             <textarea id="parking_access" name="parking_access"
                                       class="form-control {{ $errors->has('parking_access') ? 'is-invalid' : '' }}"></textarea>
                             @if($errors->has('parking_access'))
@@ -720,7 +731,9 @@
                             @endif
                         </div>
                         <div class="mb-3 col-12 mb-0">
-                            <label class="form-label" for="owner_status">Owner Status</label>
+                            <label class="form-label" for="owner_status">Status Kepemilikan
+                                <span class="text-danger">*</span>
+                            </label>
                             <textarea id="owner_status" name="owner_status"
                                       class="form-control {{ $errors->has('owner_status') ? 'is-invalid' : '' }}"></textarea>
                             @if($errors->has('owner_status'))
@@ -730,7 +743,9 @@
                             @endif
                         </div>
                         <div class="mb-3 col-12 mb-0">
-                            <label class="form-label" for="owner_beneficial">Owner Beneficial</label>
+                            <label class="form-label" for="owner_beneficial">Beneficial Owner(Purpose)
+                                <span class="text-danger">*</span>
+                            </label>
                             <textarea id="owner_beneficial" name="owner_beneficial"
                                       class="form-control {{ $errors->has('owner_beneficial') ? 'is-invalid' : '' }}"></textarea>
                             @if($errors->has('owner_beneficial'))
@@ -739,27 +754,21 @@
                                 </div>
                             @endif
                         </div>
-                        <div class="mb-3 col-12 mb-0">
-                            <label class="form-label" for="office_note">Office Note</label>
-                            <textarea id="office_note" name="office_note"
-                                      class="form-control {{ $errors->has('office_note') ? 'is-invalid' : '' }}"></textarea>
-                            @if($errors->has('office_note'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('office_note') }}
-                                </div>
-                            @endif
-                        </div>
                         <div class="document_attachment-repeater form-repeater-container mb-3">
                             <div data-repeater-list="document_attachment">
                                 <div data-repeater-item>
                                     <div class="row">
                                         <div class="mb-3 col-2 mb-0">
-                                            <label class="form-label" for="document_attachment-1-1">Tipe Dokumen</label>
+                                            <label class="form-label" for="document_attachment-1-1">Tipe Dokumen
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" id="document_attachment-1-1" name="attribute"
                                                    class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-8 mb-0">
-                                            <label class="form-label" for="document_attachment-1-2">Description</label>
+                                            <label class="form-label" for="document_attachment-1-2">Description
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" id="document_attachment-1-2" name="attribute_2"
                                                    class="form-control"/>
                                         </div>
@@ -784,12 +793,16 @@
                                 <div data-repeater-item>
                                     <div class="row">
                                         <div class="mb-3 col-2 mb-0">
-                                            <label class="form-label" for="environmental_check-1-1">Witness</label>
+                                            <label class="form-label" for="environmental_check-1-1">Cek Lingkungan
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" id="environmental_check-1-1" name="attribute"
                                                    class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-8 mb-0">
-                                            <label class="form-label" for="environmental_check-1-2">Note</label>
+                                            <label class="form-label" for="environmental_check-1-2">Keterangan
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" id="environmental_check-1-2" name="attribute_2"
                                                    class="form-control"/>
                                         </div>
@@ -809,12 +822,26 @@
                                 </a>
                             </div>
                         </div>
+                        <div class="mb-3 col-12 mb-0">
+                            <label class="form-label" for="office_note">Tempat Bekerja
+                                <span class="text-danger">*</span>
+                            </label>
+                            <textarea id="office_note" name="office_note"
+                                      class="form-control {{ $errors->has('office_note') ? 'is-invalid' : '' }}"></textarea>
+                            @if($errors->has('office_note'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('office_note') }}
+                                </div>
+                            @endif
+                        </div>
                         <div class="note-repeater form-repeater-container mb-3">
                             <div data-repeater-list="note">
                                 <div data-repeater-item>
                                     <div class="row">
                                         <div class="mb-3 col-10 mb-0">
-                                            <label class="form-label" for="note-1-1">Notes</label>
+                                            <label class="form-label" for="note-1-1">Notes
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" id="note-1-1" name="attribute" class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-2 d-flex align-items-center mb-0">
@@ -838,12 +865,16 @@
                                 <div data-repeater-item>
                                     <div class="row">
                                         <div class="mb-3 col-2 mb-0">
-                                            <label class="form-label" for="incomplete_document-1-1">Types</label>
+                                            <label class="form-label" for="incomplete_document-1-1">Data Kurang
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" id="incomplete_document-1-1" name="attribute"
                                                    class="form-control"/>
                                         </div>
                                         <div class="mb-3 col-8 mb-0">
-                                            <label class="form-label" for="incomplete_document-1-2">Note</label>
+                                            <label class="form-label" for="incomplete_document-1-2">Keterangan
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" id="incomplete_document-1-2" name="attribute_2"
                                                    class="form-control"/>
                                         </div>
@@ -876,7 +907,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required">Legality</label>
+                            <label class="required">Legal Docs</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('legality') ? 'is-invalid' : '' }}"
                                 id="legality-dropzone">
@@ -884,6 +915,18 @@
                             @if($errors->has('legality'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('legality') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <label class="required">BKR Picture</label>
+                            <div
+                                class="needsclick dropzone form-control {{ $errors->has('bkr_office_picture') ? 'is-invalid' : '' }}"
+                                id="bkr_office_picture-dropzone">
+                            </div>
+                            @if($errors->has('bkr_office_picture'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('bkr_office_picture') }}
                                 </div>
                             @endif
                         </div>
@@ -900,7 +943,7 @@
                             @endif
                         </div>
                         <div class="mb-3 col-sm-12">
-                            <label class="required">Checking Account</label>
+                            <label class="required">Bank Account</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('checking_account') ? 'is-invalid' : '' }}"
                                 id="checking_account-dropzone">
@@ -935,7 +978,7 @@
                                 </div>
                             @endif
                         </div>
-                        <div class="mb-3 col-sm-12">
+                        {{-- <div class="mb-3 col-sm-12">
                             <label class="required">SLIK</label>
                             <div
                                 class="needsclick dropzone form-control {{ $errors->has('slik') ? 'is-invalid' : '' }}"
@@ -946,19 +989,7 @@
                                     {{ $errors->first('slik') }}
                                 </div>
                             @endif
-                        </div>
-                        <div class="mb-3 col-sm-12">
-                            <label class="required">BKR/Office Picture</label>
-                            <div
-                                class="needsclick dropzone form-control {{ $errors->has('bkr_office_picture') ? 'is-invalid' : '' }}"
-                                id="bkr_office_picture-dropzone">
-                            </div>
-                            @if($errors->has('bkr_office_picture'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('bkr_office_picture') }}
-                                </div>
-                            @endif
-                        </div>
+                        </div> --}}
                         <div class="mb-3 col-sm-12">
                             <label class="required">Unit Refinancing</label>
                             <div

@@ -99,7 +99,7 @@ return [
             'sales_name_name_helper' => ' ',
             'product_name' => 'Nama Produk',
             'product_name_name_helper' => ' ',
-            'type_product' => 'Jenis Produk',
+            'type_product' => 'Skema Produk',
             'product_name_name_helper' => ' ',
             'brand_name' => 'Nama Brand',
             'brand_name_name_helper' => ' ',

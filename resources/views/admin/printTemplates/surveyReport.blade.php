@@ -2,11 +2,12 @@
 <p style="text-align: right;">Requested : {{ $surveyReport->survey_address->created_at }} </p>
 <p style="text-align: right;">Report : {{ $surveyReport->created_at }} </p>
 <p><br></p>
-<p>{{ $surveyReport->surveyor->name ?? 'Surveyor' }}</p>
+<p>{{ '[' . $request_credit->request_debtors->name . ']' . ' - ' . 'FCO[' . ($surveyReport->survey_address->surveyor->name ?? 'Surveyor') . ']' }}</p>
 <p style="margin-left: 20px;">1. &nbsp;Alamat Survey:</p>
 
 @foreach($surveyReport->survey_attributes->filter(function ($row) { return $row->object_name == 'survey_address'; }) as $items)
     <p style="margin-left: 40px;">- &nbsp;{{$items->attribute}}: {{$items->attribute_2}}</p>
+    <p style="margin-left: 42.5px">{{$items->attribute_3}}</p>
 @endforeach
 
 <p style="margin-left: 20px;">2. &nbsp;Akses Jalan dan Parkir
@@ -17,7 +18,7 @@
 <p style="margin-left: 20px;">4. &nbsp;Beneficial Owner (Purpose)
     &nbsp;&mdash; {{ $surveyReport->survey_attributes->filter(function ($row) { return $row->object_name == 'owner_beneficial'; })->first()->attribute ?? '' }}</p>
 
-<p style="margin-left: 20px;">5. &nbsp;Document yang Ditunjukan:</p>
+<p style="margin-left: 20px;">5. &nbsp;Document yang Ditunjukkan:</p>
 @foreach($surveyReport->survey_attributes->filter(function ($row) { return $row->object_name == 'document_attachment'; }) as $items)
     <p style="margin-left: 40px;">- &nbsp;{{$items->attribute}}: {{$items->attribute_2}}</p>
 @endforeach

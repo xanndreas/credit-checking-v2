@@ -66,6 +66,7 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping, Shou
             'Dealer',
             'Nama Sales',
             'Produk',
+            'Skema Produk',
             'Brand',
             'Model (yang lengkap)',
             'Tahun Mobil',
@@ -73,6 +74,7 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping, Shou
             'OTR',
             'Pokok Hutang',
             'Asuransi',
+            'Cara Bayar Asuransi',
             'Down Payment',
             'Tenor (tahun)',
             'ADDM / ADDB',
@@ -80,8 +82,6 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping, Shou
             'Nomer HP Calon Debitur',
             'REMARKS',
             'UPLOAD KTP, KK, NPWP, DLL',
-            'Cara Bayar Asuransi',
-            'Tipe Produk'
         ];
     }
 
@@ -120,6 +120,7 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping, Shou
             $this->attribute_finder($row->request_attributes, 'dealer_text'),
             $this->attribute_finder($row->request_attributes, 'sales_name'),
             $this->attribute_finder($row->request_attributes, 'product_text'),
+            $this->attribute_finder($row->request_attributes, 'type_product'),
             $this->attribute_finder($row->request_attributes, 'brand_text'),
             $this->attribute_finder($row->request_attributes, 'models'),
             $this->attribute_finder($row->request_attributes, 'car_year'),
@@ -127,6 +128,7 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping, Shou
             $this->attribute_finder($row->request_attributes, 'otr'),
             $this->attribute_finder($row->request_attributes, 'debt_principal'),
             $this->attribute_finder($row->request_attributes, 'insurance_text'),
+            $this->attribute_finder($row->request_attributes, 'cash_credit'),
             $this->attribute_finder($row->request_attributes, 'down_payment_text'),
             $this->attribute_finder($row->request_attributes, 'tenors_text'),
             $this->attribute_finder($row->request_attributes, 'addm_addb'),
@@ -134,8 +136,6 @@ class CreditCheckingExport implements FromQuery, WithHeadings, WithMapping, Shou
             $this->attribute_finder($row->request_attributes, 'debtor_phone'),
             $this->attribute_finder($row->request_attributes, 'remarks'),
             $requestMedia,
-            $this->attribute_finder($row->request_attributes, 'cash_credit'),
-            $this->attribute_finder($row->request_attributes, 'type_product'),
         ];
     }
 

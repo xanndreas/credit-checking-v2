@@ -229,7 +229,7 @@ class SurveyReportController extends Controller
 
         if ($surveyReport) {
             $pdf = Pdf::loadView('admin.printTemplates.surveyReport', compact('surveyReport'));
-            return $pdf->download('SURVEY-' . $surveyReport->created_at . '.pdf');
+            return $pdf->download('SURVEY - ' . $surveyReport->created_at->format('Ymd') . ' - ' . '[Nama Customer]' . ' - ' . 'FCO[' . ($surveyReport->survey_address->surveyor->name ?? 'Surveyor') . ']' . '.pdf');
         }
 
         return response(null, Response::HTTP_NOT_FOUND);

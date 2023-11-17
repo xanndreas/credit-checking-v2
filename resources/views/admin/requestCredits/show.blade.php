@@ -9,7 +9,7 @@
                 <div class="card-header">
                     <h5>{{ trans('global.show') }} {{ trans('cruds.requestCredit.title') }}</h5>
 
-                    <button class="btn btn-label-primary float-end" data-bs-toggle="modal" data-bs-target="#historyModal"> Request Credit History</button>
+                    <button class="btn btn-label-primary float-end" data-bs-toggle="modal" data-bs-target="#historyModal"> Process History</button>
                 </div>
 
                 <div class="card-body">
